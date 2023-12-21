@@ -35,7 +35,8 @@ const App: React.FC = () => {
         <TopBar pageMode={pageMode} setPageMode={setPageMode} />
         <Container className="main-content">
           <Routes>
-            <Route path="/" element={<Home pageMode={pageMode} />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/skills" element={<Skills />} />
             <Route path="/products" element={<Products />} />
