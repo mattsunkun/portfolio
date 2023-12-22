@@ -16,6 +16,7 @@ import Pnf from "./pages/Pnf";
 
 // components
 import TopBar from './components/TopBar';
+import FootBar from './components/FootBar';
 
 // keybase,qiita, zenn
 // ページの型列挙
@@ -25,7 +26,7 @@ const App: React.FC = () => {
     <>
       <BrowserRouter>
         <TopBar />
-        <Container className="main-content">
+        <Container className="main-content" sx={{ marginTop: "9vh", marginBottom: "9vh" }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
@@ -36,6 +37,7 @@ const App: React.FC = () => {
             <Route path="/*" element={<Pnf />} />
           </Routes>
         </Container>
+        <FootBar />
       </BrowserRouter>
     </>
   )

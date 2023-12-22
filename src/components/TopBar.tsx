@@ -19,6 +19,8 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 // mine
 import { ePage } from '../pages';
 
+
+// 競プロについてもリンクをかく．
 const TopBar: FC = () => {
   return (
     <>
