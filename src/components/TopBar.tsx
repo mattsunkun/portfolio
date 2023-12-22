@@ -1,5 +1,5 @@
 // base
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 //mui
@@ -19,7 +19,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 // mine
 import { ePage } from '../pages';
 
-const TopBar: React.FC<{ pageMode: symbol, setPageMode: React.Dispatch<React.SetStateAction<symbol>> }> = (props) => {
+const TopBar: FC = () => {
   return (
     <>
       <Box className="top-bar" sx={{ top: 0, left: 0, width: "100%" }}>

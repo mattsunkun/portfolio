@@ -1,8 +1,10 @@
-export const pnf: symbol = Symbol("pnf");
-export const Pnf = () => {
+
+const Pnf = () => {
   return (
     <>
       <h1>pnf</h1>
     </>
   );
 };
+
+export default Pnf;
