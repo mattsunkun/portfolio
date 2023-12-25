@@ -16,7 +16,8 @@ const FootBar = () => {
     return (
         <>
 
-            <AppBar position="fixed" color="inherit" sx={{ top: 'auto', bottom: 0, height: "9vh" }}>
+            {/* <AppBar color="inherit" position="fixed" sx={{ top: 'auto', bottom: 0, height: "9vh" }}> */}
+            <AppBar component="footer" position="static" color="inherit">
                 <Box>
                     <Grid container marginY={2}>
                         <Grid xs={12} md={4} textAlign='center' paddingTop={1} sx={{ display: { xs: "none", md: "block" } }}>
