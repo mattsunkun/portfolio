@@ -6,10 +6,10 @@
 // export * from './Pnf';
 
 export enum ePage {
-    home = "",
-    about = "about",
-    skills = "skills",
-    products = "products",
-    history = "history",
-    pnf = "pnf",
+  home = "",
+  about = "about",
+  skills = "skills",
+  products = "products",
+  history = "history",
+  pnf = "pnf",
 }
