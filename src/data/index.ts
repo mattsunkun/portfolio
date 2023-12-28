@@ -16,7 +16,7 @@ export enum eKinds {
 
   // Qualification
   it = "IT",
-  nonIt = "Other"
+  nonIt = "None IT"
 }
 
 export type tAbility = {
