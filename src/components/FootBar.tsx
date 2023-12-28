@@ -23,11 +23,11 @@ const FootBar = () => {
             </Grid>
             <Grid xs={3} marginY={1}>
               <Box>
-                <LinkLine link={ePage.home} line="Home" isSameTab />
-                <LinkLine link={ePage.about} line="About" isSameTab />
-                <LinkLine link={ePage.skills} line="Skills" isSameTab />
-                <LinkLine link={ePage.products} line="Products" isSameTab />
-                <LinkLine link={ePage.history} line="History" isSameTab />
+                <LinkLine link={ePage.home.toLowerCase()} line={ePage.home2} isSameTab />
+                <LinkLine link={ePage.about.toLowerCase()} line={ePage.about} isSameTab />
+                <LinkLine link={ePage.skills.toLowerCase()} line={ePage.skills} isSameTab />
+                <LinkLine link={ePage.works.toLowerCase()} line={ePage.works} isSameTab />
+                <LinkLine link={ePage.qualifications.toLowerCase()} line={ePage.qualifications} isSameTab />
               </Box>
             </Grid>
             <Grid xs={3} marginY={1}>

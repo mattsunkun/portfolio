@@ -7,9 +7,10 @@
 
 export enum ePage {
   home = "",
-  about = "about",
-  skills = "skills",
-  products = "products",
-  history = "history",
+  home2 = "Home",
+  about = "About",
+  skills = "Skills",
+  works = "Works",
+  qualifications = "Qualifications",
   pnf = "pnf",
 }

@@ -7,42 +7,13 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, Link } from "@mui/material";
 import React from "react";
-const diffDate = (startDate: Date): { years: number, months: number } => {
-  const currentDate = new Date();
 
-  const elapsedMilliseconds = currentDate.getTime() - startDate.getTime();
-  const elapsedSeconds = elapsedMilliseconds / 1000;
-  const elapsedMinutes = elapsedSeconds / 60;
-  const elapsedHours = elapsedMinutes / 60;
-  const elapsedDays = elapsedHours / 24;
-
-  // 年数を計算
-  const elapsedYears = Math.floor(elapsedDays / 365);
-
-  // 月数を計算
-  const remainingDays = Math.floor(elapsedDays % 365);
-  const elapsedMonths = Math.floor(remainingDays / 30);
-
-  return { years: elapsedYears, months: elapsedMonths };
-};
-
-// // 例: 2020年1月1日からの経過年数と経過月数を計算
-// const startDate = new Date(2020, 0, 1); // 月は0から始まるため、1月は0
-// const { years, months } = calculateElapsedYearsMonths(startDate);
-
-// console.log(`経過年数: ${years} 年`);
-// console.log(`経過月数: ${months} 月`);
-
-const Card: React.FC<{
-  img: string,
-  title: string,
-  since: Date,
-  passed: boolean,
-  description: string,
-  relevantLink: any
-}> = (props) => {
+import { tAbility } from "../data";
+import LinkLine from "./LinkLine";
+export type tCard = Pick<tAbility, "title" | "link" | "img" | "since" | "passed" | "description" | "relLink">;
+const Card: React.FC<tCard> = (props) => {
   return (
     <Grid item xs={6} md={4} >
       <Paper square={false} elevation={3} className="paper" sx={{ height: "40vh" }}>
@@ -51,77 +22,74 @@ const Card: React.FC<{
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            // alignItems: 'center',
-            height: "50%"
+            height: "40%"
           }}
         >
-          <img
+          <Box
+            component="img"
             src={props.img}
             alt=""
             style={{
-              maxHeight: '100%',
-              width: 'auto',
-              margin: "3%"
-              // alignSelf: 'center', // 画像自体を中央に配置
+              maxHeight: "100%",
+              width: "auto",
+              margin: "3%",
 
             }}
+
           />
         </Box>
         {/* 文字 */}
         <Box
           sx={{
-            paddingX: 1,
+            paddingX: 2,
           }}
         >
           {/* タイトル */}
-          <Typography variant="h4" component="h2" align="center">
-            {props.title}
+          <Typography marginY={-3} variant="h4" component="h2" align="center">
+            <LinkLine link={props.relLink} line={props.title} />
           </Typography>
+
           {/* 年 */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-start", // 右寄せ
-              // marginTop: 1, // 上の余白を追加（任意で調整）
+              marginTop: -1, // 上の余白を追加（任意で調整）
             }}
           >
             <Typography variant="body2" component="p" marginLeft={0.5}>
 
               {props.passed ?
-                `経験年数 約${Math.ceil((
+                `経験 約${Math.ceil((
                   (new Date().getTime()) - (props.since.getTime())
                 ) /
                   (1000 * 60 * 60 * 24 * 365) * 10) / 10
                 }年` :
-                `${props.since.getFullYear()}年${props.since.getMonth()}月 取得`}
+                `${(props.since.getMonth() === 0) ?
+                  props.since.getFullYear() - 1 :
+                  props.since.getFullYear()
+                }年
+                ${(props.since.getMonth() === 0) ?
+                  12 :
+                  props.since.getMonth()
+                }月`}
             </Typography>
           </Box>
 
-
-
-
+          {/* 説明 */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
             }}
-            marginTop={3}
+            marginTop={1}
           >
             <Typography variant="body2" component="p" marginLeft={0.5}>
               {props.description}
             </Typography>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-            }}
-          >
 
-            <Typography variant="body2" component="p" marginLeft={1.5}>
-              {props.relevantLink}
-            </Typography>
-          </Box>
         </Box>
       </Paper>
     </Grid>
