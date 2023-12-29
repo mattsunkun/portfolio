@@ -1,0 +1,82 @@
+~
+card = {
+  id: string,
+  title: string,
+  img: string,
+  start: Date,
+  description: string,
+  priority: number,
+}
+  Profile = {
+    id: string, 
+    ke: string, 
+    va: string, 
+    priority: number, 
+  }
+    name
+      - 名前：松本昌亮
+    nickname
+      - 活動名:mattsunkun
+  Skills = {
+    exp: Number, 
+    officialUrl: string, 
+    skill: eSkill, 
+  }
+    Software
+      - Git
+      - Shotcut
+      - KIRI
+    HardWare
+      - Mac
+      - Windows
+      - Raspberry PI
+      - Cisco
+    Platform/Infrastructure
+      - Vercel
+      - AWS
+      - GitHub
+    Language
+      Python
+        - __init__
+        - bs4
+        - PyTorch
+      C#
+        - __init__
+        - .Net
+  Work = {
+    period: Number, 
+    workUrl: string, 
+    codeUrl: string, 
+    work: eWork, 
+    skillIds: string[], 
+  }
+    Job
+      - AWS を使ったやつ
+        & AWS, React
+      - EDENのやつ
+        & ３ｊｓとかPythonとか
+      - EDENのやつ
+        & KIRI
+    Hobby
+      - unibirth
+        & React
+        & Vercel
+      - 競艇
+      - カテナリーコップ
+        & brender, etc
+      - 動画編集
+        & shotcut, bs4, python
+      - Nigiri Bot
+        & twitter api
+  Achieve = {
+    subTitle: string, 
+  }
+    IT
+      - 応用情報
+      - Atcoder 茶色
+    None-IT
+      - Toeic
+      - 運転免許
+      - 誇れること：日光街道踏破
+
+    

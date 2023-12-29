@@ -32,8 +32,13 @@ const About = () => {
                 <Record ke="好きなゲーム1" value="ピクミン" />
                 <Record ke="好きなゲーム2" value="スマブラ" />
                 <Record ke="ひとこと" value="お友達とお喋りするのが大好きです！！" />
+                <Typography>
+                  NY研修、数学のなにか、タイのやつ
+                  日光街道、小田原
+                  初動画配信
+                </Typography>
               </Grid>
-
+              {/* GPTに文章を生成させたい． */}
             </Box>
           </Box>
         </Grid>
