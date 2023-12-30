@@ -1,18 +1,17 @@
 import { tAbility } from "./base"
 
-export enum eAchievement {
+export enum eQualification {
   it = "IT",
   nonIt = "None IT",
-  self = "self"
 };
 
-export type tAchievement = tAbility & {
+export type tQualification = tAbility & {
   subTitle: string,
   officialLink: string,
-  achieve: eAchievement,
+  kind: eQualification,
 };
 
-const it: tAchievement[] = [
+const it: tQualification[] = [
   {
     id: "idBrown",
     title: "Atcoder",
@@ -23,7 +22,7 @@ const it: tAchievement[] = [
 
     subTitle: "入茶",
     officialLink: "https://atcoder.jp/users/mattsunkun/history/share/abc327",
-    achieve: eAchievement.it,
+    kind: eQualification.it,
   },
 
   {
@@ -36,7 +35,7 @@ const it: tAchievement[] = [
 
     subTitle: "合格",
     officialLink: "https://www.ipa.go.jp/shiken/kubun/ap.html",
-    achieve: eAchievement.it,
+    kind: eQualification.it,
   },
 
   {
@@ -49,7 +48,7 @@ const it: tAchievement[] = [
 
     subTitle: "入灰",
     officialLink: "https://atcoder.jp/users/mattsunkun/history/share/abc327",
-    achieve: eAchievement.it,
+    kind: eQualification.it,
   },
 
   {
@@ -62,11 +61,11 @@ const it: tAchievement[] = [
 
     subTitle: "参加",
     officialLink: "https://www.denso.com/global/en/",
-    achieve: eAchievement.it,
+    kind: eQualification.it,
   },
 ];
 
-const nonIt: tAchievement[] = [
+const nonIt: tQualification[] = [
   {
     id: "idToeic870",
     title: "Toeic Listening&Reading",
@@ -77,7 +76,7 @@ const nonIt: tAchievement[] = [
 
     subTitle: "870点",
     officialLink: "https://www.iibc-global.org/toeic.html",
-    achieve: eAchievement.nonIt,
+    kind: eQualification.nonIt,
   },
   {
     id: "idCosmetic",
@@ -89,7 +88,7 @@ const nonIt: tAchievement[] = [
 
     subTitle: "合格",
     officialLink: "https://cosme-ken.org/",
-    achieve: eAchievement.nonIt,
+    kind: eQualification.nonIt,
   },
   {
     id: "idDriverAutomatic",
@@ -101,7 +100,7 @@ const nonIt: tAchievement[] = [
 
     subTitle: "取得",
     officialLink: "https://www.pref.aichi.jp/police/menkyo/tetsuzuki/shozaichi/menkyo/toiawasesaki.html",
-    achieve: eAchievement.nonIt,
+    kind: eQualification.nonIt,
   },
   {
     id: "idPre1",
@@ -113,7 +112,7 @@ const nonIt: tAchievement[] = [
 
     subTitle: "合格",
     officialLink: "https://www.eiken.or.jp/eiken/",
-    achieve: eAchievement.nonIt,
+    kind: eQualification.nonIt,
   },
   {
     id: "idTeaching",
@@ -125,90 +124,10 @@ const nonIt: tAchievement[] = [
 
     subTitle: "取得中",
     officialLink: "https://www.iibc-global.org/toeic.html",
-    achieve: eAchievement.nonIt,
+    kind: eQualification.nonIt,
   },
 ];
 
-const self: tAchievement[] = [
-  {
-    id: "idNikko",
-    title: "日光街道",
-    img: `${process.env.PUBLIC_URL}/images/nikko.jpg`,
-    start: new Date(2022, 3, 1),
-    description: "高校の頃の友人4,5人で東京の日本橋から栃木の日光東照宮まで(約147km)，「足のみ」を使って歩き切りました．途中，足がボロボロになり，非常に過酷な旅でしたが，達成感がありました．",
-    priority: 3,
 
-    subTitle: "踏破",
-    officialLink: "https://ja.wikipedia.org/wiki/%E6%97%A5%E5%85%89%E8%A1%97%E9%81%93",
-    achieve: eAchievement.self,
-  },
-
-  {
-    id: "idOdawara",
-    title: "横浜→小田原",
-    img: `${process.env.PUBLIC_URL}/images/odawara.jpeg`,
-    start: new Date(2023, 3, 4),
-    description: "高校の頃の友人4,5人で横浜から小田原まで「足のみ」を使って歩き切りました．日光街道よりは過酷ではありませんでしたが，それなりに大変な旅でした．",
-    priority: 1,
-
-    subTitle: "踏破",
-    officialLink: "https://ja.wikipedia.org/wiki/%E5%B0%8F%E7%94%B0%E5%8E%9F%E5%B8%82",
-    achieve: eAchievement.self,
-  },
-
-  {
-    id: "idThailand",
-    title: "イオン1%クラブ",
-    img: `${process.env.PUBLIC_URL}/images/thailand.jpeg`,
-    start: new Date(2019, 1, 1),
-    description: "イオン株式会社出資の下で，Ambassador(大使)として，タイの高校生と交換留学をした．写真はタイの学校で出されたココナッツジュースです(美味しかった)．",
-    priority: 1,
-
-    subTitle: "参加",
-    officialLink: "https://www.youtube.com/watch?v=gNuWDFUdfTg",
-    achieve: eAchievement.self,
-  },
-
-  {
-    id: "idNy",
-    title: "ニューヨーク研修",
-    img: `${process.env.PUBLIC_URL}/images/ny.jpeg`,
-    start: new Date(2018, 12, 1),
-    description: "高校1年生の頃，ニューヨークの学生(Bard高校)と交換留学をしました．お互いに，調べたことを相手の高校で発表することがメインの研修です．自分がニューヨークに行った際には，英語で連分数の魅力について語りました．写真はエリス島を観光した時のものです．",
-    priority: 1,
-
-    subTitle: "参加",
-    officialLink: "https://bhsec.bard.edu/manhattan/",
-    achieve: eAchievement.self,
-  },
-
-  {
-    id: "idManabinoMori",
-    title: "学びの杜・学術コース インフラ工学探究講座",
-    img: `${process.env.PUBLIC_URL}/images/manabinoMori.jpeg`,
-    start: new Date(2018, 8, 16),
-    description: "名古屋大学の教員を中心とする研究者たちが，各学問領域における物の見方・考え方等を解説．",
-    priority: 1,
-
-    subTitle: "参加",
-    officialLink: "http://chet.educa.nagoya-u.ac.jp/wp-content/uploads/photo/f99e70c9248da84b274e8c0b9cf5694e.pdf",
-    achieve: eAchievement.self,
-  },
-
-  {
-    id: "idNakatsugawa",
-    title: "中津川プロジェクト",
-    img: `${process.env.PUBLIC_URL}/images/nakatsugawa.jpeg`,
-    start: new Date(2018, 8, 6),
-    description: "中津川市にて，高大連携で2泊3日で大学の授業などを体験した．",
-    priority: 1,
-
-    subTitle: "参加",
-    officialLink: "https://chet.educa.nagoya-u.ac.jp/?page_id=86",
-    achieve: eAchievement.self,
-  },
-
-];
-
-const achievements: tAchievement[] = [...it, ...nonIt, ...self];
-export default achievements;
+const qualifications: tQualification[] = [...it, ...nonIt];
+export default qualifications;

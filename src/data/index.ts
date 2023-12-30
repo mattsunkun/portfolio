@@ -49,9 +49,9 @@ export type tAbility = {
 }
 
 
-export type tWork = tAbility & {
+// export type tWork = tAbility & {
 
-}
+// }
 
 const abilities: tAbility[] = [
   // language

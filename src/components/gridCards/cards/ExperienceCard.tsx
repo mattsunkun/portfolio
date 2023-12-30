@@ -1,19 +1,15 @@
 import { AccessTime } from "@mui/icons-material";
 import {
-  createTheme,
   Grid,
   Paper,
-  Rating,
-  ThemeProvider,
   Typography,
 } from "@mui/material";
 import { Box, Link } from "@mui/material";
 import React from "react";
 
-import { tAbility } from "../../../data";
 import LinkLine from "./../../LinkLine";
-import { tSkill } from "../../../data/skill";
-const SkillCard: React.FC<tSkill> = (props) => {
+import { tExperience } from "../../../data/experience";
+const ExperienceCard: React.FC<tExperience> = (props) => {
   return (
     <Grid item xs={6} md={4} >
       <Paper square={false} elevation={3} className="paper" sx={{ height: "40vh" }}>
@@ -46,7 +42,7 @@ const SkillCard: React.FC<tSkill> = (props) => {
         >
           {/* タイトル */}
           <Typography marginY={-3} variant="h4" component="h2" align="center">
-            <LinkLine link={props.officialUrl} line={props.title} />
+            <LinkLine link={props.relLink} line={props.title} />
           </Typography>
 
           {/* 年 */}
@@ -60,23 +56,18 @@ const SkillCard: React.FC<tSkill> = (props) => {
           >
             <Typography variant="body2" component="p" marginLeft={0.5}>
               {/* 開始 */}
-              {/* `${(props.start.getMonth() === 0) ?
+              {
+
+                `${(props.start.getMonth() === 0) ?
                   props.start.getFullYear() - 1 :
                   props.start.getFullYear()
                 }年
-                ${(props.since.getMonth() === 0) ?
+              ${(props.start.getMonth() === 0) ?
                   12 :
-                  props.since.getMonth()
-                }月` */}
-              {/* 経験 */}
-              {(props.exp === -1) ?
-                `経験 約${Math.ceil((
-                  (new Date().getTime()) - (props.start.getTime())
-                ) /
-                  (1000 * 60 * 60 * 24 * 365) * 10) / 10
-                }年` :
-                `${props.exp}年`
+                  props.start.getMonth()
+                }月`
               }
+
             </Typography>
           </Box>
 
@@ -99,4 +90,4 @@ const SkillCard: React.FC<tSkill> = (props) => {
   );
 };
 
-export default SkillCard;
+export default ExperienceCard;

@@ -19,7 +19,7 @@ const language: tSkill[] = [
   {
     id: "idPython",
     title: "Python",
-    img: `${process.env.PUBLIC_URL}/images/skills/icon/python/python-original.svg`,
+    img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
     start: new Date(2021, 4, 1),
     description: "大学の授業で初めて触った言語です．今でも機械学習や，競技プログラミングにおいてよく使う言語です．",
     priority: 2,
@@ -31,7 +31,7 @@ const language: tSkill[] = [
   {
     id: "idJs",
     title: "JavaScript",
-    img: `${process.env.PUBLIC_URL}/images/skills/icon/javascript/javascript-original.svg`,
+    img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
     start: new Date(2021, 4, 1),
     description: "独特な性質にあまり慣れない言語です．初めての開発バイトや，拡張機能の作成に利用しました．",
     priority: 2,
@@ -46,7 +46,7 @@ const framework: tSkill[] = [
   {
     id: "idReact",
     title: "React",
-    img: `${process.env.PUBLIC_URL}/images/skills/icon/react/react-original.svg`,
+    img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
     start: new Date(2021, 4, 1),
     description: "私はReact単体で使うというよりは，MAUIを使って，TypeScriptで記述しています．",
     priority: 2,

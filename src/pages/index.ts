@@ -11,6 +11,7 @@ export enum ePage {
   about = "About",
   skills = "Skills",
   works = "Works",
+  experiences = "Experiences",
   qualifications = "Qualifications",
   pnf = "pnf",
 }

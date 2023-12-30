@@ -1,13 +1,16 @@
 
 import { eKinds } from "../data";
-import GridSkills from "../components/GridSkills";
+import GridSkills from "../components/gridCards/GridSkills";
+import skills, { eSkill } from "../data/skill";
 const Skills = () => {
   return (
     <>
       <h1>python, c, c#，資格，業務などをIT系と分けて具体的な業務経験とともに</h1>
-      <GridSkills kind={eKinds.language} />
-      <GridSkills kind={eKinds.framework} />
-      <GridSkills kind={eKinds.software} />
+      {
+        (Object.values(eSkill)).map((kind) => (
+          <GridSkills kind={kind} />
+        ))
+      }
     </>
   );
 };
