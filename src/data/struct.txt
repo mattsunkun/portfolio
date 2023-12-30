@@ -27,6 +27,8 @@ card = {
       - Git
       - Shotcut
       - KIRI
+      - SubVersion
+      - blender
     HardWare
       - Mac
       - Windows
@@ -36,14 +38,28 @@ card = {
       - Vercel
       - AWS
       - GitHub
+      - Heroku
+      - DetaSpace
     Language
       Python
         - __init__
         - bs4
         - PyTorch
+        - opencv
       C#
         - __init__
         - .Net
+        - maui
+
+      - GraphQL
+      - Three.js
+      - MUI
+      - zsh
+      - bash
+      - cron
+      - Standard Triangulated Language
+      - gas
+      - homebrew
   Work = {
     period: Number, 
     workUrl: string, 
