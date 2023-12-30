@@ -7,7 +7,8 @@ card = {
   description: string,
   priority: number,
 }
-  Profile = {
+
+  About = {
     id: string, 
     ke: string, 
     va: string, 
@@ -48,7 +49,7 @@ card = {
     workUrl: string, 
     codeUrl: string, 
     work: eWork, 
-    skillIds: string[], 
+    skillIds: string[],  // これはSkillsの中で探索しよう．
   }
     Job
       - AWS を使ったやつ

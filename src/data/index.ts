@@ -83,18 +83,18 @@ const abilities: tAbility[] = [
 
   // <it>
 
-  {
-    id: "idBrown",
-    kind: eKinds.it,
-    title: "入茶",
-    link: ePage.skills,
-    img: `${process.env.PUBLIC_URL}/images/atcoder.svg`,
-    since: new Date(2023, 11, 4),
-    passed: false,
-    description: "基本的なアルゴリズム(累積和・いもす法・Union-Find・二分探索・DFS・BFS・DP・ダイクストラ法・ワーシャルフロイド法・クラスカル法など)を学び，コンテストに挑み続けました．",
-    relLink: "https://atcoder.jp/users/mattsunkun/history/share/abc327",
-    relIds: []
-  },
+  // {
+  //   id: "idBrown",
+  //   kind: eKinds.it,
+  //   title: "入茶",
+  //   link: ePage.skills,
+  //   img: `${process.env.PUBLIC_URL}/images/atcoder.svg`,
+  //   since: new Date(2023, 11, 4),
+  //   passed: false,
+  //   description: "基本的なアルゴリズム(累積和・いもす法・Union-Find・二分探索・DFS・BFS・DP・ダイクストラ法・ワーシャルフロイド法・クラスカル法など)を学び，コンテストに挑み続けました．",
+  //   relLink: "https://atcoder.jp/users/mattsunkun/history/share/abc327",
+  //   relIds: []
+  // },
   // {
   //   id: "idAp",
   //   kind: eKinds.it,
@@ -107,18 +107,18 @@ const abilities: tAbility[] = [
   //   relLink: "https://www.ipa.go.jp/shiken/kubun/ap.html",
   //   relIds: []
   // },
-  {
-    id: "idGray",
-    kind: eKinds.it,
-    title: "入灰",
-    link: ePage.skills,
-    img: `${process.env.PUBLIC_URL}/images/atcoder.svg`,
-    since: new Date(2023, 9, 23),
-    passed: false,
-    description: "Atcoderに初めて参加しました．計算量を意識する重要性を再確認させられました．",
-    relLink: "https://atcoder.jp/users/mattsunkun/history/share/abc321",
-    relIds: []
-  },
+  // {
+  //   id: "idGray",
+  //   kind: eKinds.it,
+  //   title: "入灰",
+  //   link: ePage.skills,
+  //   img: `${process.env.PUBLIC_URL}/images/atcoder.svg`,
+  //   since: new Date(2023, 9, 23),
+  //   passed: false,
+  //   description: "Atcoderに初めて参加しました．計算量を意識する重要性を再確認させられました．",
+  //   relLink: "https://atcoder.jp/users/mattsunkun/history/share/abc321",
+  //   relIds: []
+  // },
   // </it>
   // <non-it>
   // {

@@ -51,6 +51,19 @@ const it: tAchievement[] = [
     officialLink: "https://atcoder.jp/users/mattsunkun/history/share/abc327",
     achieve: eAchievement.it,
   },
+
+  {
+    id: "idDenso",
+    title: "第3回 DENSOクラウドコンテスト",
+    img: `${process.env.PUBLIC_URL}/images/atcoder.svg`,
+    start: new Date(2023, 2, 25),
+    description: "デンソー主催のAWSを利用したコンテスト．複数の課題が与えられ，AWSを利用することで，それらの課題を素早く解決するコンテスト．",
+    priority: 2,
+
+    subTitle: "参加",
+    officialLink: "https://www.denso.com/global/en/",
+    achieve: eAchievement.it,
+  },
 ];
 
 const nonIt: tAchievement[] = [
@@ -102,6 +115,18 @@ const nonIt: tAchievement[] = [
     officialLink: "https://www.eiken.or.jp/eiken/",
     achieve: eAchievement.nonIt,
   },
+  {
+    id: "idTeaching",
+    title: "ジョーほーの教職免許",
+    img: `${process.env.PUBLIC_URL}/images/toeic.png`,
+    start: new Date(2023, 12, 10),
+    description: "他にも，アルバイト経験を書きたい．0-1ゼミについても書きたい．jackについても書きたい．nttのインターンも，Ad構築，ウィンドウズサーバーも．Githubのリポジトリも何があるかとシークレットキー，アルバイトでどこまで書いていいか．一旦確認したい．",
+    priority: 3,
+
+    subTitle: "取得中",
+    officialLink: "https://www.iibc-global.org/toeic.html",
+    achieve: eAchievement.nonIt,
+  },
 ];
 
 const self: tAchievement[] = [
@@ -135,7 +160,7 @@ const self: tAchievement[] = [
     id: "idThailand",
     title: "イオン1%クラブ",
     img: `${process.env.PUBLIC_URL}/images/thailand.jpeg`,
-    start: new Date(2018, 1, 1),
+    start: new Date(2019, 1, 1),
     description: "イオン株式会社出資の下で，Ambassador(大使)として，タイの高校生と交換留学をした．写真はタイの学校で出されたココナッツジュースです(美味しかった)．",
     priority: 1,
 
@@ -157,9 +182,32 @@ const self: tAchievement[] = [
     achieve: eAchievement.self,
   },
 
+  {
+    id: "idManabinoMori",
+    title: "学びの杜・学術コース インフラ工学探究講座",
+    img: `${process.env.PUBLIC_URL}/images/manabinoMori.jpeg`,
+    start: new Date(2018, 8, 16),
+    description: "名古屋大学の教員を中心とする研究者たちが，各学問領域における物の見方・考え方等を解説．",
+    priority: 1,
 
+    subTitle: "参加",
+    officialLink: "http://chet.educa.nagoya-u.ac.jp/wp-content/uploads/photo/f99e70c9248da84b274e8c0b9cf5694e.pdf",
+    achieve: eAchievement.self,
+  },
 
-  // 学びの杜を入れようかどうしようか
+  {
+    id: "idNakatsugawa",
+    title: "中津川プロジェクト",
+    img: `${process.env.PUBLIC_URL}/images/nakatsugawa.jpeg`,
+    start: new Date(2018, 8, 6),
+    description: "中津川市にて，高大連携で2泊3日で大学の授業などを体験した．",
+    priority: 1,
+
+    subTitle: "参加",
+    officialLink: "https://chet.educa.nagoya-u.ac.jp/?page_id=86",
+    achieve: eAchievement.self,
+  },
+
 ];
 
 const achievements: tAchievement[] = [...it, ...nonIt, ...self];
