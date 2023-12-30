@@ -10,9 +10,10 @@ import {
 import { Box, Link } from "@mui/material";
 import React from "react";
 
-import { tAbility } from "../data";
-import LinkLine from "./LinkLine";
-const SkillCard: React.FC<tAbility> = (props) => {
+import { tAbility } from "../../../data";
+import LinkLine from "./../../LinkLine";
+import { tSkill } from "../../../data/skill";
+const SkillCard: React.FC<tSkill> = (props) => {
   return (
     <Grid item xs={6} md={4} >
       <Paper square={false} elevation={3} className="paper" sx={{ height: "40vh" }}>
@@ -45,7 +46,7 @@ const SkillCard: React.FC<tAbility> = (props) => {
         >
           {/* タイトル */}
           <Typography marginY={-3} variant="h4" component="h2" align="center">
-            <LinkLine link={props.relLink} line={props.title} />
+            {/* <LinkLine link={props.relLink} line={props.title} /> */}
           </Typography>
 
           {/* 年 */}
@@ -59,7 +60,7 @@ const SkillCard: React.FC<tAbility> = (props) => {
           >
             <Typography variant="body2" component="p" marginLeft={0.5}>
 
-              {props.passed ?
+              {/* {props.passed ?
                 `経験 約${Math.ceil((
                   (new Date().getTime()) - (props.since.getTime())
                 ) /
@@ -72,7 +73,7 @@ const SkillCard: React.FC<tAbility> = (props) => {
                 ${(props.since.getMonth() === 0) ?
                   12 :
                   props.since.getMonth()
-                }月`}
+                }月`} */}
             </Typography>
           </Box>
 
