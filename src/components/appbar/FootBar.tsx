@@ -7,9 +7,9 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import AddLinkIcon from '@mui/icons-material/AddLink';
 
-import { ePage } from "../pages";
-import LinkLine from "./LinkLine";
-import LinkButton from "./LinkButton";
+import { ePage } from "../../pages";
+import LinkLine from "../LinkLine";
+import LinkButton from "../LinkButton";
 
 const FootBar = () => {
   return (
@@ -27,6 +27,7 @@ const FootBar = () => {
                 <LinkLine link={ePage.about.toLowerCase()} line={ePage.about} isSameTab />
                 <LinkLine link={ePage.skills.toLowerCase()} line={ePage.skills} isSameTab />
                 <LinkLine link={ePage.works.toLowerCase()} line={ePage.works} isSameTab />
+                <LinkLine link={ePage.experiences.toLowerCase()} line={ePage.experiences} isSameTab />
                 <LinkLine link={ePage.qualifications.toLowerCase()} line={ePage.qualifications} isSameTab />
               </Box>
             </Grid>

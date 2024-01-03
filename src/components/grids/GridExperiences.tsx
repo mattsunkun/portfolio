@@ -1,6 +1,6 @@
 
 import { Grid } from "@mui/material";
-import LineSection from "../../components/LineSection";
+import LineSection from "../LineSection";
 import experiences, { eExperience } from "../../data/experience";
 import ExperienceCard from "./cards/ExperienceCard";
 

@@ -1,6 +1,6 @@
 
 import { Grid } from "@mui/material";
-import LineSection from "../../components/LineSection";
+import LineSection from "../LineSection";
 import works, { eWork } from "../../data/work";
 import WorkCard from "./cards/WorkCard";
 

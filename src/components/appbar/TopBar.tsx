@@ -18,8 +18,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
 // mine
-import { ePage } from '../pages';
-import LinkActive from './LinkActive';
+import { ePage } from '../../pages';
+import LinkActive from '../LinkActive';
 
 
 // 競プロについてもリンクをかく．
@@ -51,6 +51,7 @@ const TopBar: FC = () => {
               <LinkActive page={ePage.about} />
               <LinkActive page={ePage.skills} />
               <LinkActive page={ePage.works} />
+              <LinkActive page={ePage.experiences} />
               <LinkActive page={ePage.qualifications} />
             </Typography>
 

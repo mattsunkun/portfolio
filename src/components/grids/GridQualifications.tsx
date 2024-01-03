@@ -1,6 +1,6 @@
 
 import { Grid } from "@mui/material";
-import LineSection from "../../components/LineSection";
+import LineSection from "../LineSection";
 import qualifications, { eQualification } from "../../data/qualification";
 import QualificationCard from "./cards/QualificationCard";
 

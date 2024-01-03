@@ -1,15 +1,19 @@
 import { AccessTime } from "@mui/icons-material";
 import {
+  createTheme,
   Grid,
   Paper,
+  Rating,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
 import { Box, Link } from "@mui/material";
 import React from "react";
 
-import LinkLine from "./../../LinkLine";
-import { tWork } from "../../../data/work";
-const WorkCard: React.FC<tWork> = (props) => {
+import { tAbility } from "../../../data";
+import LinkLine from "../../LinkLine";
+import { tSkill } from "../../../data/skill";
+const SkillCard: React.FC<tSkill> = (props) => {
   return (
     <Grid item xs={6} md={4} >
       <Paper square={false} elevation={3} className="paper" sx={{ height: "40vh" }}>
@@ -42,7 +46,7 @@ const WorkCard: React.FC<tWork> = (props) => {
         >
           {/* タイトル */}
           <Typography marginY={-3} variant="h4" component="h2" align="center">
-            <LinkLine link={props.codeUrl} line={props.title} />
+            <LinkLine link={props.officialUrl} line={props.title} />
           </Typography>
 
           {/* 年 */}
@@ -56,21 +60,22 @@ const WorkCard: React.FC<tWork> = (props) => {
           >
             <Typography variant="body2" component="p" marginLeft={0.5}>
               {/* 開始 */}
-              {
-
-                `${(props.start.getMonth() === 0) ?
+              {/* `${(props.start.getMonth() === 0) ?
                   props.start.getFullYear() - 1 :
                   props.start.getFullYear()
                 }年
-              ${(props.start.getMonth() === 0) ?
+                ${(props.since.getMonth() === 0) ?
                   12 :
-                  props.start.getMonth()
-                }月`
-              }
-
-              {/* 開発期間 */}
-              {
-                `開発期間：約${props.period}ヶ月`
+                  props.since.getMonth()
+                }月` */}
+              {/* 経験 */}
+              {(props.exp === -1) ?
+                `経験 約${Math.ceil((
+                  (new Date().getTime()) - (props.start.getTime())
+                ) /
+                  (1000 * 60 * 60 * 24 * 365) * 10) / 10
+                }年` :
+                `${props.exp}年`
               }
             </Typography>
           </Box>
@@ -94,4 +99,4 @@ const WorkCard: React.FC<tWork> = (props) => {
   );
 };
 
-export default WorkCard;
+export default SkillCard;

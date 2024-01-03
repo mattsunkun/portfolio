@@ -15,11 +15,12 @@ import History from './pages/History';
 import Pnf from "./pages/Pnf";
 
 // components
-import TopBar from './components/TopBar';
-import FootBar from './components/FootBar';
+import TopBar from './components/appbar/TopBar';
+import FootBar from './components/appbar/FootBar';
 import Works from './pages/Works';
 import Qualifications from './pages/Qualifications';
 import { ePage } from './pages';
+import Experiences from './pages/Experiences';
 
 // keybase,qiita, zenn
 // ページの型列挙
@@ -36,6 +37,7 @@ const App: React.FC = () => {
             <Route path={ePage.about.toLowerCase()} element={<About />} />
             <Route path={ePage.skills.toLowerCase()} element={<Skills />} />
             <Route path={ePage.works.toLowerCase()} element={<Works />} />
+            <Route path={ePage.experiences.toLowerCase()} element={<Experiences />} />
             <Route path={ePage.qualifications.toLowerCase()} element={<Qualifications />} />
             <Route path="/*" element={<Pnf />} />
           </Routes>

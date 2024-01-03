@@ -7,7 +7,7 @@ import {
 import { Box, Link } from "@mui/material";
 import React from "react";
 
-import LinkLine from "./../../LinkLine";
+import LinkLine from "../../LinkLine";
 import { tQualification } from "../../../data/qualification";
 const QualificationCard: React.FC<tQualification> = (props) => {
   return (

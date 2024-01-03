@@ -7,7 +7,7 @@ import {
 import { Box, Link } from "@mui/material";
 import React from "react";
 
-import LinkLine from "./../../LinkLine";
+import LinkLine from "../../LinkLine";
 import { tExperience } from "../../../data/experience";
 const ExperienceCard: React.FC<tExperience> = (props) => {
   return (

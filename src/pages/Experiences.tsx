@@ -1,6 +1,6 @@
 
 import { eKinds } from "../data";
-import GridExperiences from "../components/gridCards/GridExperiences";
+import GridExperiences from "../components/grids/GridExperiences";
 import { eExperience } from "../data/experience";
 const Experiences = () => {
   return (

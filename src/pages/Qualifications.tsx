@@ -2,7 +2,7 @@
 import { eKinds } from "../data";
 import GridSkills from "../components/GridSkills";
 import { eQualification } from "../data/qualification";
-import GridQualifications from "../components/gridCards/GridQualifications";
+import GridQualifications from "../components/grids/GridQualifications";
 const Qualifications = () => {
   return (
     <>

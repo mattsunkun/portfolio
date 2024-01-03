@@ -1,4 +1,4 @@
-import GridWorks from "../components/gridCards/GridWorks";
+import GridWorks from "../components/grids/GridWorks";
 import { eWork } from "../data/work";
 
 const Works = () => {

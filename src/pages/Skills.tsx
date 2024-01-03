@@ -1,6 +1,6 @@
 
 import { eKinds } from "../data";
-import GridSkills from "../components/gridCards/GridSkills";
+import GridSkills from "../components/grids/GridSkills";
 import skills, { eSkill } from "../data/skill";
 const Skills = () => {
   return (

@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import Record from "../components/Record";
+import EventsLine from "../components/timeline/EventsLine";
 
 
 const About = () => {
@@ -44,7 +45,8 @@ const About = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <Box component="img" src={`${process.env.PUBLIC_URL}/images/hato.png`} />
+          <EventsLine line="" />
+          {/* <Box component="img" src={`${process.env.PUBLIC_URL}/images/hato.png`} /> */}
         </Grid>
       </Grid >
     </>
