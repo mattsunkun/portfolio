@@ -12,6 +12,8 @@ import IconButton from '@mui/material/IconButton';
 import { NavLink, useLocation } from 'react-router-dom';
 
 // icon
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -23,7 +25,7 @@ import LinkActive from '../LinkActive';
 
 
 // 競プロについてもリンクをかく．
-const TopBar: FC = () => {
+const TopBar: FC<{ isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>> }> = (props) => {
   const location: Location = useLocation();
   const linkStyle = {
     textDecoration: "none",
@@ -56,10 +58,18 @@ const TopBar: FC = () => {
             </Typography>
 
             <Typography >
-              <IconButton color="inherit" aria-label="Github" component={Link} to={"https://github.com/mattsunkun"} ><GitHubIcon /></IconButton>
+
+
+              <IconButton color="inherit" onClick={() => props.setIsDarkMode(!props.isDarkMode)}>
+                {
+                  props.isDarkMode ? <DarkModeIcon /> : <LightModeIcon />
+                }
+              </IconButton>
+
+              {/* <IconButton color="inherit" aria-label="Github" component={Link} to={"https://github.com/mattsunkun"} ><GitHubIcon /></IconButton>
               <IconButton color="inherit" aria-label="Twitter" component={Link} to={"https://twitter.com/mattsunkun1221"} ><TwitterIcon /></IconButton>
               <IconButton color="inherit" aria-label="Instagram" component={Link} to={"https://www.instagram.com/mattsunkun/"} ><InstagramIcon /></IconButton>
-              <IconButton color="inherit" aria-label="YouTube" component={Link} to={"https://www.youtube.com/channel/UCaamzbGKGG3YovpUmutQVag"} ><YouTubeIcon /></IconButton>
+              <IconButton color="inherit" aria-label="YouTube" component={Link} to={"https://www.youtube.com/channel/UCaamzbGKGG3YovpUmutQVag"} ><YouTubeIcon /></IconButton> */}
             </Typography>
           </Toolbar>
         </AppBar>
