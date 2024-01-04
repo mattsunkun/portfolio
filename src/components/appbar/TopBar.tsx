@@ -39,7 +39,7 @@ const TopBar: FC<{ isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetS
   return (
     <>
       <Box className="top-bar" sx={{ top: 0, left: 0, width: "100%" }}>
-        <AppBar sx={{ height: "9vh" }} position="fixed">
+        <AppBar sx={{ height: "9vh" }} position="fixed" color="inherit">
           <Toolbar>
             <Typography sx={{ flexGrow: 1, cursor: "pointer" }}>
               <Link

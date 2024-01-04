@@ -31,12 +31,12 @@ const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
   const theme = createTheme({
     palette: {
-      mode: isDarkMode ? "dark" : "light"
-      // secondary: {
-      //   // main: "#FFFFFF",
-      //   // light: "#FFFFFF",
-      //   // dark: "#FFFFFF",
-      // }
+      mode: (isDarkMode ? "dark" : "light"),
+      secondary: {
+        main: "#FFFFFF",
+        light: "#FFFFFF",
+        dark: "#FFFFFF",
+      }
     },
     typography: {
       fontFamily: [
