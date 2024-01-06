@@ -5,7 +5,7 @@ const LineSection: React.FC<{ line: string }> = (props) => {
 
   return (
     <>
-      <Typography paddingLeft={3} variant="h2">
+      <Typography paddingLeft={3} variant="h3">
         {props.line}
       </Typography>
     </>

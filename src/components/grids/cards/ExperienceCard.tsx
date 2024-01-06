@@ -9,41 +9,19 @@ import React from "react";
 
 import LinkLine from "../../LinkLine";
 import { tExperience } from "../../../data/experience";
+import LinkImgLine from "../../LinkImgLine";
 const ExperienceCard: React.FC<tExperience> = (props) => {
   return (
     <Grid item xs={6} md={4} >
       <Paper square={false} elevation={3} className="paper" sx={{ height: "40vh" }}>
-        {/* 画像 */}
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            height: "40%"
-          }}
-        >
-          <Box
-            component="img"
-            src={props.img}
-            alt=""
-            style={{
-              maxHeight: "100%",
-              width: "auto",
-              margin: "3%",
+        <LinkImgLine link={props.relLink} img={props.img} line={props.title} margin={0} />
 
-            }}
-
-          />
-        </Box>
         {/* 文字 */}
         <Box
           sx={{
             paddingX: 2,
           }}
         >
-          {/* タイトル */}
-          <Typography marginY={-3} variant="h4" component="h2" align="center">
-            <LinkLine link={props.relLink} line={props.title} />
-          </Typography>
 
           {/* 年 */}
           <Box

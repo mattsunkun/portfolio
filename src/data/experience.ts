@@ -12,9 +12,21 @@ export type tExperience = tAbility & {
 }
 
 const univ: tExperience[] = [
+
+  {
+    id: "idDenso",
+    title: "第3回 DENSOクラウドコンテスト",
+    img: `${process.env.PUBLIC_URL}/images/atcoder.svg`,
+    start: new Date(2023, 2, 25),
+    description: "デンソー主催のAWSを利用したコンテスト．複数の課題が与えられ，AWSを利用することで，それらの課題を素早く解決するコンテスト．",
+    priority: 2,
+
+    relLink: "https://www.denso.com/global/en/",
+    kind: eExperience.univ
+  },
   {
     id: "idNikko",
-    title: "日光街道踏破",
+    title: "日光街道",
     img: `${process.env.PUBLIC_URL}/images/nikko.jpg`,
     start: new Date(2022, 3, 1),
     description: "高校の頃の友人4,5人で東京の日本橋から栃木の日光東照宮まで(約147km)，「足のみ」を使って歩き切りました．途中，足がボロボロになり，非常に過酷な旅でしたが，達成感がありました．",
@@ -26,7 +38,7 @@ const univ: tExperience[] = [
 
   {
     id: "idOdawara",
-    title: "横浜→小田原 踏破",
+    title: "横浜→小田原",
     img: `${process.env.PUBLIC_URL}/images/odawara.jpeg`,
     start: new Date(2023, 3, 4),
     description: "高校の頃の友人4,5人で横浜から小田原まで「足のみ」を使って歩き切りました．日光街道よりは過酷ではありませんでしたが，それなりに大変な旅でした．",

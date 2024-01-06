@@ -9,48 +9,26 @@ import React from "react";
 
 import LinkLine from "../../LinkLine";
 import { tQualification } from "../../../data/qualification";
+import LinkImgLine from "../../LinkImgLine";
 const QualificationCard: React.FC<tQualification> = (props) => {
   return (
     <Grid item xs={6} md={4} >
       <Paper square={false} elevation={3} className="paper" sx={{ height: "40vh" }}>
-        {/* 画像 */}
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            height: "40%"
-          }}
-        >
-          <Box
-            component="img"
-            src={props.img}
-            alt=""
-            style={{
-              maxHeight: "100%",
-              width: "auto",
-              margin: "3%",
+        <LinkImgLine link={props.officialLink} img={props.img} line={props.title} margin={3} />
 
-            }}
-
-          />
-        </Box>
         {/* 文字 */}
         <Box
           sx={{
             paddingX: 2,
           }}
         >
-          {/* タイトル */}
-          <Typography marginY={-3} variant="h4" component="h2" align="center">
-            <LinkLine link={props.officialLink} line={props.title} />
-          </Typography>
 
           {/* 年 */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "flex-start", // 右寄せ
+              justifyContent: "center", // 右寄せ
               marginTop: -1, // 上の余白を追加（任意で調整）
             }}
           >
@@ -58,14 +36,15 @@ const QualificationCard: React.FC<tQualification> = (props) => {
               {/* 開始 */}
               {
 
-                `取得${(props.start.getMonth() === 0) ?
+                `${(props.start.getMonth() === 0) ?
                   props.start.getFullYear() - 1 :
                   props.start.getFullYear()
                 }年
               ${(props.start.getMonth() === 0) ?
                   12 :
                   props.start.getMonth()
-                }月`
+                }月
+                ${props.subTitle}`
               }
             </Typography>
           </Box>

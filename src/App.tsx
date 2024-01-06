@@ -39,13 +39,14 @@ const App: React.FC = () => {
       }
     },
     typography: {
-      fontFamily: [
-        'Roboto',
-        '"Noto Sans JP"',
-        '"Helvetica"',
-        'Arial',
-        'sans-serif',
-      ].join(','),
+      // fontFamily: [
+      //   'Roboto',
+      //   '"Noto Sans JP"',
+      //   '"Helvetica"',
+      //   'Arial',
+      //   'sans-serif',
+      // ].join(','),
+      fontFamily: "'M PLUS 1 Code', monospace"
     }
   });
   return (

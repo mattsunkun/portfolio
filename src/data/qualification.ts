@@ -1,8 +1,8 @@
 import { tAbility } from "./base"
 
 export enum eQualification {
-  it = "IT",
-  nonIt = "None IT",
+  it = "IT系の資格",
+  nonIt = "非IT系の資格",
 };
 
 export type tQualification = tAbility & {
@@ -50,31 +50,18 @@ const it: tQualification[] = [
     officialLink: "https://atcoder.jp/users/mattsunkun/history/share/abc327",
     kind: eQualification.it,
   },
-
-  {
-    id: "idDenso",
-    title: "第3回 DENSOクラウドコンテスト",
-    img: `${process.env.PUBLIC_URL}/images/atcoder.svg`,
-    start: new Date(2023, 2, 25),
-    description: "デンソー主催のAWSを利用したコンテスト．複数の課題が与えられ，AWSを利用することで，それらの課題を素早く解決するコンテスト．",
-    priority: 2,
-
-    subTitle: "参加",
-    officialLink: "https://www.denso.com/global/en/",
-    kind: eQualification.it,
-  },
 ];
 
 const nonIt: tQualification[] = [
   {
     id: "idToeic870",
-    title: "Toeic Listening&Reading",
+    title: "Toeic L&R 870点",
     img: `${process.env.PUBLIC_URL}/images/toeic.png`,
     start: new Date(2023, 12, 10),
     description: "ToeicのListening&Readingが大学院入試で必要であったため受験しました．LとRがそれぞれ460点，410点で，合計870点でした．受験前に過去問を3回ほど解きました．",
     priority: 3,
 
-    subTitle: "870点",
+    subTitle: "取得",
     officialLink: "https://www.iibc-global.org/toeic.html",
     kind: eQualification.nonIt,
   },
@@ -92,10 +79,10 @@ const nonIt: tQualification[] = [
   },
   {
     id: "idDriverAutomatic",
-    title: "普通自動車第一種運転免許(AT限定)",
+    title: "自動車運転免許",
     img: `${process.env.PUBLIC_URL}/images/irasutoyaDriver.png`,
     start: new Date(2021, 9, 1),
-    description: "大学1年生の頃，通いでとりました．父にはマニュアルを勧められましたが，オートマにしました．最近マニュアルも運転したいと思い始めているので，若干後悔しています．",
+    description: "普通自動車第一種運転免許(AT限定)を大学1年生の頃，通いでとりました．父にはマニュアルを勧められましたが，オートマにしました．最近マニュアルも運転したいと思い始めているので，若干後悔しています．",
     priority: 1,
 
     subTitle: "取得",
@@ -104,10 +91,10 @@ const nonIt: tQualification[] = [
   },
   {
     id: "idPre1",
-    title: "実用英語技能検定準一級",
+    title: "英検準一級",
     img: `${process.env.PUBLIC_URL}/images/eiken.png`,
     start: new Date(2019, 11, 1),
-    description: "アメリカに住んでいた頃に培った，ライティング・リスニング・スピーキングは特に勉強しませんでしたが，単語力が心配だったので，それを頑張って勉強した記憶があります．",
+    description: "実用英語技能検定準一級を高校生の頃取得しました．アメリカに住んでいた頃に培った，ライティング・リスニング・スピーキングは特に勉強しませんでしたが，単語力が心配だったので，それを頑張って勉強した記憶があります．",
     priority: 2,
 
     subTitle: "合格",
@@ -116,10 +103,10 @@ const nonIt: tQualification[] = [
   },
   {
     id: "idTeaching",
-    title: "ジョーほーの教職免許",
-    img: `${process.env.PUBLIC_URL}/images/toeic.png`,
+    title: "高校教諭一種免許",
+    img: `${process.env.PUBLIC_URL}/images/irasutoyaDriver.png`,
     start: new Date(2023, 12, 10),
-    description: "他にも，アルバイト経験を書きたい．0-1ゼミについても書きたい．jackについても書きたい．nttのインターンも，Ad構築，ウィンドウズサーバーも．Githubのリポジトリも何があるかとシークレットキー，アルバイトでどこまで書いていいか．一旦確認したい．",
+    description: "高等学校教諭一種免許状(情報科目)を現在取得中です．大学一年生の頃から教育に関する座学を受けています．",
     priority: 3,
 
     subTitle: "取得中",
