@@ -15,7 +15,7 @@ const Works = () => {
             <LineSection line={kind} />
             <Grid container spacing={4}>
               {works.map((work) => (
-                (work.work == kind) && (
+                (work.work === kind) && (
                   <Card
                     key={work.id}
                     {...work}
