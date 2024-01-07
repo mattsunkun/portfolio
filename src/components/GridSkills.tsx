@@ -8,7 +8,7 @@ const GridSkills: React.FC<{ kind: eKinds }> = (props) => {
 
   return (
     <>
-      <LineSection line={props.kind} />
+      {/* <LineSection line={props.kind} />
       <Grid container spacing={4}>
         {
           abilities.map((ability) => (
@@ -20,7 +20,9 @@ const GridSkills: React.FC<{ kind: eKinds }> = (props) => {
             )
           ))
         }
-      </Grid>
+      </Grid> */}
+      aaa
+
     </>
   );
 };

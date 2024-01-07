@@ -24,8 +24,8 @@ const jobs: tWork[] = [
     priority: 2,
 
     period: 2,
-    workUrl: "NDAより掲載不可",
-    codeUrl: "NDAより掲載不可",
+    workUrl: "",
+    codeUrl: "",
     work: eWork.job,
     skillIds: ["idCSharp", "idDotNet", "idSubversion"]
   },
@@ -39,8 +39,8 @@ const jobs: tWork[] = [
     priority: 2,
 
     period: 1,
-    workUrl: "NDAより掲載不可",
-    codeUrl: "NDAより掲載不可",
+    workUrl: "",
+    codeUrl: "",
     work: eWork.job,
     skillIds: ["idCSharp", "idMaui"]
   },
@@ -54,8 +54,8 @@ const jobs: tWork[] = [
     priority: 2,
 
     period: 4,
-    workUrl: "NDAより掲載不可",
-    codeUrl: "NDAより掲載不可",
+    workUrl: "",
+    codeUrl: "",
     work: eWork.job,
     skillIds: ["idCSharp", "idDotNet", "idSubversion"]
   },
@@ -69,8 +69,8 @@ const jobs: tWork[] = [
     priority: 2,
 
     period: 8,
-    workUrl: "NDAより掲載不可",
-    codeUrl: "NDAより掲載不可",
+    workUrl: "",
+    codeUrl: "",
     work: eWork.job,
     skillIds: ["idGit", "idGitHub", "idAWS", "idPython", "idGraphQL", "idReact", "idMui", "idTs"]
   },
@@ -84,8 +84,8 @@ const jobs: tWork[] = [
     priority: 2,
 
     period: 3,
-    workUrl: "NDAより掲載不可",
-    codeUrl: "NDAより掲載不可",
+    workUrl: "",
+    codeUrl: "",
     work: eWork.job,
     skillIds: ["Python", "idOpenCv"]
   },
@@ -99,8 +99,8 @@ const jobs: tWork[] = [
     priority: 2,
 
     period: 3,
-    workUrl: "NDAより掲載不可",
-    codeUrl: "NDAより掲載不可",
+    workUrl: "",
+    codeUrl: "",
     work: eWork.job,
     skillIds: ["idKiri"]
   },
@@ -115,7 +115,7 @@ const jobs: tWork[] = [
 
     period: 2,
     workUrl: "これは掲載できるのか？",
-    codeUrl: "NDAより掲載不可",
+    codeUrl: "",
     work: eWork.job,
     skillIds: ["idJs", "Python", "id3js", "idGit", "idGitHub"]
   },
@@ -129,8 +129,8 @@ const jobs: tWork[] = [
     priority: 2,
 
     period: 2,
-    workUrl: "NDAより掲載不可",
-    codeUrl: "NDAより掲載不可",
+    workUrl: "",
+    codeUrl: "",
     work: eWork.job,
     skillIds: ["idJs", "idReact", "idMui", "idGit", "idGitHub"]
   },
