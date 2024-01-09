@@ -1,11 +1,12 @@
 import { ePage } from "../pages";
 
 
-export type folder = {
+export type directory = {
   name: string,
   files: file[],
-  folders: folder[],
+  directories: directory[],
   noPermission?: boolean,
+  isHome?: boolean,
 }
 
 export type file = {
@@ -17,12 +18,12 @@ export type file = {
 
 }
 
-const Root: folder = {
-  name: "root",
+const Root: directory = {
+  name: "",
   files: [
 
   ],
-  folders: [
+  directories: [
     {
       name: "bin",
       files: [
@@ -52,12 +53,12 @@ const Root: folder = {
           executable: true,
         }
       ],
-      folders: [],
+      directories: [],
     },
     {
       name: "Users",
       files: [],
-      folders: [
+      directories: [
         {
           name: "admin",
           files: [
@@ -67,19 +68,20 @@ const Root: folder = {
               executable: true, // 隠しコマンド
             },
           ],
-          folders: [],
+          directories: [],
           noPermission: true,
         },
         {
           name: "mattsunkun",
+          isHome: true,
           files: [
             {
               name: "matshrc",
-              contents: "えいりあす 猫=cat",
+              contents: "えいりあす 猫=cat;いきすぽーと ぱす=/bin",
               hidden: true,
             },
           ],
-          folders: [
+          directories: [
             // スキルとか．
           ],
         }
