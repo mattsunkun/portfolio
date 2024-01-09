@@ -1,10 +1,10 @@
 
 import { Grid, Typography } from "@mui/material";
 import Card from "../components/Card";
-import abilities, { eKinds } from "../data";
+// import abilities, { eKinds } from "../data";
 import LineSection from "../components/LineSection";
 
-const GridSkills: React.FC<{ kind: eKinds }> = (props) => {
+const GridSkills: React.FC<{}> = (props) => {
 
   return (
     <>
