@@ -83,6 +83,12 @@ const Root: directory = {
           ],
           directories: [
             // スキルとか．
+            {
+              name: "skills",
+              files: [],
+              directories: [],
+
+            },
           ],
         }
       ]

@@ -6,10 +6,22 @@ export default class clsMatsh {
   private cstrUsers: string = "Users";
   private cstrHome: string = "mattsunkun";
 
-  dirsCurrent: directory[];
+  _dirsCurrent: directory[];
   constructor(public _dirRoot: directory) {
-    this.dirsCurrent = this.dirsHome;
+    this._dirsCurrent = this.dirsHome;
 
+  }
+
+  private set dirsCurrent(dirsNew: directory[]) {
+    this._dirsCurrent = dirsNew;
+  }
+
+  private isSame(dir1: directory[], dir2: directory[]): boolean {
+    return JSON.stringify(dir1) === JSON.stringify(dir2);
+  }
+
+  public get dirsCurrent(): directory[] {
+    return this._dirsCurrent;
   }
 
   // root
@@ -54,8 +66,11 @@ export default class clsMatsh {
   private getDirs(strsDir: string[]): directory[] {
 
     let agents = strsDir[0] !== "/" ? JSON.parse(JSON.stringify(this.dirsCurrent)) : this.dirsRoot;
+
     for (let i = 0; i < strsDir.length; i++) {
       switch (strsDir[i]) {
+        case "/":
+          break;
         case "":
           break;
         case ".":
@@ -84,7 +99,7 @@ export default class clsMatsh {
 
   public pwd(isTilde: boolean): string {
     let ans = "";
-    if (this.dirsCurrent === this.dirsRoot) {
+    if (this.isSame(this.dirsCurrent, this.dirsRoot)) {
       ans = "/";
     } else {
       this.dirsCurrent.forEach((dir, ind) => {
@@ -94,9 +109,8 @@ export default class clsMatsh {
         }
       })
     }
-
     if (isTilde) {
-      if (this.dirsCurrent === this.dirsHome) {
+      if (this.isSame(this.dirsCurrent, this.dirsHome)) {
         ans = "~";
       } else {
 
@@ -109,6 +123,8 @@ export default class clsMatsh {
       }
     }
 
+    // console.log(this.dirsCurrent)
+    // console.log(ans)
     return ans
   }
 
@@ -122,23 +138,33 @@ export default class clsMatsh {
     return (ans === undefined) ? this.notDirOrFile("cat", strsFile, true) : ans;
   }
 
-  public cd() {
-
+  public cd(strsPath: string[]): string {
+    const dirsNew = this.getDirs(strsPath);
+    if (dirsNew) {
+      this.dirsCurrent = dirsNew;
+      return "";
+    } else {
+      return this.notDirOrFile("cd", strsPath, false);
+    }
   }
 
   public ls(strsPath: string[]): string {
+    if (getTail(strsPath) !== "/") {
+      strsPath = [...strsPath, "/"];
+    }
     const ans = this.getCandidates(getTail(this.getDirs(strsPath.slice(0, strsPath.length - 1))), "", true)[1];
     return (ans === undefined) ? this.notDirOrFile("ls", strsPath, false) : ans.join(' ');
   }
 
-  public which() {
-
+  public which(str: string[]): string {
+    console.log(this.dirsCurrent)
+    return ""
   }
 
   // 引数が""のときは，
   private getCandidates(dirNow: directory, strPart: string, isFilable: boolean): [boolean, string[]] {
     // 0がfalsyだから，比較演算子を使う．
-    if (strPart === "") {
+    if (strPart === "/") {
       strPart = "[^.]";
     }
     const regexPart = new RegExp(`^${strPart}.*`);
@@ -148,8 +174,8 @@ export default class clsMatsh {
     const fileNames: string[] = dirNow.files
       .filter(file => regexPart.test(file.name))
       .map(file => file.name)
-    // console.log(dirNames)
     const includesFile: boolean = isFilable && (fileNames.length !== 0);
+
     return [includesFile,
       [...dirNames, ...includesFile ? fileNames : []]
     ]
@@ -158,18 +184,11 @@ export default class clsMatsh {
 
   // 最後が""の時は，全部候補を投げるよ．
   public tabDirComplement(strsRelDir: string[], isFilable: boolean): [boolean, string[]] {
-    // console.log(this.getDirs(strsRelDir), strsRelDir.length)
-    let a = this.getCandidates(
+    return this.getCandidates(
       getTail(this.getDirs(getNoTail(strsRelDir))),
       getTail(strsRelDir),
       isFilable
     );
-    let b = getTail(this.getDirs(getNoTail(strsRelDir)))
-    // console.log(b)
-    // console.log(a)
-    // console.log(getTail(strsRelDir))
-    // console.log(strsRelDir)
-    return a;
   }
 
   // /binから検索しているだけです．

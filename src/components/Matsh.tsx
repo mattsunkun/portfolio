@@ -8,9 +8,10 @@ import clsMatsh from '../functions/matsh';
 import clsParse from '../functions/parse';
 
 
+const matsh = new clsMatsh(Root);
+
 const Matsh = () => {
 
-  const matsh = new clsMatsh(Root);
 
   const typographyRef = useRef<HTMLDivElement | null>(null);
   const textFieldRef = useRef<HTMLInputElement | null>(null);
@@ -34,7 +35,9 @@ const Matsh = () => {
     textFieldRef.current?.focus();
   }, []);// 第二引数が空の場合、コンポーネントがマウントされたときだけuseEffectが実行されます
 
-
+  useEffect(() => {
+    // console.log(matsh.dirsCurrent);
+  }, [matsh.dirsCurrent])
   return (
     <>
       <Paper
@@ -89,11 +92,15 @@ const Matsh = () => {
                       setOutputs(`${historyWithPrompt}\n${matsh.cat(parse.strsPath)}`)
                       break;
                     case "cd":
+
+                      setOutputs(`${historyWithPrompt}\n${matsh.cd(parse.strsPath)}`)
+
                       break;
                     case "ls":
                       setOutputs(`${historyWithPrompt}\n${matsh.ls(parse.strsPath)}`)
                       break;
                     case "which":
+                      setOutputs(`${historyWithPrompt}\n${matsh.which(parse.strsPath)}`)
                       break;
                     case "":
                       setOutputs(`${historyWithPrompt}`);
@@ -109,7 +116,8 @@ const Matsh = () => {
                   break;
                 case "Tab": {
                   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
-                  console.table(parse)
+                  // console.table(parse)
+                  console.table(matsh.dirsCurrent);
 
                   if (parse.numTokens === 1) {
                     const strsExeComp = matsh.tabExeComplement(parse.strCommand);
