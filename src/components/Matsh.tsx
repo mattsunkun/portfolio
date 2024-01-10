@@ -5,6 +5,58 @@ import { Box, InputAdornment, Paper, TextField, Typography } from '@mui/material
 import Root, { directory, file } from '../data';
 import { homedir } from 'os';
 
+const getTail = <T,>(arr: T[]): T => {
+  // return (arr.length !== 0) ?
+  //   arr[arr.length - 1] :
+  //   undefined;
+  return arr[arr.length - 1];
+};
+class clsParse {
+  public numTokens: number;
+  public strCommand: string;
+  public strsOption: string[];
+  public strsPath: string[];
+  public numPathDepth: number;
+  public get strPathEd(): string { return this.strsPath[this.numPathDepth - 1] }
+  public isOptionError: boolean;
+
+  constructor(strRawCommand: string) {
+    const strsToken: string[] = strRawCommand.split(/\s+/);
+    this.numTokens = strsToken.length;
+    // command
+    this.strCommand = strsToken[0];
+
+    // option
+    this.strsOption = [];
+    this.isOptionError = false;
+    for (let i = 1; i < this.numTokens; i++) {
+      if ((/^\-.+/).test(strsToken[i])) {
+        this.strsOption = this.strsOption.concat(
+          ...strsToken[i].replace(/^-/, '').split('')
+        )
+      } else {
+        if (i !== this.numTokens - 1) this.isOptionError = true;
+      }
+    }
+
+    // path
+    const strPathable = strsToken[this.numTokens - 1];
+
+
+    if ((this.numTokens === 1) || (/^\-.+/).test(strPathable)) {
+      // トークンが一つor最後がoptionならば，空文字とする．
+      this.strsPath = [];
+    } else {
+      this.strsPath = strPathable.split(/\/+/);
+    }
+
+    this.numPathDepth = this.strsPath.length;
+
+
+  }
+}
+
+
 class clsMatsh {
   private cstrUsers: string = "Users";
   private cstrHome: string = "mattsunkun";
@@ -12,8 +64,6 @@ class clsMatsh {
   dirsCurrent: directory[];
   constructor(public _dirRoot: directory) {
     this.dirsCurrent = this.dirsHome;
-    console.log(this.dirsCurrent);
-    // console.log(_dirRoot);
 
   }
 
@@ -26,56 +76,59 @@ class clsMatsh {
   get dirsHome(): directory[] {
     const dirUsers = this.getNextDir(this._dirRoot, this.cstrUsers);
     const dirHome = dirUsers ? this.getNextDir(dirUsers, this.cstrHome) : null;
-    // console.warn(dirUsers, dirHome)
     if (dirUsers && dirHome) {
       return [this._dirRoot, dirUsers, dirHome];
     } else {
       // 実行されないはず．
+      console.error("Home Directory Is Not PROPER", dirUsers, dirHome);
       return [];
     }
   }
 
   // parent
-  get dirsParent(): directory[] {
-    if (this.dirsCurrent.length === 1) {
+  private parentify(dirsMe: directory[]) {
+    if (dirsMe.length === 1) {
       // 現在がrootのとき
-      return this.dirsRoot;
+      dirsMe = this.dirsRoot;
+
     } else {
       // 通常時
-      return this.dirsCurrent.slice(0, -1);
+      dirsMe.pop();
+      // dirsMe.slice(0, -1); // これは元の配列を変えない．
     }
   }
 
+  getDirs(strsDir: string[]): directory[] {
+    let agents = strsDir[0] ? this.dirsCurrent : this.dirsRoot;
+
+    for (let i = 0; i < strsDir.length; i++) {
+
+      switch (strsDir[i]) {
+        case "":
+          break;
+        case ".":
+          break;
+        case "..":
+          this.parentify(agents);
+          break;
+        default:
+          break;
+      }
+      const dirNew = this.getNextDir(getTail(agents), strsDir[i]);
+      if (dirNew) {
+        agents.push(dirNew);
+      } else {
+        // 早期リターン
+        return []
+
+      }
+    }
+    return agents;
+  }
 
 
-  // public setByAbsStrs(strsNewDir: string[]): boolean {
-  //   // エラーが起きたとき用に，最初を記録する．
-  //   const dirBackUp = this.dirCurrent;
-  //   // 最初にルートにする．
-  //   this.dirCurrent = this.root;
-  //   // 順番に絶対パスを辿る．
-  //   strsNewDir.forEach(strNextDir => {
-  //     // 次のパスを検索する．
-  //     const dirNext = this.getNextDir(this.dirCurrent, strNextDir);
-  //     if (dirNext) {
-  //       /// 次のDirを発見した．
-  //       this.dirCurrent = dirNext;
-  //     } else {
-  //       /// 参照が存在しないエラー
-  //       // 元に戻す．
-  //       this.dirCurrent = dirBackUp;
-  //       return false;
-  //     }
-  //   });
-  //   // 正常終了
-  //   return true;
-  // }
-
-  // public setByRelStrs(strsRel)
-
-
-  private getNextDir(nowDir: directory, nextDirName: string) {
-    return nowDir.directories.find(directory => (directory.name === nextDirName)) || null;
+  private getNextDir(nowDir: directory, nextDirName: string): directory | undefined {
+    return nowDir.directories.find(directory => (directory.name === nextDirName));
   }
 
 
@@ -110,19 +163,107 @@ class clsMatsh {
     return ans
   }
 
-  public cat() {
+  private noDir(strCommand: string, strsPath: string[], isWantFile: boolean): string {
+    const strPath: string = strsPath.join('/');
+    return `${strCommand}: NOT a ${isWantFile ? "file" : "directory"}: ${strsPath.join('/')}`
+  }
 
+  public cat(strsFile: string[]): string {
+    const ans = getTail(this.getDirs(strsFile.slice(0, strsFile.length - 1)))?.files.find(file => file.name === getTail(strsFile))?.contents;
+
+    return (ans === undefined) ? this.noDir("cat", strsFile, true) : ans;
   }
 
   public cd() {
 
   }
 
-  public ls() {
-  }
+  // public ls(str): directory {
+  //   return this.dirsCurrent[-1].files.map(val => val.name);
+  // }
 
   public which() {
 
+  }
+
+  // 引数が""のときは，
+  private getCandidates(dirNow: directory, strPart: string, isFilable: boolean): string[] {
+    // 0がfalsyだから，比較演算子を使う．
+    if (strPart === "") {
+      strPart = "[^.]";
+    }
+    const regexPart = new RegExp(`^${strPart}.*`);
+    return [
+      ...dirNow.directories
+        .filter(dir => regexPart.test(dir.name))
+        .map(dir => dir.name),
+      ...isFilable ?
+        dirNow.files
+          .filter(file => regexPart.test(file.name))
+          .map(file => file.name) :
+        []
+    ]
+
+  }
+
+  // 最後が""の時は，全部候補を投げるよ．
+  public tabDirComplement(strsRelDir: string[], isFilable: boolean): string[] {
+    let dirsVirtual: directory[] = JSON.parse(JSON.stringify(this.dirsCurrent));
+    const numLen = strsRelDir.length
+    if (strsRelDir[0] === "") {
+      strsRelDir[0] = '/';
+    }
+    for (let i = 0; i < numLen; i++) {
+      switch (strsRelDir[i]) {
+        case "/": {
+          if (i === 0) {
+            // ルートに移動．
+            dirsVirtual = this.dirsRoot;
+          } else {
+            // none`
+          }
+        }
+
+          break;
+
+        case "..":
+          this.parentify(dirsVirtual);
+          break;
+
+        case ".":
+          break;
+
+        default:
+          {
+
+            if (i !== numLen - 1) {
+
+              const dirNew = this.getNextDir(getTail(dirsVirtual), strsRelDir[i]);
+              if (dirNew) {
+                dirsVirtual.push(dirNew);
+              } else {
+                // 早期リターン
+                return [];
+              }
+            } else {
+              return this.getCandidates(getTail(dirsVirtual), strsRelDir[i], isFilable);
+            }
+          }
+          break;
+
+      }
+    }
+
+    return [];
+  }
+
+  // /binから検索しているだけです．
+  public tabExeComplement(strExe: string): string[] {
+    return this.getCandidates(
+      this._dirRoot.directories
+        .filter(dir => dir.name === "bin")[0],
+      strExe,
+      true);
   }
 
 
@@ -136,9 +277,11 @@ const Matsh = () => {
   const typographyRef = useRef<HTMLDivElement | null>(null);
   const textFieldRef = useRef<HTMLInputElement | null>(null);
 
-  const [outputs, setOutputs] = useState<string>("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+  const [history, setHistory] = useState<string[]>([]);
+  const [histRef, setHistoryRef] = useState<number>(0);
+  const [outputs, setOutputs] = useState<string>("");
   const [inputCommand, setInputCommand] = useState<string>("");
-  // const [directory, setDirectory] = useState<string>("root/Users/mattsunkun/");
+  const [complements, setComplements] = useState<string>("");
 
   useEffect(() => {
     // Enterが押されたときにTypographyを一番下までスクロールする
@@ -175,7 +318,7 @@ const Matsh = () => {
           >
             {outputs.split('\n').map((line, index) => (
               <React.Fragment key={index}>
-                {matsh.pwd(true)} $ {line}
+                {line}
                 <br />
               </React.Fragment>
             ))}
@@ -187,29 +330,110 @@ const Matsh = () => {
             value={inputCommand}
             onChange={(event) => setInputCommand(event.target.value)}
             onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                // コマンドを出力に登録
+
+              /// 長すぎるコマンドは解釈できない
+              /// 全角空白はなんか特殊文字使いたい
 
 
-                if (inputCommand === "pwd") {
-                  setOutputs(`${outputs}\n${inputCommand}\n${matsh.pwd(false)}`)
-                  console.log(matsh.dirsCurrent);
+              const parse = new clsParse(inputCommand);
+              console.log(parse)
+              switch (event.key) {
+                case "Enter": {
+                  const historyWithPrompt = `${outputs}\n${matsh.pwd(true)}$ ${inputCommand}`;
+                  setHistory([...history, inputCommand]);
+                  setHistoryRef(0);
+                  // 出力
+                  switch (parse.strCommand) {
+                    case "pwd":
+                      setOutputs(`${historyWithPrompt}\n${matsh.pwd(false)}`)
+                      break;
+                    case "cat":
+                      setOutputs(`${historyWithPrompt}\n${matsh.cat(parse.strsPath)}`)
+                      break;
+                    case "cd":
+                      break;
+                    case "ls":
+                      break;
+                    case "which":
+                      break;
+
+                    default:
+                      setOutputs(`${historyWithPrompt}\nmatsh: command not found: ${parse.strCommand}`);
+                      break;
+                  }
+
+                  // コマンドをクリアする．
+                  setInputCommand("");
                 }
-                else {
-                  setOutputs(`${outputs}\n${inputCommand}`)
+                  break;
+                case "Tab": {
+                  event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
+
+                  if (parse.numTokens === 1) {
+                    const strsExeComp = matsh.tabExeComplement(parse.strCommand);
+                    switch (strsExeComp.length) {
+                      case 0:
+                        setComplements("couldnt anticipate command");
+                        break;
+                      case 1:
+                        setInputCommand(`${strsExeComp[0]} `)
+                        break;
+                      default:
+                        setComplements(strsExeComp.join(' '));
+                        break;
+                    }
+                  } else {
+                    const strsDirComp = matsh.tabDirComplement(
+                      parse.strsPath,
+                      (/^(pwd|cd|ls|which)$/).test(parse.strCommand) === false,
+                    );
+                    switch (strsDirComp.length) {
+                      case 0:
+                        setComplements("couldnt anticipate directory or file");
+                        break;
+                      case 1:
+                        setInputCommand(`${inputCommand.replace(new RegExp(`${parse.strPathEd}$`), `${strsDirComp[0]}`)}`);
+                        break;
+                      default:
+                        setComplements(strsDirComp.join(' '));
+                        break;
+
+                    }
+                  }
+
 
                 }
+                  break;
+                case "ArrowUp": {
+                  setHistoryRef(Math.min(histRef + 1, history.length - 1));
+                  setInputCommand(history[history.length - histRef - 1])
+                }
+                  break;
+                case "ArrowDown": {
+                  setHistoryRef(Math.max(histRef - 1, 0));
+                  setInputCommand(history[history.length - histRef - 1])
+                }
+                  break;
+                default:
+                  setComplements("");
+                  break;
 
-
-                // コマンドをなくす
-                setInputCommand("");
               }
             }}
             placeholder="command here"
             InputProps={{
-              startAdornment: <InputAdornment position="start">{matsh.pwd(true)} $</InputAdornment>,
+              startAdornment: <InputAdornment position="start">{matsh.pwd(true)}$</InputAdornment>,
+              autoComplete: "off", // 候補を見せないようにする．
             }}
           />
+          {/* 補完 */}
+          <Typography
+            paddingX={2}
+            marginY={3}
+            ref={typographyRef}
+          >
+            {complements}
+          </Typography>
         </Box>
 
       </Paper>

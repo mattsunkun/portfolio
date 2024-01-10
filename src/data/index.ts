@@ -39,7 +39,7 @@ const Root: directory = {
         },
         {
           name: "cd",
-          contents: "binary of the ちぇんじ　ざ　でぃれくとり",
+          contents: "usually build in command butbinary of the ちぇんじ　ざ　でぃれくとり",
           executable: true,
         },
         {
@@ -76,8 +76,8 @@ const Root: directory = {
           isHome: true,
           files: [
             {
-              name: "matshrc",
-              contents: "えいりあす 猫=cat;いきすぽーと ぱす=/bin",
+              name: ".matshrc",
+              contents: "えいりあす 猫=cat;いきすぽーと ぱす=/bin だけど，オブジェクトの参照的なお話で，directoryは書き換えできない．",
               hidden: true,
             },
           ],
