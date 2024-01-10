@@ -6,3 +6,6 @@ export const getTail = <T,>(arr: T[]): T => {
   return arr[arr.length - 1];
 };
 
+export const getNoTail = <T,>(arr: T[]): T[] => {
+  return arr.slice(0, arr.length - 1);
+}

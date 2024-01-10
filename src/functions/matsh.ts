@@ -1,6 +1,6 @@
 
 import Root, { directory, file } from '../data';
-import { getTail } from '../functions/utils';
+import { getTail, getNoTail } from '../functions/utils';
 
 export default class clsMatsh {
   private cstrUsers: string = "Users";
@@ -52,8 +52,8 @@ export default class clsMatsh {
   /// string[] -> directory[]
   /// 絶対でなければ，current起点とする．
   private getDirs(strsDir: string[]): directory[] {
-    let agents = strsDir[0] ? this.dirsCurrent : this.dirsRoot;
 
+    let agents = strsDir[0] !== "/" ? JSON.parse(JSON.stringify(this.dirsCurrent)) : this.dirsRoot;
     for (let i = 0; i < strsDir.length; i++) {
       switch (strsDir[i]) {
         case "":
@@ -126,9 +126,10 @@ export default class clsMatsh {
 
   }
 
-  // public ls(str): directory {
-  //   return this.dirsCurrent[-1].files.map(val => val.name);
-  // }
+  public ls(strsPath: string[]): string {
+    const ans = this.getCandidates(getTail(this.getDirs(strsPath.slice(0, strsPath.length - 1))), "", true)[1];
+    return (ans === undefined) ? this.notDirOrFile("ls", strsPath, false) : ans.join(' ');
+  }
 
   public which() {
 
@@ -147,7 +148,7 @@ export default class clsMatsh {
     const fileNames: string[] = dirNow.files
       .filter(file => regexPart.test(file.name))
       .map(file => file.name)
-
+    // console.log(dirNames)
     const includesFile: boolean = isFilable && (fileNames.length !== 0);
     return [includesFile,
       [...dirNames, ...includesFile ? fileNames : []]
@@ -157,54 +158,18 @@ export default class clsMatsh {
 
   // 最後が""の時は，全部候補を投げるよ．
   public tabDirComplement(strsRelDir: string[], isFilable: boolean): [boolean, string[]] {
-    let dirsVirtual: directory[] = JSON.parse(JSON.stringify(this.dirsCurrent));
-    const numLen = strsRelDir.length
-    if (strsRelDir[0] === "") {
-      strsRelDir[0] = '/';
-    }
-    for (let i = 0; i < numLen; i++) {
-      switch (strsRelDir[i]) {
-        case "/": {
-          if (i === 0) {
-            // ルートに移動．
-            dirsVirtual = this.dirsRoot;
-          } else {
-            // none`
-          }
-        }
-
-          break;
-
-        case "..":
-          this.parentify(dirsVirtual);
-          break;
-
-        case ".":
-          break;
-
-        default:
-          {
-
-            if (i !== numLen - 1) {
-
-              const dirNew = this.getChildDir(getTail(dirsVirtual), strsRelDir[i]);
-              if (dirNew) {
-                dirsVirtual.push(dirNew);
-              } else {
-                // 早期リターン
-                return [false, []];
-              }
-            } else {
-              return this.getCandidates(getTail(dirsVirtual), strsRelDir[i], isFilable);
-            }
-          }
-          break;
-
-      }
-    }
-
-    console.error("matsh here should not be")
-    return [false, []];
+    // console.log(this.getDirs(strsRelDir), strsRelDir.length)
+    let a = this.getCandidates(
+      getTail(this.getDirs(getNoTail(strsRelDir))),
+      getTail(strsRelDir),
+      isFilable
+    );
+    let b = getTail(this.getDirs(getNoTail(strsRelDir)))
+    // console.log(b)
+    // console.log(a)
+    // console.log(getTail(strsRelDir))
+    // console.log(strsRelDir)
+    return a;
   }
 
   // /binから検索しているだけです．

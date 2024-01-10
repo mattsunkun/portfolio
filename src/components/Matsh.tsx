@@ -75,7 +75,6 @@ const Matsh = () => {
 
 
               const parse = new clsParse(inputCommand);
-              console.log(parse)
               switch (event.key) {
                 case "Enter": {
                   const historyWithPrompt = `${outputs}\n${matsh.pwd(true)}$ ${inputCommand}`;
@@ -92,6 +91,7 @@ const Matsh = () => {
                     case "cd":
                       break;
                     case "ls":
+                      setOutputs(`${historyWithPrompt}\n${matsh.ls(parse.strsPath)}`)
                       break;
                     case "which":
                       break;
@@ -109,6 +109,7 @@ const Matsh = () => {
                   break;
                 case "Tab": {
                   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
+                  console.table(parse)
 
                   if (parse.numTokens === 1) {
                     const strsExeComp = matsh.tabExeComplement(parse.strCommand);
@@ -147,12 +148,13 @@ const Matsh = () => {
                   break;
                 case "ArrowUp": {
                   setHistoryRef(Math.min(histRef + 1, history.length - 1));
-                  setInputCommand(history[history.length - histRef - 1])
+                  setInputCommand(history.length ? history[history.length - histRef - 1] : "")
                 }
                   break;
                 case "ArrowDown": {
                   setHistoryRef(Math.max(histRef - 1, 0));
-                  setInputCommand(history[history.length - histRef - 1])
+                  // 履歴がない時のエラー回避
+                  setInputCommand(history.length ? history[history.length - histRef - 1] : "")
                 }
                   break;
                 default:
