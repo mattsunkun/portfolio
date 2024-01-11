@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, InputAdornment, Paper, TextField, Typography } from '@mui/material';
 
-import Root, { directory, file } from '../data';
+import Root, { directory, file } from '../data/Root';
 import { getTail } from '../functions/utils';
 import clsMatsh from '../functions/matsh';
 import clsParse from '../functions/parse';

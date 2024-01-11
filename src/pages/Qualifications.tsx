@@ -1,5 +1,4 @@
 
-import { eKinds } from "../data";
 import GridSkills from "../components/GridSkills";
 import { eQualification } from "../data/qualification";
 import GridQualifications from "../components/grids/GridQualifications";

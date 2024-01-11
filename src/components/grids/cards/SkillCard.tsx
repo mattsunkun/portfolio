@@ -9,8 +9,6 @@ import {
 } from "@mui/material";
 import { Box, Link } from "@mui/material";
 import React from "react";
-
-import { tAbility } from "../../../data";
 import LinkLine from "../../LinkLine";
 import { tSkill } from "../../../data/skill";
 const SkillCard: React.FC<tSkill> = (props) => {

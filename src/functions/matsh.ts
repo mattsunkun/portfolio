@@ -1,6 +1,6 @@
 
 import { escape } from 'querystring';
-import Root, { directory, file } from '../data';
+import Root, { directory, file } from '../data/Root';
 import { getTail, getNoTail, isSame, escapeRegExp } from '../functions/utils';
 
 export default class clsMatsh {
