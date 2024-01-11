@@ -10,8 +10,7 @@ import clsParse from '../functions/parse';
 
 const matsh = new clsMatsh(Root);
 
-const Matsh = () => {
-
+const Matsh: React.FC<{ height: string }> = (props) => {
 
   const typographyRef = useRef<HTMLDivElement | null>(null);
   const textFieldRef = useRef<HTMLInputElement | null>(null);
@@ -27,6 +26,7 @@ const Matsh = () => {
     // outputs変更時にスクロールする．
     if (typographyRef.current) {
       typographyRef.current.scrollTop = typographyRef.current.scrollHeight;
+      window.scroll(0, 0)
     }
   }, [outputs]);
 
@@ -36,8 +36,11 @@ const Matsh = () => {
   }, []);// 第二引数が空の場合、コンポーネントがマウントされたときだけuseEffectが実行されます
 
   useEffect(() => {
-    // console.log(matsh.dirsCurrent);
-  }, [matsh.dirsCurrent])
+    if (textFieldRef.current) {
+      const length = textFieldRef.current.value.length;
+      textFieldRef.current.setSelectionRange(length, length);
+    }
+  }, [histRef])
   return (
     <>
       <Paper
@@ -48,13 +51,14 @@ const Matsh = () => {
 
           {/* 出力 */}
           <Typography
+            variant="h5"
             paddingX={2}
             marginY={3}
             sx={{
               overflow: "auto",
               overflowY: "scroll",
-              minHeight: "60vh",
-              maxHeight: "60vh", // Set a maximum height to enable scrolling        
+              minHeight: props.height,
+              maxHeight: props.height, // Set a maximum height to enable scrolling        
             }}
             ref={typographyRef}
           >
@@ -80,27 +84,30 @@ const Matsh = () => {
               const parse = new clsParse(inputCommand);
               switch (event.key) {
                 case "Enter": {
-                  const historyWithPrompt = `${outputs}\n${matsh.pwd(true)}$ ${inputCommand}`;
+                  const historyWithPrompt = `${outputs}${matsh.pwd(true)}$ ${inputCommand}`;
                   setHistory([...history, ...inputCommand ? [inputCommand] : []]);
                   setHistoryRef(0);
                   // 出力
                   switch (parse.strCommand) {
                     case "pwd":
-                      setOutputs(`${historyWithPrompt}\n${matsh.pwd(false)}`)
+                      setOutputs(`${historyWithPrompt}${matsh.pwd(false)}`)
                       break;
                     case "cat":
-                      setOutputs(`${historyWithPrompt}\n${matsh.cat(parse.strsPath)}`)
+                      setOutputs(`${historyWithPrompt}${matsh.cat(parse.strsPath)}`)
                       break;
                     case "cd":
 
-                      setOutputs(`${historyWithPrompt}\n${matsh.cd(parse.strsPath)}`)
+                      setOutputs(`${historyWithPrompt}${matsh.cd(parse.strsPath)}`)
 
                       break;
                     case "ls":
-                      setOutputs(`${historyWithPrompt}\n${matsh.ls(parse.strsPath)}`)
+                      setOutputs(`${historyWithPrompt}${matsh.ls(parse.strsPath)}`)
                       break;
                     case "which":
-                      setOutputs(`${historyWithPrompt}\n${matsh.which(parse.strsPath)}`)
+                      setOutputs(`${historyWithPrompt}${matsh.which(parse.strCommand)}`)
+                      break;
+                    case "clear":
+                      setOutputs("");
                       break;
                     case "":
                       setOutputs(`${historyWithPrompt}`);
@@ -116,9 +123,8 @@ const Matsh = () => {
                   break;
                 case "Tab": {
                   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
-                  // console.table(parse)
-                  console.table(matsh.dirsCurrent);
 
+                  // 一つ目のトークンはコマンドを取得する．
                   if (parse.numTokens === 1) {
                     const strsExeComp = matsh.tabExeComplement(parse.strCommand);
                     switch (strsExeComp.length) {
@@ -155,11 +161,13 @@ const Matsh = () => {
                 }
                   break;
                 case "ArrowUp": {
+                  event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
                   setHistoryRef(Math.min(histRef + 1, history.length - 1));
                   setInputCommand(history.length ? history[history.length - histRef - 1] : "")
                 }
                   break;
                 case "ArrowDown": {
+                  event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
                   setHistoryRef(Math.max(histRef - 1, 0));
                   // 履歴がない時のエラー回避
                   setInputCommand(history.length ? history[history.length - histRef - 1] : "")
@@ -181,7 +189,7 @@ const Matsh = () => {
           <Typography
             paddingX={2}
             marginY={3}
-            ref={typographyRef}
+          // ref={typographyRef}
           >
             {complements}
           </Typography>

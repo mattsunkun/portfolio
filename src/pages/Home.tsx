@@ -10,8 +10,8 @@ export const Home = () => {
     <>
       <Box
         // marginY={3} 
-        paddingY={5}>
-        <Matsh />
+        paddingTop={5}>
+        <Matsh height="60vh" />
       </Box>
 
     </>

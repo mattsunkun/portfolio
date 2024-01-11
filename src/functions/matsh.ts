@@ -1,6 +1,7 @@
 
+import { escape } from 'querystring';
 import Root, { directory, file } from '../data';
-import { getTail, getNoTail } from '../functions/utils';
+import { getTail, getNoTail, isSame, escapeRegExp } from '../functions/utils';
 
 export default class clsMatsh {
   private cstrUsers: string = "Users";
@@ -14,10 +15,6 @@ export default class clsMatsh {
 
   private set dirsCurrent(dirsNew: directory[]) {
     this._dirsCurrent = dirsNew;
-  }
-
-  private isSame(dir1: directory[], dir2: directory[]): boolean {
-    return JSON.stringify(dir1) === JSON.stringify(dir2);
   }
 
   public get dirsCurrent(): directory[] {
@@ -65,8 +62,18 @@ export default class clsMatsh {
   /// 絶対でなければ，current起点とする．
   private getDirs(strsDir: string[]): directory[] {
 
-    let agents = strsDir[0] !== "/" ? JSON.parse(JSON.stringify(this.dirsCurrent)) : this.dirsRoot;
-
+    let agents;// = strsDir[0] !== "/" ? JSON.parse(JSON.stringify(this.dirsCurrent)) : this.dirsRoot;
+    switch (strsDir[0]) {
+      case "/":
+        agents = this.dirsRoot;
+        break;
+      case "~":
+        agents = this.dirsHome;
+        break;
+      default:
+        agents = JSON.parse(JSON.stringify(this.dirsCurrent));
+        break;
+    }
     for (let i = 0; i < strsDir.length; i++) {
       switch (strsDir[i]) {
         case "/":
@@ -99,7 +106,7 @@ export default class clsMatsh {
 
   public pwd(isTilde: boolean): string {
     let ans = "";
-    if (this.isSame(this.dirsCurrent, this.dirsRoot)) {
+    if (isSame(this.dirsCurrent, this.dirsRoot)) {
       ans = "/";
     } else {
       this.dirsCurrent.forEach((dir, ind) => {
@@ -110,7 +117,7 @@ export default class clsMatsh {
       })
     }
     if (isTilde) {
-      if (this.isSame(this.dirsCurrent, this.dirsHome)) {
+      if (isSame(this.dirsCurrent, this.dirsHome)) {
         ans = "~";
       } else {
 
@@ -123,47 +130,64 @@ export default class clsMatsh {
       }
     }
 
-    // console.log(this.dirsCurrent)
-    // console.log(ans)
-    return ans
+    return `\n${ans}`
   }
 
   private notDirOrFile(strCommand: string, strsPath: string[], isWantFile: boolean): string {
     const strPath: string = strsPath.join('/');
-    return `${strCommand}: NOT a ${isWantFile ? "file" : "directory"}: ${strsPath.join('/')}`
+    return `\n${strCommand}: NOT a ${isWantFile ? "file" : "directory"}: ${strsPath.join('/')}`
   }
 
   public cat(strsFile: string[]): string {
     const ans = getTail(this.getDirs(strsFile.slice(0, strsFile.length - 1)))?.files.find(file => file.name === getTail(strsFile))?.contents;
-    return (ans === undefined) ? this.notDirOrFile("cat", strsFile, true) : ans;
+    return (ans === undefined) ? this.notDirOrFile("cat", strsFile, true) : `\n${ans}`;
   }
 
   public cd(strsPath: string[]): string {
+    // [""], ['']の違いがあるかも
+    if (isSame(strsPath, []) || isSame(strsPath, [""])) {
+      // ~に移動する．
+      strsPath = ["/", this.cstrUsers, this.cstrHome];
+    }
     const dirsNew = this.getDirs(strsPath);
-    if (dirsNew) {
+    if (isSame(dirsNew, [])) {
+      return this.notDirOrFile("cd", strsPath, false);
+
+    } else {
+
       this.dirsCurrent = dirsNew;
       return "";
-    } else {
-      return this.notDirOrFile("cd", strsPath, false);
     }
   }
 
   public ls(strsPath: string[]): string {
+    // 末尾を/にする
     if (getTail(strsPath) !== "/") {
       strsPath = [...strsPath, "/"];
     }
     const ans = this.getCandidates(getTail(this.getDirs(strsPath.slice(0, strsPath.length - 1))), "", true)[1];
-    return (ans === undefined) ? this.notDirOrFile("ls", strsPath, false) : ans.join(' ');
+    return (ans === undefined) ? this.notDirOrFile("ls", strsPath, false) : `\n${ans.join(' ')}`;
   }
 
-  public which(str: string[]): string {
-    console.log(this.dirsCurrent)
-    return ""
+  public which(strCommand: string): string {
+    const isBin = this.getCandidates(
+      this._dirRoot.directories
+        .filter(dir => dir.name === "bin")[0],
+      "",
+      true)[1]
+      .includes(strCommand);
+
+    if (isBin) {
+      return `\n/bin/${strCommand}`;
+    } else {
+      return `\n${strCommand}not found`;
+    }
   }
 
   // 引数が""のときは，
   private getCandidates(dirNow: directory, strPart: string, isFilable: boolean): [boolean, string[]] {
     // 0がfalsyだから，比較演算子を使う．
+    strPart = escapeRegExp(strPart);
     if (strPart === "/") {
       strPart = "[^.]";
     }
@@ -176,6 +200,8 @@ export default class clsMatsh {
       .map(file => file.name)
     const includesFile: boolean = isFilable && (fileNames.length !== 0);
 
+    // console.log(strPart)
+    // console.table(dirNames)
     return [includesFile,
       [...dirNames, ...includesFile ? fileNames : []]
     ]

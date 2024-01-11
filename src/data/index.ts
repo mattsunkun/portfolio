@@ -12,10 +12,13 @@ export type directory = {
 export type file = {
   name: string,
   contents: string,
-  executable?: boolean,
-  hidden?: boolean,
-  // noPermission?: boolean,
+  meta?: extention,
+}
 
+export type extention = {
+  img: string,
+  write: Date,
+  urls: string[],
 }
 
 const Root: directory = {
@@ -30,29 +33,33 @@ const Root: directory = {
         {
           name: "pwd",
           contents: "ぱすわーど笑笑",
-          executable: true,
         },
         {
           name: "cat", // 猫とかをエイリアスにしたい．
           contents: "binary of the にゃーにゃーにゃー",
-          executable: true,
         },
         {
           name: "cd",
           contents: "usually build in command butbinary of the ちぇんじ　ざ　でぃれくとり",
-          executable: true,
         },
         {
           name: "ls",
           contents: "binary of the りすと　ざ　せぐめんつ",
-          executable: true,
         },
         {
           name: "which",
-          contents: "binary of the whitch",
-          executable: true,
-        }
+          contents: "binary of the whitch 第2引数の補完がおかしいからやめた方がいいかも．",
+        },
+        {
+          name: "clear",
+          contents: "binary of the null",
+        },
       ],
+      directories: [],
+    },
+    {
+      name: ".test",
+      files: [],
       directories: [],
     },
     {
@@ -64,13 +71,13 @@ const Root: directory = {
           files: [
             {
               name: "secret",
-              contents: "ひみつ",
-              executable: true, // 隠しコマンド
+              contents: "ひみつ", // 隠しコマンド
             },
           ],
           directories: [],
           noPermission: true,
         },
+
         {
           name: "mattsunkun",
           isHome: true,
@@ -78,7 +85,6 @@ const Root: directory = {
             {
               name: ".matshrc",
               contents: "えいりあす 猫=cat;いきすぽーと ぱす=/bin だけど，オブジェクトの参照的なお話で，directoryは書き換えできない．",
-              hidden: true,
             },
           ],
           directories: [

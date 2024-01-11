@@ -1,0 +1,8 @@
+/* fonts.css */
+@font-face {
+  font-family: "HackGen* NF";
+  src: url('HackGen35ConsoleNF-Bold.ttf') format('truetype');
+  /* フォントのパスを指定 */
+  font-weight: normal;
+  font-style: normal;
+}

@@ -1,0 +1,63 @@
+admin:
+
+~:
+  about:
+    info:
+      img:
+        pic1
+        pic2
+      name
+      birthday
+    experiences:
+      日光街道
+    qualifications:
+      応用情報
+      .化粧検定
+    .friends:
+      kisako
+      celychan
+  skills:
+    languages:
+      python
+    libraries:
+      requests
+    frameworks:
+      react
+    software:
+  works:
+    うにばーす
+
+
+ディレクトリ構造を完全に決定する:
+  中身を書く．
+
+skillsのmatter.jsの生成:
+  選択中のオブジェクトの説明表示．
+
+about:
+  歴史をツリーにする．
+  配置を決める．
+  expとqualを消す．
+
+しすぽんしぶにする．:
+  助けを求める．
+  ヘッダとフッターの見直し
+
+matshの改良:
+  matsh動く問題．
+  enterキーによる自動入力の修正必須．
+  一回友達にどうするか聞く．
+
+chatGPT:
+  生成してもらう．
+
+デプロイ:
+  お名前.com
+  自分のリンクのQRコード生成
+
+コマンドをアペンドしていく:
+  隠しコマンド
+  exportとかとの連携を作る．
+  rmとかシンボリックリンクを作る．
+  メタデータからのジャンプ
+    

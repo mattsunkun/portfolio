@@ -24,6 +24,8 @@ import Qualifications from './pages/Qualifications';
 import { ePage } from './pages';
 import Experiences from './pages/Experiences';
 
+import "./fonts/font.css";
+
 // keybase,qiita, zenn
 // ページの型列挙
 
@@ -46,7 +48,8 @@ const App: React.FC = () => {
       //   'Arial',
       //   'sans-serif',
       // ].join(','),
-      fontFamily: "'M PLUS 1 Code', monospace"
+      //       fontFamily: "'M PLUS 1 Code', monospace"
+      fontFamily: "HackGen* NF",
     }
   });
   return (
