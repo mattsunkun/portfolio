@@ -1,4 +1,4 @@
-import { directory } from "../..";
+import { directory } from "src/data/Root";
 import dirAbout from "./about";
 import dirSkills from "./skills";
 import dirWorks from "./works";

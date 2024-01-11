@@ -14,9 +14,9 @@ export type file = {
 }
 
 export type extention = {
-  img: string,
-  write: Date,
-  urls: string[],
+  img?: string,
+  write?: Date,
+  urls?: string[],
 }
 
 const Root: directory = {
@@ -29,7 +29,13 @@ const Root: directory = {
     {
       name: ".test",
       files: [],
-      directories: [],
+      directories: [
+        {
+          name: "error",
+          files: [],
+          directories: [],
+        }
+      ],
     },
     dirUsers,
   ],

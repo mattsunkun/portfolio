@@ -1,4 +1,4 @@
-import { directory } from "../../..";
+import { directory } from "src/data/Root";
 import dirsFrameworks from "./frameworks";
 import dirsLanguages from "./languages";
 import dirsLibraries from "./libraries";

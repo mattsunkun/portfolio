@@ -21,7 +21,8 @@ const Card: React.FC<tWork> = (props) => {
       <Paper square={false} elevation={0} className="paper"
         sx={{
           // height: "40vh",
-          height: "40vh",
+          height: "300px",
+          width: "400px",
           // width: "40vw", 
         }}
         style={{

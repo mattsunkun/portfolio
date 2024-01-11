@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Matter from "matter-js";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import dirsLanguages from "src/data/Root/Users/mattsunkun/skills/languages";
 
 const Skills = () => {
   const containerRef = useRef(undefined);
@@ -37,50 +38,62 @@ const Skills = () => {
         },
 
       });
-      const ground = Matter.Bodies.rectangle(400, 610, 810, 60, {
+      const ground = Matter.Bodies.rectangle(400, 610, 2010, 60, {
         isStatic: true,
 
       });
 
-      const circPython = Matter.Bodies.circle(500, 500, 25, {
-        // density: 0.0005,
-        // frictionAir: 0.06,
-        // restitution: 0.3,
-        // friction: 0.01,
-        render: {
-          sprite: {
-            texture: `${process.env.PUBLIC_URL}/images/icons/python.png`,
-            xScale: 1,
-            yScale: 1,
-          }
-        }
-      });
+      // const circPython = Matter.Bodies.circle(500, 500, 25, {
+      //   // density: 0.0005,
+      //   // frictionAir: 0.06,
+      //   // restitution: 0.3,
+      //   // friction: 0.01,
+      //   render: {
+      //     sprite: {
+      //       texture: `${process.env.PUBLIC_URL}/images/icons/icons8-python-48.png`,
+      //       xScale: 1,
+      //       yScale: 1,
+      //     }
+      //   }
+      // });
 
-      const myArray = [1, 2, 3, 4, 5];
+      // const myArray = [1, 2, 3, 4, 5];
       Matter.Composite.add(
         engine.world,
         [
-          boxA, boxB, circPython, ground,
+          // boxA, boxB, 
+          ground,
         ]
       );
       Matter.Composite.add(
         engine.world,
-        myArray.map(item =>
-          Matter.Bodies.circle(item * 100, item * 100, 25, {
-            // density: 0.0005,
-            // frictionAir: 0.06,
-            // restitution: 0.3,
-            // friction: 0.01,
+        dirsLanguages.files.map((file, ind) =>
+          Matter.Bodies.circle(ind * 100 + 100, 100, 50, {
             render: {
               sprite: {
-                texture: `${process.env.PUBLIC_URL}/images/icons/python.png`,
-                xScale: 1,
-                yScale: 1,
+                texture: file.meta?.img ? file.meta?.img : `${process.env.PUBLIC_URL}/images/icons/icons8-no-480.png`,
+                xScale: 0.2,
+                yScale: 0.2,
               }
             }
-          })
-        )
-      );
+          }
+          )
+          // myArray.map(item =>
+          //   Matter.Bodies.circle(item * 100, item * 100, 25, {
+          //     // density: 0.0005,
+          //     // frictionAir: 0.06,
+          //     // restitution: 0.3,
+          //     // friction: 0.01,
+          //     render: {
+          //       sprite: {
+          //         texture: `${process.env.PUBLIC_URL}/images/icons/icons8-python-48.png`,
+          //         xScale: 1,
+          //         yScale: 1,
+          //       }
+          //     }
+          //   })
+          // )
+        ));
 
       // Matter.Render.setPixelRatio(render, "auto")
       Matter.Render.run(render);
@@ -96,6 +109,15 @@ const Skills = () => {
 
   return (
     <>
+      <Typography>
+        icons by 8
+        - basic言語
+        - bash
+        - gas
+        - r
+        - latex
+        - zsh
+      </Typography>
       <Box ref={containerRef} style={{ border: "2px solid #FFF" }} />
     </>
   );

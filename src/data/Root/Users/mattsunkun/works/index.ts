@@ -1,4 +1,4 @@
-import { directory } from "../../..";
+import { directory } from "src/data/Root";
 
 const dirWorks: directory = {
   name: "work",

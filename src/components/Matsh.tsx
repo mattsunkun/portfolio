@@ -187,6 +187,8 @@ const Matsh: React.FC<{ height: string }> = (props) => {
           />
           {/* 補完 */}
           <Typography
+            variant="h5"
+
             paddingX={2}
             marginY={3}
           // ref={typographyRef}
