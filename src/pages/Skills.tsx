@@ -140,14 +140,14 @@ const Skills = () => {
         // needless
         Image by <a href="https://pixabay.com/users/patbec-27165555/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7172337">patbec</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7172337">Pixabay</a>
         <a href="https://www.flaticon.com/free-icons/google-apps-script" title="google apps script icons">Google apps script icons created by Freepik - Flaticon</a>
-        frameworks:
-        - fastapi
-        - django
+        techicons
+
         libraries:
         - pythons
         - matter.js
         - three.js
         - .js系s
+        - mui
         software:
         - git
         - shotcut

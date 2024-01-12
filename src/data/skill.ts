@@ -16,45 +16,45 @@ export type tSkill = tAbility & {
 };
 
 const language: tSkill[] = [
-  {
-    id: "idPython",
-    title: "Python",
-    img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-    start: new Date(2021, 4, 1),
-    description: "大学の授業で初めて触った言語です．今でも機械学習や，競技プログラミングにおいてよく使う言語です．",
-    priority: 2,
+  // {
+  //   id: "idPython",
+  //   title: "Python",
+  //   img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+  //   start: new Date(2021, 4, 1),
+  //   description: "大学の授業で初めて触った言語です．今でも機械学習や，競技プログラミングにおいてよく使う言語です．",
+  //   priority: 2,
 
-    exp: -1,
-    officialUrl: "https://www.python.org/",
-    skill: eSkill.language,
-  },
-  {
-    id: "idJs",
-    title: "JavaScript",
-    img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-    start: new Date(2021, 4, 1),
-    description: "独特な性質にあまり慣れない言語です．初めての開発バイトや，拡張機能の作成に利用しました．",
-    priority: 2,
+  //   exp: -1,
+  //   officialUrl: "https://www.python.org/",
+  //   skill: eSkill.language,
+  // },
+  // {
+  //   id: "idJs",
+  //   title: "JavaScript",
+  //   img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+  //   start: new Date(2021, 4, 1),
+  //   description: "独特な性質にあまり慣れない言語です．初めての開発バイトや，拡張機能の作成に利用しました．",
+  //   priority: 2,
 
-    exp: -1,
-    officialUrl: "https://developer.mozilla.org/ja/docs/Web/JavaScript",
-    skill: eSkill.language,
-  },
+  //   exp: -1,
+  //   officialUrl: "https://developer.mozilla.org/ja/docs/Web/JavaScript",
+  //   skill: eSkill.language,
+  // },
 ];
 
 const framework: tSkill[] = [
-  {
-    id: "idReact",
-    title: "React",
-    img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-    start: new Date(2021, 4, 1),
-    description: "私はReact単体で使うというよりは，MAUIを使って，TypeScriptで記述しています．",
-    priority: 2,
+  // {
+  //   id: "idReact",
+  //   title: "React",
+  //   img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+  //   start: new Date(2021, 4, 1),
+  //   description: "私はReact単体で使うというよりは，MAUIを使って，TypeScriptで記述しています．",
+  //   priority: 2,
 
-    exp: -1,
-    officialUrl: "https://react.dev/",
-    skill: eSkill.framework,
-  },
+  //   exp: -1,
+  //   officialUrl: "https://react.dev/",
+  //   skill: eSkill.framework,
+  // },
 ];
 
 const library: tSkill[] = [
