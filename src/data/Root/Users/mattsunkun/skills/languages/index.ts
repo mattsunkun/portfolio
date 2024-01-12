@@ -4,6 +4,16 @@ const dirsLanguages: directory = {
   name: "languages",
   files: [
     {
+      name: "Bash",
+      contents: "大学で提供されている計算機のシェルなのでよく使います．普段はzshを使っています．．",
+      meta: { img: "" },
+    },
+    {
+      name: "Basic",
+      contents: "初めて触ったプログラミング言語です．高校の授業のときに図形描画プログラムを作成しました．",
+      meta: { img: "" },
+    },
+    {
       name: "C",
       contents: "大学の授業で習いました．セグメンテーションフォルトが一番嫌いです．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-c-480.png` },
@@ -24,6 +34,11 @@ const dirsLanguages: directory = {
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-css-480.png` },
     },
     {
+      name: "Google App Script",
+      contents: "簿記アプリに利用しました．良い開発環境が構築できなかった思い出から，あまり好きな印象が無いです．．",
+      meta: { img: "" },
+    },
+    {
       name: "HTML",
       contents: "素のHTMLで書くことはほとんどありませんが，ウェブ開発のバイトで，少し使ったこともあります．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-html-480.png` },
@@ -32,6 +47,11 @@ const dirsLanguages: directory = {
       name: "JavaScript",
       contents: "独特な性質にあまり慣れない言語です．初めての開発バイトや，拡張機能の作成に利用しました．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-javascript-480.png` },
+    },
+    {
+      name: "Latex",
+      contents: "大学のレポート作成に使いました．アンダースコアを表示するのにエスケープが必要なのが好きじゃ無いです．",
+      meta: { img: "" },
     },
     {
       name: "MySQL",
@@ -54,9 +74,19 @@ const dirsLanguages: directory = {
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-python-480.png` },
     },
     {
+      name: "R",
+      contents: "大学のデータマイニング授業で利用しました．今では使い方をほとんど覚えていません．．",
+      meta: { img: "" },
+    },
+    {
       name: "TypeScript",
       contents: "ウェブ開発をする時は今では必ず使用しています．静的型付けは保守がしやすくて助かります．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-typescript-480.png` },
+    },
+    {
+      name: "Zsh",
+      contents: "普段使っているノートPCのデフォルトのシェルです．Tab補完くらいしかBashとの違いがわかりません．．",
+      meta: { img: "" },
     },
   ],
   directories: [

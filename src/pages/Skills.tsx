@@ -1,9 +1,15 @@
-import React, { useEffect, useRef } from "react";
-import Matter from "matter-js";
+import React, { useEffect, useRef, useState } from "react";
+import Matter, { MouseConstraint } from "matter-js";
 import { Box, Typography } from "@mui/material";
 import dirsLanguages from "src/data/Root/Users/mattsunkun/skills/languages";
+import { file } from "src/data/Root";
 
 const Skills = () => {
+
+  const [selectSkill, setSelectSkill] = useState<string>("asdf");
+
+  // const diMatter: { [name: string]: Matter.Body } = {};
+  const mapSkills: Map<Matter.Body, file> = new Map();
   const containerRef = useRef(undefined);
   let ignore = false;
   const canvasWidth = 1100;
@@ -26,49 +32,24 @@ const Skills = () => {
 
       });
 
-      const boxA = Matter.Bodies.rectangle(400, 200, 80, 80, { render: { fillStyle: "red" } });
-      const boxB = Matter.Bodies.rectangle(450, 50, 80, 80, {
-        render: {
-          fillStyle: "green",
-          // sprite: {
-          //   texture: `${process.env.PUBLIC_URL}/images/unibirth.png`,
-          //   xScale: 1,
-          //   yScale: 1,
-          // }
-        },
-
-      });
-      const ground = Matter.Bodies.rectangle(400, 610, 2010, 60, {
-        isStatic: true,
-
-      });
-
-      // const circPython = Matter.Bodies.circle(500, 500, 25, {
-      //   // density: 0.0005,
-      //   // frictionAir: 0.06,
-      //   // restitution: 0.3,
-      //   // friction: 0.01,
-      //   render: {
-      //     sprite: {
-      //       texture: `${process.env.PUBLIC_URL}/images/icons/icons8-python-48.png`,
-      //       xScale: 1,
-      //       yScale: 1,
-      //     }
-      //   }
-      // });
-
-      // const myArray = [1, 2, 3, 4, 5];
+      // 地面
       Matter.Composite.add(
         engine.world,
         [
-          // boxA, boxB, 
-          ground,
+          Matter.Bodies.rectangle(
+            400, 610, 2010, 60,
+            {
+              isStatic: true
+            }
+          )
         ]
       );
-      Matter.Composite.add(
-        engine.world,
-        dirsLanguages.files.map((file, ind) =>
-          Matter.Bodies.circle(ind * 100 + 100, 100, 50, {
+
+      // skills
+      let mattersLanguages: Matter.Body[] = [];
+      dirsLanguages.files.forEach((file, ind) => {
+        const matterLanguage = Matter.Bodies.circle(ind * 100 + 100, 100, 50,
+          {
             render: {
               sprite: {
                 texture: file.meta?.img ? file.meta?.img : `${process.env.PUBLIC_URL}/images/icons/icons8-no-480.png`,
@@ -77,29 +58,74 @@ const Skills = () => {
               }
             }
           }
-          )
-          // myArray.map(item =>
-          //   Matter.Bodies.circle(item * 100, item * 100, 25, {
-          //     // density: 0.0005,
-          //     // frictionAir: 0.06,
-          //     // restitution: 0.3,
-          //     // friction: 0.01,
-          //     render: {
-          //       sprite: {
-          //         texture: `${process.env.PUBLIC_URL}/images/icons/icons8-python-48.png`,
-          //         xScale: 1,
-          //         yScale: 1,
-          //       }
-          //     }
-          //   })
-          // )
-        ));
+        );
+        mattersLanguages.push(matterLanguage);
+        mapSkills.set(matterLanguage, file);
+        // diMatter[file.name] = matterLanguage;
+      })
+      Matter.Composite.add(
+        engine.world,
+        mattersLanguages,
+        // dirsLanguages.files.map((file, ind) =>
 
-      // Matter.Render.setPixelRatio(render, "auto")
+        //   Matter.Bodies.circle(ind * 100 + 100, 100, 50,
+        //     {
+        //       render: {
+        //         sprite: {
+        //           texture: file.meta?.img ? file.meta?.img : `${process.env.PUBLIC_URL}/images/icons/icons8-no-480.png`,
+        //           xScale: 0.2,
+        //           yScale: 0.2,
+        //         }
+        //       }
+        //     }
+        //   )
+        // )
+      );
+
+      const mouse = Matter.Mouse.create(render.canvas);
+      const mouseConstraint = Matter.MouseConstraint.create(engine,
+        {
+          mouse: mouse,
+          constraint: {
+            stiffness: 0.2,
+            render: { visible: true },
+          }
+        }
+      )
+      render.mouse = mouse;
+      Matter.Composite.add(
+        engine.world,
+        mouseConstraint
+      )
+      Matter.Events.on(mouseConstraint, "mousedown", e => {
+        // const a = 
+        // console.log(e.source.body)
+        const file = mapSkills.get(e.source.body);
+        if (file) {
+          setSelectSkill(`${file.name} ${file.contents}`);
+
+        }
+      }
+      )
+
+
+      // Matter.Events.on(mouseConstraint, "mousedown", (event) => {
+      //   const bodiesUnderMouse = Matter.Query.point(engine.world.bodies, event.mouse.position);
+
+      //   if (bodiesUnderMouse.length > 0) {
+      //     // マウスで掴んでいるオブジェクトの処理
+      //     const grabbedObject = bodiesUnderMouse[0];
+      //     console.log("Grabbed Object:", grabbedObject);
+      //   }
+      // });
+
+
       Matter.Render.run(render);
 
-      const runner = Matter.Runner.create();
-      Matter.Runner.run(runner, engine);
+      Matter.Runner.run(
+        Matter.Runner.create(),
+        engine
+      );
 
     }
     return () => {
@@ -111,12 +137,30 @@ const Skills = () => {
     <>
       <Typography>
         icons by 8
-        - basic言語
-        - bash
-        - gas
-        - r
-        - latex
-        - zsh
+        frameworks:
+        - fastapi
+        - django
+        libraries:
+        - pythons
+        - matter.js
+        - three.js
+        - .js系s
+        software:
+        - git
+        - shotcut
+        - docker
+        hardware:
+        - raspberry
+        - cisco
+        platform:
+        - aws
+        - Render
+        - vercel
+        - detaspace
+
+      </Typography>
+      <Typography variant="h3">
+        {selectSkill}
       </Typography>
       <Box ref={containerRef} style={{ border: "2px solid #FFF" }} />
     </>
