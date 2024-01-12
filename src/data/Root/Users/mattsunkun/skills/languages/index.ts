@@ -1,46 +1,42 @@
 import { directory } from "src/data/Root";
 
-const dirsLanguages: directory = {
+const dirLanguages: directory = {
   name: "languages",
   files: [
-    {
-      name: "Bash",
-      contents: "大学で提供されている計算機のシェルなのでよく使います．普段はzshを使っています．．",
-      meta: { img: "" },
-    },
+
     {
       name: "Basic",
       contents: "初めて触ったプログラミング言語です．高校の授業のときに図形描画プログラムを作成しました．",
-      meta: { img: "" },
+      meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-basic-480.png` },
     },
     {
       name: "C",
-      contents: "大学の授業で習いました．セグメンテーションフォルトが一番嫌いです．",
+      contents: "大学の授業で習いました．C言語でセグメンテーションフォルトが起きるのが一番嫌いです．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-c-480.png` },
     },
     {
       name: "C++",
-      contents: "ぷよぷよのようなアプリを作る大学の実習で習いました．競技プログラミングにて，これで戦えるようになりたいです．",
+      contents: "ぷよぷよのようなアプリを作る実習で使いました．いつか競技プログラミングのメイン言語にしたいです．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-cpp-480.png` },
     },
     {
       name: "C#",
-      contents: "一番実務経験のある言語です．オブジェクト指向の本質を掴みやすいと感じます．",
+      contents: "一番実務経験のある言語です．オブジェクト指向で実装するときに，非常に使いやすい言語だと思います．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-cs-480.png` },
     },
     {
       name: "CSS",
-      contents: "ウェブアプリを作るときに使っている．ほぼコピペで動かしているため，全然わからない．．",
+      contents: "ウェブアプリを作るときに使っています．ソースはほぼコピペで動かしているため，全然わからないです．．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-css-480.png` },
     },
     {
-      name: "Google App Script",
-      contents: "簿記アプリに利用しました．良い開発環境が構築できなかった思い出から，あまり好きな印象が無いです．．",
-      meta: { img: "" },
+      name: "Google Apps Script",
+      contents: "簿記アプリを作成する上で利用しました．個人的には，JavaScriptよりも独特な性質を持っていると思います．",
+      meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/flaticon-gas-480.png` },
     },
     {
       name: "HTML",
-      contents: "素のHTMLで書くことはほとんどありませんが，ウェブ開発のバイトで，少し使ったこともあります．",
+      contents: "素のHTMLで書くことはほとんどありませんが，ウェブ開発のバイトで，素のHTMLを使ったこともあります．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-html-480.png` },
     },
     {
@@ -51,21 +47,31 @@ const dirsLanguages: directory = {
     {
       name: "Latex",
       contents: "大学のレポート作成に使いました．アンダースコアを表示するのにエスケープが必要なのが好きじゃ無いです．",
-      meta: { img: "" },
+      meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-latex-480.png` },
     },
     {
-      name: "MySQL",
-      contents: "友人と作ったウェブアプリのバックエンドで使いました．ん．これ言語っていうよりはソフトウェアか？",
-      meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-mysql-480.png` },
+      name: "Shell(Unix系)",
+      contents: "基本的な使い方は把握しています．大学ではBash，個人開発ではZsh(MacOSの標準)を使っています．",
+      meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-shellUnix-480.png` },
+    },
+    {
+      name: "Shell(Windows)",
+      contents: "最低限の使い方把握しています．バイトでコマンドプロンプトや，PowerShellを使うことがあります．",
+      meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-shellWindows-480.png` },
+    },
+    {
+      name: "SQL",
+      contents: "大学の授業でも習ったが，友人と作ったウェブアプリのバックエンドにおいても利用したことがあります．",
+      meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-sql-480.png` },
     },
     {
       name: "Perl",
-      contents: "大学の授業でコンパイラを作る実習のときに使いました．初見で読みやすいコードなのが好きです．",
+      contents: "大学の授業でコンパイラを作る実習のときに使いました．初見でも読みやすいコードなのが好きです．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-perl-480.png` },
     },
     {
       name: "PHP",
-      contents: "大学1年生の頃にちょろっと触りました．今は全く覚えていません．．．",
+      contents: "大学1年生の頃にウェブ開発しようとしたとき(挫折..)ちょろっと触りました．今はあまり覚えていません．．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-php-480.png` },
     },
     {
@@ -76,22 +82,19 @@ const dirsLanguages: directory = {
     {
       name: "R",
       contents: "大学のデータマイニング授業で利用しました．今では使い方をほとんど覚えていません．．",
-      meta: { img: "" },
+      meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icon-icons-r-480.png` },
+
     },
     {
       name: "TypeScript",
       contents: "ウェブ開発をする時は今では必ず使用しています．静的型付けは保守がしやすくて助かります．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-typescript-480.png` },
     },
-    {
-      name: "Zsh",
-      contents: "普段使っているノートPCのデフォルトのシェルです．Tab補完くらいしかBashとの違いがわかりません．．",
-      meta: { img: "" },
-    },
+
   ],
   directories: [
 
   ],
 }
 
-export default dirsLanguages;
+export default dirLanguages;

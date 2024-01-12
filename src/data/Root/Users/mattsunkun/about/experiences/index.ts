@@ -1,6 +1,6 @@
 import { directory } from "src/data/Root";
 
-const dirsExperiences: directory = {
+const dirExperiences: directory = {
   name: "experiences",
   files: [
 
@@ -10,4 +10,4 @@ const dirsExperiences: directory = {
   ],
 }
 
-export default dirsExperiences;
+export default dirExperiences;

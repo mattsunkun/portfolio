@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Matter, { MouseConstraint } from "matter-js";
 import { Box, Typography } from "@mui/material";
-import dirsLanguages from "src/data/Root/Users/mattsunkun/skills/languages";
-import { file } from "src/data/Root";
+import dirLanguages from "src/data/Root/Users/mattsunkun/skills/languages";
+import { directory, file } from "src/data/Root";
+import dirFrameworks from "src/data/Root/Users/mattsunkun/skills/frameworks";
+import dirLibraries from "src/data/Root/Users/mattsunkun/skills/libraries";
+import dirSoftware from "src/data/Root/Users/mattsunkun/skills/software";
 
 const Skills = () => {
 
@@ -46,40 +49,37 @@ const Skills = () => {
       );
 
       // skills
-      let mattersLanguages: Matter.Body[] = [];
-      dirsLanguages.files.forEach((file, ind) => {
-        const matterLanguage = Matter.Bodies.circle(ind * 100 + 100, 100, 50,
-          {
-            render: {
-              sprite: {
-                texture: file.meta?.img ? file.meta?.img : `${process.env.PUBLIC_URL}/images/icons/icons8-no-480.png`,
-                xScale: 0.2,
-                yScale: 0.2,
+      const createMatterSkills = (dirSkills: directory, mapSkills: Map<Matter.Body, file>, y: number): Matter.Body[] => {
+        let ans: Matter.Body[] = [];
+        const radius: number = 30;
+        const padding: number = 0;
+        dirSkills.files.forEach((file, ind) => {
+
+          const matterSkill = Matter.Bodies.circle((ind + 1) * (radius * 2 + padding), y, radius,
+            {
+              render: {
+                sprite: {
+                  texture: file.meta?.img ? file.meta?.img : `${process.env.PUBLIC_URL}/images/icons/utils/icons8-no-480.png`,
+                  xScale: radius * 0.005,
+                  yScale: radius * 0.005,
+                }
               }
             }
-          }
-        );
-        mattersLanguages.push(matterLanguage);
-        mapSkills.set(matterLanguage, file);
-        // diMatter[file.name] = matterLanguage;
-      })
+          );
+          ans.push(matterSkill);
+          mapSkills.set(matterSkill, file);
+        })
+        return ans;
+      };
+
       Matter.Composite.add(
         engine.world,
-        mattersLanguages,
-        // dirsLanguages.files.map((file, ind) =>
-
-        //   Matter.Bodies.circle(ind * 100 + 100, 100, 50,
-        //     {
-        //       render: {
-        //         sprite: {
-        //           texture: file.meta?.img ? file.meta?.img : `${process.env.PUBLIC_URL}/images/icons/icons8-no-480.png`,
-        //           xScale: 0.2,
-        //           yScale: 0.2,
-        //         }
-        //       }
-        //     }
-        //   )
-        // )
+        [
+          ...createMatterSkills(dirLanguages, mapSkills, 50),
+          ...createMatterSkills(dirFrameworks, mapSkills, 100),
+          // ...createMatterSkills(dirLibraries, mapSkills),
+          // ...createMatterSkills(dirSoftware, mapSkills),
+        ]
       );
 
       const mouse = Matter.Mouse.create(render.canvas);
@@ -136,7 +136,10 @@ const Skills = () => {
   return (
     <>
       <Typography>
-        icons by 8
+        <a target="_blank" href="https://icons8.com/icon/WbRVMGxHh74X/%E3%82%B3%E3%83%B3%E3%82%BD%E3%83%BC%E3%83%AB">コンソール</a> アイコン by <a target="_blank" href="https://icons8.com">Icons8</a>
+        // needless
+        Image by <a href="https://pixabay.com/users/patbec-27165555/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7172337">patbec</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7172337">Pixabay</a>
+        <a href="https://www.flaticon.com/free-icons/google-apps-script" title="google apps script icons">Google apps script icons created by Freepik - Flaticon</a>
         frameworks:
         - fastapi
         - django

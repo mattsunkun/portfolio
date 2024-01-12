@@ -1,6 +1,6 @@
 import { directory } from "src/data/Root";
 
-const dirsLibraries: directory = {
+const dirLibraries: directory = {
   name: "libraries",
   files: [
     {
@@ -14,4 +14,4 @@ const dirsLibraries: directory = {
   ],
 }
 
-export default dirsLibraries;
+export default dirLibraries;

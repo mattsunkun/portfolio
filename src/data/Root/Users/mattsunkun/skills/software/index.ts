@@ -1,6 +1,6 @@
 import { directory } from "src/data/Root";
 
-const dirsSoftware: directory = {
+const dirSoftware: directory = {
   name: "software",
   files: [
     {
@@ -8,10 +8,11 @@ const dirsSoftware: directory = {
       contents: "",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/software/icons8--480.png` },
     },
+    // visual studio , visual studio code, source tree
   ],
   directories: [
 
   ],
 }
 
-export default dirsSoftware;
+export default dirSoftware;

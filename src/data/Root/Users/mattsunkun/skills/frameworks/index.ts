@@ -1,6 +1,6 @@
 import { directory } from "src/data/Root";
 
-const dirsFrameworks: directory = {
+const dirFrameworks: directory = {
   name: "frameworks",
   files: [
     {
@@ -17,4 +17,4 @@ const dirsFrameworks: directory = {
   directories: [],
 }
 
-export default dirsFrameworks;
+export default dirFrameworks;

@@ -1,6 +1,6 @@
 import { directory } from "src/data/Root";
 
-const dirsQualifications: directory = {
+const dirQualifications: directory = {
   name: "qualifications",
   files: [
 
@@ -10,4 +10,4 @@ const dirsQualifications: directory = {
   ],
 }
 
-export default dirsQualifications;
+export default dirQualifications;

@@ -1,6 +1,6 @@
 import { directory } from "src/data/Root";
 
-const dirsInfo: directory = {
+const dirInfo: directory = {
   name: "info",
   files: [
 
@@ -10,4 +10,4 @@ const dirsInfo: directory = {
   ],
 }
 
-export default dirsInfo;
+export default dirInfo;
