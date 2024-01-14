@@ -14,17 +14,11 @@ import { NavLink, useLocation } from 'react-router-dom';
 // icon
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 
 // mine
 import { ePage } from '../../pages';
 import LinkActive from '../LinkActive';
 
-
-// 競プロについてもリンクをかく．
 const TopBar: FC<{ isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>> }> = (props) => {
   const location: Location = useLocation();
   const linkStyle = {
@@ -39,37 +33,32 @@ const TopBar: FC<{ isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetS
   return (
     <>
       <Box className="top-bar" sx={{ top: 0, left: 0, width: "100%" }}>
-        <AppBar sx={{ height: "9vh" }} position="fixed" color="inherit">
+        <AppBar sx={{ height: "65px" }} position="fixed" color="inherit">
           <Toolbar>
+            {/* Link */}
             <Typography sx={{ flexGrow: 1, cursor: "pointer" }}>
-              <Link
+              <Button
+                component={Link}
                 to={ePage.home.toLowerCase()}
                 style={(location.pathname === `/${ePage.home}`) ||
                   (location.pathname === `/${ePage.home2.toLowerCase()}`) ||
                   (location.pathname === `/${ePage.home2.toLowerCase()}/`)
                   ? visitedLinkStyle : linkStyle}>
-                Matsh
-              </Link>
+                {ePage.home2.toUpperCase()}
+              </Button>
               <LinkActive page={ePage.about} />
               <LinkActive page={ePage.skills} />
               <LinkActive page={ePage.works} />
-              <LinkActive page={ePage.experiences} />
-              <LinkActive page={ePage.qualifications} />
             </Typography>
 
+            {/* Theme */}
             <Typography >
-
-
               <IconButton color="inherit" onClick={() => props.setIsDarkMode(!props.isDarkMode)}>
-                {
-                  props.isDarkMode ? <DarkModeIcon /> : <LightModeIcon />
+                {props.isDarkMode ?
+                  <DarkModeIcon /> :
+                  <LightModeIcon />
                 }
               </IconButton>
-
-              {/* <IconButton color="inherit" aria-label="Github" component={Link} to={"https://github.com/mattsunkun"} ><GitHubIcon /></IconButton>
-              <IconButton color="inherit" aria-label="Twitter" component={Link} to={"https://twitter.com/mattsunkun1221"} ><TwitterIcon /></IconButton>
-              <IconButton color="inherit" aria-label="Instagram" component={Link} to={"https://www.instagram.com/mattsunkun/"} ><InstagramIcon /></IconButton>
-              <IconButton color="inherit" aria-label="YouTube" component={Link} to={"https://www.youtube.com/channel/UCaamzbGKGG3YovpUmutQVag"} ><YouTubeIcon /></IconButton> */}
             </Typography>
           </Toolbar>
         </AppBar>

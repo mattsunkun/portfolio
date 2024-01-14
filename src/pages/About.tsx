@@ -38,6 +38,17 @@ const About = () => {
                   日光街道、小田原
                   初動画配信
                   "他にも，アルバイト経験を書きたい．0-1ゼミについても書きたい．jackについても書きたい．nttのインターンも，Ad構築，ウィンドウズサーバーも．Githubのリポジトリも何があるかとシークレットキー，アルバイトでどこまで書いていいか．一旦確認したい．",
+                  {/* <Grid xs={3} marginY={1} marginX={1} paddingLeft={3}>
+              <Box>
+                <LinkLine link="https://picadome.fcps.net/" line="Elementary Sch." />
+                <LinkLine link="https://www.ckjs.org/Home.php" line="Cram Sch." />
+                <LinkLine link="https://jessieclark.fcps.net/" line="Middle Sch." />
+                <LinkLine link="https://www.edtokai.jp/yokosuka-j/" line="Junior High Sch." />
+                <LinkLine link="https://highschl.educa.nagoya-u.ac.jp/" line="High Sch." />
+                <LinkLine link="https://www.nagoya-u.ac.jp/" line="University" />
+              </Box>
+
+            </Grid> */}
                 </Typography>
               </Grid>
               {/* GPTに文章を生成させたい． */}

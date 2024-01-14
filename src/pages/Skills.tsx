@@ -78,7 +78,7 @@ const Skills = () => {
           ...createMatterSkills(dirLanguages, mapSkills, 50),
           ...createMatterSkills(dirFrameworks, mapSkills, 100),
           // ...createMatterSkills(dirLibraries, mapSkills),
-          // ...createMatterSkills(dirSoftware, mapSkills),
+          ...createMatterSkills(dirSoftware, mapSkills, 200),
         ]
       );
 

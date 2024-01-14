@@ -1,6 +1,11 @@
 import { AppBar, Box, Button, IconButton, Link, Typography } from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
 
+import TerminalIcon from '@mui/icons-material/Terminal';
+import PersonIcon from '@mui/icons-material/Person';
+import HtmlIcon from '@mui/icons-material/Html';
+import ComputerIcon from '@mui/icons-material/Computer';
+
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -10,48 +15,67 @@ import AddLinkIcon from '@mui/icons-material/AddLink';
 import { ePage } from "../../pages";
 import LinkLine from "../LinkLine";
 import LinkButton from "../LinkButton";
+import LinkActive from "../LinkActive";
 
 const FootBar = () => {
   return (
     <>
+      <Box className="foot-bar" sx={{ top: 0, left: 0, width: "100%" }}>
+        <AppBar component="footer" position="static" color="inherit">
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid container spacing={2} marginY={2}
 
-      <AppBar component="footer" position="static" color="inherit">
-        <Box>
-          <Grid container spacing={2} marginY={2}>
-            <Grid xs={3} textAlign='center' paddingTop={1} sx={{ display: { xs: "none", md: "block" } }}>
-              <Typography fontSize={12} component='a' href={'https://github.com/mattsunkun/portfolio'} target="_blank" color={"inherit"} sx={{ textDecoration: 'none' }}>© 2023 Masaaki MATSUMOTO</Typography>
+            >
+
+              <Grid
+                xs={5}
+                marginY={1}
+                marginX={1}
+              >
+                <LinkLine link={ePage.home} line={ePage.home2} isSameTab />
+                <LinkLine link={ePage.about} line={ePage.about} isSameTab />
+                <LinkLine link={ePage.skills} line={ePage.skills} isSameTab />
+                <LinkLine link={ePage.works} line={ePage.works} isSameTab />
+
+                {/* <LinkButton link={ePage.home} line={ePage.home2} icon={<TerminalIcon />} />
+                <LinkButton link={ePage.about} line={ePage.about} icon={<PersonIcon />} />
+                <LinkButton link={ePage.skills} line={ePage.skills} icon={<HtmlIcon />} />
+                <LinkButton link={ePage.works} line={ePage.works} icon={<ComputerIcon />} /> */}
+              </Grid>
+
+              <Grid
+                xs={5}
+                marginY={1}
+                marginX={1}
+              >
+                <LinkButton link="https://github.com/mattsunkun" line="GitHub" icon={<GitHubIcon />} />
+                <LinkButton link="https://twitter.com/mattsunkun1221" line="X(Twitter)" icon={<TwitterIcon />} />
+                <LinkButton link="https://www.instagram.com/mattsunkun/" line="Instagram" icon={<InstagramIcon />} />
+                <LinkButton link="https://www.youtube.com/channel/UCaamzbGKGG3YovpUmutQVag" line="YouTube" icon={<YouTubeIcon />} />
+                <LinkButton link="https://qiita.com/mattsunkun" line="Qiita" icon={<AddLinkIcon />} />
+                <LinkButton link="https://zenn.dev/mattsunkun" line="Zenn" icon={<AddLinkIcon />} />
+              </Grid>
             </Grid>
-            <Grid xs={3} marginY={1}>
-              <Box>
-                <LinkLine link={ePage.home.toLowerCase()} line={ePage.home2} isSameTab />
-                <LinkLine link={ePage.about.toLowerCase()} line={ePage.about} isSameTab />
-                <LinkLine link={ePage.skills.toLowerCase()} line={ePage.skills} isSameTab />
-                <LinkLine link={ePage.works.toLowerCase()} line={ePage.works} isSameTab />
-                <LinkLine link={ePage.experiences.toLowerCase()} line={ePage.experiences} isSameTab />
-                <LinkLine link={ePage.qualifications.toLowerCase()} line={ePage.qualifications} isSameTab />
-              </Box>
-            </Grid>
-            <Grid xs={3} marginY={1}>
-              <Box>
-                <LinkLine link="https://picadome.fcps.net/" line="Elementary Sch." />
-                <LinkLine link="https://www.ckjs.org/Home.php" line="Cram Sch." />
-                <LinkLine link="https://jessieclark.fcps.net/" line="Middle Sch." />
-                <LinkLine link="https://www.edtokai.jp/yokosuka-j/" line="Junior High Sch." />
-                <LinkLine link="https://highschl.educa.nagoya-u.ac.jp/" line="High Sch." />
-                <LinkLine link="https://www.nagoya-u.ac.jp/" line="University" />
-              </Box>
-            </Grid>
-            <Grid xs={3} marginY={1}>
-              <LinkButton link="https://github.com/mattsunkun" line="GitHub" icon={<GitHubIcon />} />
-              <LinkButton link="https://twitter.com/mattsunkun1221" line="X(Twitter)" icon={<TwitterIcon />} />
-              <LinkButton link="https://www.instagram.com/mattsunkun/" line="Instagram" icon={<InstagramIcon />} />
-              <LinkButton link="https://www.youtube.com/channel/UCaamzbGKGG3YovpUmutQVag" line="YouTube" icon={<YouTubeIcon />} />
-              <LinkButton link="https://qiita.com/mattsunkun" line="Qiita" icon={<AddLinkIcon />} />
-              <LinkButton link="https://zenn.dev/mattsunkun" line="Zenn" icon={<AddLinkIcon />} />
-            </Grid>
-          </Grid>
-        </Box>
-      </AppBar >
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            //           padding={3}
+            margin={3}
+          >
+
+            <Typography fontSize={12} component='a' href={'https://github.com/mattsunkun/portfolio'} target="_blank" color={"inherit"} sx={{ textDecoration: 'none' }}>© 2023 Masaaki MATSUMOTO</Typography>
+
+          </Box>
+        </AppBar >
+      </Box>
     </>
   );
 };

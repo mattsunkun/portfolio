@@ -6,6 +6,7 @@ import Root, { directory, file } from '../data/Root';
 import { getTail } from '../functions/utils';
 import clsMatsh from '../functions/matsh';
 import clsParse from '../functions/parse';
+import { TypeAnimation } from 'react-type-animation';
 
 
 const matsh = new clsMatsh(Root);
@@ -30,7 +31,9 @@ const Matsh: React.FC<{ height: string }> = (props) => {
     }
   }, [outputs]);
 
+  let first = true;;
   useEffect(() => {
+    first = true;
     // デフォルトでtextfieldにフォーカス
     textFieldRef.current?.focus();
   }, []);// 第二引数が空の場合、コンポーネントがマウントされたときだけuseEffectが実行されます
@@ -62,6 +65,29 @@ const Matsh: React.FC<{ height: string }> = (props) => {
             }}
             ref={typographyRef}
           >
+            {
+              first ?
+                <TypeAnimation
+                  sequence={[
+                    "Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!!",
+                    0,
+                    "",
+                    () => {
+                      first = false;
+                      // setOutputs("\n");
+                      console.log("asdf")
+                    },
+                  ]}
+                  wrapper="span"
+                  cursor={false}
+                  repeat={0}
+                  speed={99}
+                  omitDeletionAnimation={true}
+                // sstyle={{ fontSize: '2em', display: 'inline-block' }}
+                /> :
+                <></>
+            }
+
             {outputs.split('\n').map((line, index) => (
               <React.Fragment key={index}>
                 {line}

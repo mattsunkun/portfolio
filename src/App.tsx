@@ -20,9 +20,9 @@ import Pnf from "./pages/Pnf";
 import TopBar from './components/appbar/TopBar';
 import FootBar from './components/appbar/FootBar';
 import Works from './pages/Works';
-import Qualifications from './pages/Qualifications';
+// import Qualifications from './pages/Qualifications';
 import { ePage } from './pages';
-import Experiences from './pages/Experiences';
+// import Experiences from './pages/Experiences';
 
 import "./fonts/font.css";
 
@@ -65,8 +65,8 @@ const App: React.FC = () => {
               <Route path={ePage.about.toLowerCase()} element={<About />} />
               <Route path={ePage.skills.toLowerCase()} element={<Skills />} />
               <Route path={ePage.works.toLowerCase()} element={<Works />} />
-              <Route path={ePage.experiences.toLowerCase()} element={<Experiences />} />
-              <Route path={ePage.qualifications.toLowerCase()} element={<Qualifications />} />
+              {/* <Route path={ePage.experiences.toLowerCase()} element={<Experiences />} />
+              <Route path={ePage.qualifications.toLowerCase()} element={<Qualifications />} /> */}
               <Route path="/*" element={<Pnf />} />
             </Routes>
           </Container>

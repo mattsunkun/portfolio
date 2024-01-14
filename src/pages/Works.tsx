@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import Card from "../components/Card";
-import GridWorks from "../components/grids/GridWorks";
+// import GridWorks from "../components/grids/GridWorks";
 import works, { eWork } from "../data/work";
 import LineSection from "../components/LineSection";
 
