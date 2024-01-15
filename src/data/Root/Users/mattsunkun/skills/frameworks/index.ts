@@ -22,7 +22,7 @@ const dirFrameworks: directory = {
 
     // },
     {
-      name: ".Net",
+      name: ".NET",
       contents: "実務経験のあるフレームワークです．保守を意識した最低限のコードは書けると思います．また，MAUIも使えます．",
       meta: { img: `${process.env.PUBLIC_URL}/images/icons/frameworks/icons8-dotnet-480.png` },
     },

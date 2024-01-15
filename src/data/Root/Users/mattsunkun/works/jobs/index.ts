@@ -77,7 +77,7 @@ const dirJobs: directory = {
       name: "ウェブ開発 その2",
       contents: "ウェブサイトを部分的に作成する開発をしました．",
       meta: {
-        img: `${process.env.PUBLIC_URL}/images/works/jobs/tech-icons-threejs.png`,
+        img: `${process.env.PUBLIC_URL}/images/works/jobs/tech-icons-react.png`,
         imgRightsLink: "https://techicons.dev/icons/react",
         start: new Date(2022, 3, 1),
         period: 2,

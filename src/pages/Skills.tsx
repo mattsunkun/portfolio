@@ -1,138 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import Matter, { MouseConstraint } from "matter-js";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography, Link } from "@mui/material";
 import dirLanguages from "src/data/Root/Users/mattsunkun/skills/languages";
 import { directory, file } from "src/data/Root";
 import dirFrameworks from "src/data/Root/Users/mattsunkun/skills/frameworks";
 import dirLibraries from "src/data/Root/Users/mattsunkun/skills/libraries";
 import dirSoftware from "src/data/Root/Users/mattsunkun/skills/software";
+import { darkModeContext, tBooleanSet } from 'src/App';
+import Matters from "src/components/Matters";
+import dirSkills from "src/data/Root/Users/mattsunkun/skills";
+import LinkLine from "src/components/LinkLine";
 
 const Skills = () => {
-
-  const [selectSkill, setSelectSkill] = useState<string>("asdf");
-
-  // const diMatter: { [name: string]: Matter.Body } = {};
-  const mapSkills: Map<Matter.Body, file> = new Map();
-  const containerRef = useRef(undefined);
-  let ignore = false;
-  const canvasWidth = 1100;
-  const canvasHeight = 600;
-  useEffect(() => {
-    if (!ignore) {
-      const engine = Matter.Engine.create();
-      const render = Matter.Render.create({
-        element: containerRef.current,
-        engine: engine,
-        options: {
-          width: canvasWidth, // Set the width of the canvas
-          height: canvasHeight, // Set the height of the canvas
-          // background: 'blue',
-          wireframeBackground: "transparent",
-          // hasBounds: true,
-          pixelRatio: 1,
-          wireframes: false,
-        },
-
-      });
-
-      // 地面
-      Matter.Composite.add(
-        engine.world,
-        [
-          Matter.Bodies.rectangle(
-            400, 610, 2010, 60,
-            {
-              isStatic: true
-            }
-          )
-        ]
-      );
-
-      // skills
-      const createMatterSkills = (dirSkills: directory, mapSkills: Map<Matter.Body, file>, y: number): Matter.Body[] => {
-        let ans: Matter.Body[] = [];
-        const radius: number = 30;
-        const padding: number = 0;
-        dirSkills.files.forEach((file, ind) => {
-
-          const matterSkill = Matter.Bodies.circle((ind + 1) * (radius * 2 + padding), y, radius,
-            {
-              render: {
-                sprite: {
-                  texture: file.meta?.img ? file.meta?.img : `${process.env.PUBLIC_URL}/images/icons/utils/icons8-no-480.png`,
-                  xScale: radius * 0.005,
-                  yScale: radius * 0.005,
-                }
-              }
-            }
-          );
-          ans.push(matterSkill);
-          mapSkills.set(matterSkill, file);
-        })
-        return ans;
-      };
-
-      Matter.Composite.add(
-        engine.world,
-        [
-          ...createMatterSkills(dirLanguages, mapSkills, 50),
-          ...createMatterSkills(dirFrameworks, mapSkills, 100),
-          // ...createMatterSkills(dirLibraries, mapSkills),
-          ...createMatterSkills(dirSoftware, mapSkills, 200),
-        ]
-      );
-
-      const mouse = Matter.Mouse.create(render.canvas);
-      const mouseConstraint = Matter.MouseConstraint.create(engine,
-        {
-          mouse: mouse,
-          constraint: {
-            stiffness: 0.2,
-            render: { visible: true },
-          }
-        }
-      )
-      render.mouse = mouse;
-      Matter.Composite.add(
-        engine.world,
-        mouseConstraint
-      )
-      Matter.Events.on(mouseConstraint, "mousedown", e => {
-        // const a = 
-        // console.log(e.source.body)
-        const file = mapSkills.get(e.source.body);
-        if (file) {
-          setSelectSkill(`${file.name} ${file.contents}`);
-
-        }
-      }
-      )
-
-
-      // Matter.Events.on(mouseConstraint, "mousedown", (event) => {
-      //   const bodiesUnderMouse = Matter.Query.point(engine.world.bodies, event.mouse.position);
-
-      //   if (bodiesUnderMouse.length > 0) {
-      //     // マウスで掴んでいるオブジェクトの処理
-      //     const grabbedObject = bodiesUnderMouse[0];
-      //     console.log("Grabbed Object:", grabbedObject);
-      //   }
-      // });
-
-
-      Matter.Render.run(render);
-
-      Matter.Runner.run(
-        Matter.Runner.create(),
-        engine
-      );
-
-    }
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
   return (
     <>
       <Typography>
@@ -162,10 +41,47 @@ const Skills = () => {
         - detaspace
 
       </Typography>
-      <Typography variant="h3">
-        {selectSkill}
-      </Typography>
-      <Box ref={containerRef} style={{ border: "2px solid #FFF" }} />
+      {/* <Grid container alignItems="center" justifyContent="center">
+        {
+          dirSkills.directories.map(dir => (
+            <Grid>
+              <Matters dirSkills={dir}
+                W={500}
+                H={400}
+              />
+            </Grid>
+          ))
+        }
+
+      </Grid> */}
+      <Matters dirSkills={dirSkills}
+        W={500}
+        H={400}
+      />
+
+      <Box
+        marginTop={3}
+        textAlign="center"
+      >
+        <LinkLine
+          link="https://icons8.jp/"
+          line="Icons8"
+          isUnderLine
+          headingLine="Icons by "
+        />
+        <LinkLine
+          link="https://techicons.dev/"
+          line="TechIcons"
+          isUnderLine
+          headingLine="Icons by "
+        />
+        <LinkLine
+          link="https://icon-icons.com/"
+          line="Icon-Icons"
+          isUnderLine
+          headingLine="Icons by "
+        />
+      </Box>
     </>
   );
 };
