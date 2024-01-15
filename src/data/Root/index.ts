@@ -15,7 +15,9 @@ export type file = {
 
 export type extention = {
   img?: string,
-  write?: Date,
+  imgRightsLink?: string,
+  start?: Date,
+  period?: number,
   urls?: string[],
 }
 

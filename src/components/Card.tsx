@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Grid,
   IconButton,
@@ -12,22 +12,58 @@ import LinkLine from "./LinkLine";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { tWork } from "../data/work";
 import { Link } from "react-router-dom";
+import { darkModeContext, tBooleanSet } from 'src/App';
+import { extention, file } from "src/data/Root";
+
+const Card: React.FC<file> = (props) => {
+  const frameRadius: number = 30;
+  const imgHeight: number = 40;
+
+  const { val: isDarkMode, setVal: _ } = (useContext(darkModeContext) || {}) as tBooleanSet;
+
+  const subsOpacity: number = 0.7;
+  // 大きさ制御
+  const windowWidth: number = window.innerWidth;
+  const cardFixedWidth: number = 360;
+  const cardFixedHeight: number = cardFixedWidth * 3 / 4;
+  const {
+    name: pTitle,
+    contents: pDescription,
+    meta: pMeta,
+  } = props;
+  const {
+    img: pImg,
+    imgRightsLink: _pImgRightsLink,
+    start: pStart,
+    period: pPeriod,
+    urls: pUrls,
+  } = (pMeta || {}) as extention;
+  const pImgRightsLink = _pImgRightsLink || "";
+  const pWorkUrl = pUrls?.[0] || "";
+  const pCodeUrl = pUrls?.[1] || "";
 
 
-const Card: React.FC<tWork> = (props) => {
-  const frameRadius = "30px"
+  //   console.log(windowWidth)
   return (
-    <Grid item xs={12} sm={6} md={4} lg={4}>
-      <Paper square={false} elevation={0} className="paper"
+    <Grid item
+      xs={12}
+      sm={7}
+      md={5}
+      lg={4}
+      // xl={3}
+      justifyContent="center" // 横方向の中央寄せ
+      alignItems="center" // 縦方向の中央寄せ
+    >
+      <Paper
+        square={false} elevation={0} className="paper"
         sx={{
-          // height: "40vh",
-          height: "300px",
-          width: "400px",
-          // width: "40vw", 
+          height: `${windowWidth > cardFixedWidth ? `${cardFixedHeight}px` : `${cardFixedHeight}px`}`,
+          width: `${windowWidth > cardFixedWidth ? `${cardFixedWidth}px` : windowWidth}`,
         }}
         style={{
-          borderRadius: frameRadius,
-          border: "2px solid #000",
+          borderRadius: `${frameRadius}px`,
+          // 輪郭の色設定
+          border: `2px solid #${isDarkMode ? "FFF" : "000"}`,
           overflow: 'hidden',
         }}>
         {/* 画像 */}
@@ -37,13 +73,13 @@ const Card: React.FC<tWork> = (props) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'flex-start', // 上部基準に変更
-            height: '40%',
+            height: `${imgHeight}%`,
             overflow: 'hidden', // はみ出た部分を隠す
           }}
         >
           <Box
             component="img"
-            src={props.img}
+            src={pImg}
             alt=""
             style={{
               width: '100%',
@@ -51,9 +87,43 @@ const Card: React.FC<tWork> = (props) => {
               position: 'absolute',
               top: 0,
 
-              borderRadius: `${frameRadius} ${frameRadius} 0 0`,
+              borderRadius: `${frameRadius * imgHeight / 100}px ${frameRadius * imgHeight / 100}px 0 0`,
             }}
           />
+
+          {/* 右下の文字 */}
+          {
+            pImgRightsLink !== "" ?
+
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: 0,
+                  right: 0,
+                  backgroundColor: "rgba(255, 255, 255, 1.0)",
+                  borderRadius: "12px", // 適切な値に調整
+                  fontSize: '12px',
+                  // color: "rgba(0, 0, 0, 1.3)",
+                }}
+              >
+                <Link
+                  to={pImgRightsLink}
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "rgba(0, 0, 0, 0.5)",
+                  }}
+                >
+                  {"　引用元　"}
+                </Link>
+
+              </Box> :
+              ""
+
+          }
+
+
+
         </Box>
         {/* 文字 */}
         <Box
@@ -64,14 +134,17 @@ const Card: React.FC<tWork> = (props) => {
           {/* タイトル */}
           <Typography marginY={0} variant="h5" component="h2" align="center">
             {
-              (props.workUrl === "") ?
+              (pWorkUrl === "") ?
                 <Box
                   margin={2}
                 >
 
-                  {props.title}
+                  {pTitle}
                 </Box> :
-                <LinkLine link={props.workUrl} line={props.title} isUnderLine />
+                <LinkLine
+                  link={pWorkUrl}
+                  line={pTitle}
+                  isUnderLine />
             }
 
           </Typography>
@@ -84,35 +157,54 @@ const Card: React.FC<tWork> = (props) => {
             }}
             marginTop={1}
           >
-            <Typography variant="body2" component="p" marginLeft={0.5}>
-              {props.description}
+            <Typography variant="body2" component="p" marginLeft={0.5}
+              sx={{
+                opacity: subsOpacity,
+              }}
+            >
+              {pDescription}
             </Typography>
           </Box>
           {/* bottom */}
           <Box
-            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: "12px" }}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              fontSize: "12px",
+              //               opacity: 0.
+
+            }}
           >
             <Box margin={0.5}>
-              {
-                (props.codeUrl === "") ?
-                  <></> :
 
-                  <Link to={props.codeUrl}>
-                    <IconButton ><GitHubIcon /></IconButton>
-                  </Link>
-              }
+              <Link to={pCodeUrl}
+                style={{
+                  visibility: `${(pCodeUrl === "") ? "hidden" : "inherit"}`,
+
+                }}
+                target="_blank"
+              >
+                <IconButton ><GitHubIcon /></IconButton>
+              </Link>
+
             </Box>
 
             {/* 年 */}
-            <Typography variant="caption" component="p" sx={{ paddingRight: 1, fontSize: "12px" }}>
+            <Typography variant="caption" component="p"
+              sx={{
+                paddingRight: 1,
+                fontSize: "12px",
+                opacity: subsOpacity,
+              }}>
               {
-                `開発期間：${(props.start.getMonth() === 0) ?
-                  props.start.getFullYear() - 1 :
-                  props.start.getFullYear()
-                }年${(props.start.getMonth() === 0) ?
+                `開発期間：${(pStart?.getMonth() === 0) ?
+                  pStart?.getFullYear() - 1 :
+                  pStart?.getFullYear()
+                }年${(pStart?.getMonth() === 0) ?
                   12 :
-                  props.start.getMonth()
-                }月から約${props.period}ヶ月`
+                  pStart?.getMonth()
+                }月から約${pPeriod}ヶ月`
               }
             </Typography>
 

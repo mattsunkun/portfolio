@@ -1,5 +1,5 @@
 // base
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { Link, Location } from 'react-router-dom';
 
 //mui
@@ -18,8 +18,9 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 // mine
 import { ePage } from '../../pages';
 import LinkActive from '../LinkActive';
+import { darkModeContext, tBooleanSet } from 'src/App';
 
-const TopBar: FC<{ isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>> }> = (props) => {
+const TopBar = () => {
   const location: Location = useLocation();
   const linkStyle = {
     textDecoration: "none",
@@ -30,6 +31,8 @@ const TopBar: FC<{ isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetS
     textDecoration: "underline",
     color: 'inherit',
   };
+
+  const { val: isDarkMode, setVal: setIsDarkMode } = (useContext(darkModeContext) || {}) as tBooleanSet;
   return (
     <>
       <Box className="top-bar" sx={{ top: 0, left: 0, width: "100%" }}>
@@ -53,8 +56,8 @@ const TopBar: FC<{ isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetS
 
             {/* Theme */}
             <Typography >
-              <IconButton color="inherit" onClick={() => props.setIsDarkMode(!props.isDarkMode)}>
-                {props.isDarkMode ?
+              <IconButton color="inherit" onClick={() => setIsDarkMode(!isDarkMode)}>
+                {isDarkMode ?
                   <DarkModeIcon /> :
                   <LightModeIcon />
                 }

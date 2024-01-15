@@ -1,5 +1,5 @@
 // base
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, Link } from "react-router-dom";
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -28,9 +28,20 @@ import "./fonts/font.css";
 
 // keybase,qiita, zenn
 // ページの型列挙
+export type tBooleanSet = {
+  val: boolean,
+  setVal: React.Dispatch<React.SetStateAction<boolean>>,
+}
+// { isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>> }
+
+export const darkModeContext = createContext<tBooleanSet | undefined>(undefined);
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const darkMode = {
+    val: isDarkMode,
+    setVal: setIsDarkMode,
+  }
   const theme = createTheme({
     palette: {
       mode: (isDarkMode ? "dark" : "light"),
@@ -50,27 +61,41 @@ const App: React.FC = () => {
       // ].join(','),
       //       fontFamily: "'M PLUS 1 Code', monospace"
       fontFamily: "HackGen* NF",
-    }
+
+    },
+    // breakpoints: {
+    //   values: {
+    //     xs: 0,
+    //     sm: 600,
+    //     md: 768,
+    //     lg: 1025,
+    //     xl: 1536,
+    //   },
+    // },
   });
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <TopBar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-          <Container className="main-content" sx={{ marginTop: "9vh", marginBottom: "9vh" }}>
-            <Routes>
-              <Route path={ePage.home.toLowerCase()} element={<Home />} />
-              <Route path={ePage.home2.toLowerCase()} element={<Home />} />
-              <Route path={ePage.about.toLowerCase()} element={<About />} />
-              <Route path={ePage.skills.toLowerCase()} element={<Skills />} />
-              <Route path={ePage.works.toLowerCase()} element={<Works />} />
-              {/* <Route path={ePage.experiences.toLowerCase()} element={<Experiences />} />
+          <darkModeContext.Provider value={darkMode}>
+
+            <TopBar />
+            <Container className="main-content" sx={{ marginTop: "9vh", marginBottom: "9vh" }}>
+              <Routes>
+                <Route path={ePage.home.toLowerCase()} element={<Home />} />
+                <Route path={ePage.home2.toLowerCase()} element={<Home />} />
+                <Route path={ePage.about.toLowerCase()} element={<About />} />
+                <Route path={ePage.skills.toLowerCase()} element={<Skills />} />
+                <Route path={ePage.works.toLowerCase()} element={<Works />} />
+                {/* <Route path={ePage.experiences.toLowerCase()} element={<Experiences />} />
               <Route path={ePage.qualifications.toLowerCase()} element={<Qualifications />} /> */}
-              <Route path="/*" element={<Pnf />} />
-            </Routes>
-          </Container>
-          <FootBar />
+                <Route path="/*" element={<Pnf />} />
+              </Routes>
+            </Container>
+            <FootBar />
+          </darkModeContext.Provider>
+
         </BrowserRouter>
       </ThemeProvider>
 

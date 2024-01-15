@@ -7,6 +7,7 @@ const dirPlatform: directory = {
       name: "Amazon Web Services",
       contents: "Densoのクラウドコンテストに参加したことがあります．",
     },
+    // heroku
   ],
   directories: []
 };

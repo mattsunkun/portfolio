@@ -38,6 +38,9 @@ const About = () => {
                   日光街道、小田原
                   初動画配信
                   "他にも，アルバイト経験を書きたい．0-1ゼミについても書きたい．jackについても書きたい．nttのインターンも，Ad構築，ウィンドウズサーバーも．Githubのリポジトリも何があるかとシークレットキー，アルバイトでどこまで書いていいか．一旦確認したい．",
+                  世界地図について
+                  海外3年経験
+                  name: "簿記アプリ", appheroyuki, 魚の部屋
                   {/* <Grid xs={3} marginY={1} marginX={1} paddingLeft={3}>
               <Box>
                 <LinkLine link="https://picadome.fcps.net/" line="Elementary Sch." />
