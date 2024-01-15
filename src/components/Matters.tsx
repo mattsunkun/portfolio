@@ -1,68 +1,23 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import Matter, { MouseConstraint } from "matter-js";
-import { Box, Switch, Typography } from "@mui/material";
-import dirLanguages from "src/data/Root/Users/mattsunkun/skills/languages";
+import Matter from "matter-js";
+import { Box, FormControlLabel, FormGroup, Grid, Switch, Typography } from "@mui/material";
 import { directory, file } from "src/data/Root";
-import dirFrameworks from "src/data/Root/Users/mattsunkun/skills/frameworks";
-import dirSoftware from "src/data/Root/Users/mattsunkun/skills/software";
 import { darkModeContext, tBooleanSet } from 'src/App';
-import dirSkills from "src/data/Root/Users/mattsunkun/skills";
-import LinkLine from "./LinkLine";
-
-// const SkillViewer: React.FC = React.memo(()) => {
-//   const [fily, setFily] = useState();
-
-//   return (
-//     <>
-//       {
-
-//       }
-//     </>
-//   );
-// }
 
 const cstrSurgical = "XSS";
 
-// Matterとスキルファイルの対応関係を保持するMap
-const mapSkills: Map<Matter.Body, file> = new Map();
-type tKinds = {
-  name: string,
-  matters: Matter.Body[],
-}
-const mapKinds: tKinds[] = []
-// props.dirSkills.directories.map((dir) => {
-//   return {
-//     dir,
-//     matters: []
-//   }
-// })
-
 const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (props) => {
-
-
-  let fi: file | undefined = undefined;
-  const [flag, setFlag] = useState(true);
-  const initFile: file = // dirSkills.files[0]
-  {
-    name: "タイトル",
-    contents: "下記のアイコンをタップすると，詳細が表示されます．",
-    meta: {
-      imgRightsLink: "",
-      urls: [
-        "",
-      ]
-    }
-  }
   // 現在のモード
   const { val: isDarkMode, setVal: _ } = (useContext(darkModeContext) ?? {}) as tBooleanSet;
 
-  // mapKinds = props.dirSkills.directories.map((dir) => {
-  //   return {
-  //     dir,
-  //     matters: []
-  //   }
-  // })
 
+  // Matterとスキルファイルの対応関係を保持するMap
+  const mapSkills: Map<Matter.Body, file> = new Map();
+  type tKinds = {
+    name: string,
+    matters: Matter.Body[],
+  }
+  const mapKinds: tKinds[] = []
 
   // 縦横の大きさ
   const canvasWidth = props.W ?? 280;
@@ -79,9 +34,7 @@ const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (pro
   const space: number = radius * 2 + padding;
   const sep: number = Math.floor(canvasWidth / space);
   const pad: number = (canvasWidth - sep * space) / 2;
-  const createMatterSkills = (dirSkills: directory,
-    // mapSkills: Map<Matter.Body, file>, mapKinds: tKinds[], 
-    y: number): Matter.Body[] => {
+  const createMatterSkills = (dirSkills: directory, mapSkills: Map<Matter.Body, file>, mapKinds: tKinds[], y: number): Matter.Body[] => {
     // console.log(mapSkills)
     let ans: Matter.Body[] = [];
 
@@ -180,7 +133,7 @@ const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (pro
           engine.world,
           [
             ...createMatterSkills(dir,
-              // mapSkills, mapKinds, 
+              mapSkills, mapKinds,
               canvasHeight - numFiles * space)
           ]
         );
@@ -257,98 +210,175 @@ const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (pro
           width: canvasWidth + (outerFramePadding + outerFrameSize + innerFrameSize) * 2,
         }}
       >
-        {props.dirSkills.directories.map((dir) => {
-          return <Switch
-            id={dir.name}
-            defaultChecked
-            onChange={(event) => {
-              // BBB
 
-              // setFlag(!flag);
-              const isGo = event.target.checked
-              if (isGo) {
-                Matter.Composite.add(
-                  engine.world,
-                  createMatterSkills(dir,
-                    // mapSkills, mapKinds, 
-                    0)
-                );
-              }
-              else {
-                mapKinds.filter((mapKind) => {
-                  return mapKind.name === dir.name;
-                })?.forEach((kind) => {
-                  kind.matters.forEach((matter) => {
-                    Matter.World.remove(engine.world, matter)
-                  })
-
-                });
-
-              }
-
-              // console.table(mapSkills)
-              // console.table(mapKinds)
-
-            }}
-          />
-        })}
 
 
         <Box >
           {/* 説明文 */}
-          <Box
-            sx={{
-              margin: "2px",
-              border: `${outerFrameSize}px solid #${isDarkMode ? "FFF" : "000"}`,
-              borderRadius: "12px",
-            }}
+          <Grid container
+            justifyContent="center"
+            alignContent="center"
           >
-            {/* ジャンル */}
-            {/* <Typography
-            variant="h4"
-            fontWeight="bold"
-            textAlign="center"
-          >
-            {props.dirSkills.name.toUpperCase()}
-          </Typography> */}
-            {/* skills.name */}
-            <Typography
-              id={`${cstrSurgical}Name`}
-              variant="h4"
-              fontWeight="bold"
-              textAlign="center"
-            >
-              <br />
-            </Typography>
-            {/* skills.contents */}
-            <Typography variant="body2"
-              id={`${cstrSurgical}Contents`}
-              sx={{
-                overflow: "auto",
-                overflowY: "scroll",
-                minHeight: "60px",
-                maxHeight: "60px",
-                textAlign: "center",
-              }}
-              padding={2}
-
-            >
-              <br />
-            </Typography>
-            {/* アイコン著作権 */}
             <Box
-              id={`${cstrSurgical}imgRightsLink`}
               sx={{
-                textAlign: "end",
-                fontSize: "12px",
-
+                margin: "2px",
+                border: `${outerFrameSize}px solid #${isDarkMode ? "FFF" : "000"}`,
+                borderRadius: "12px",
+                width: "320px",
               }}
-              padding={2}
             >
-              <br />
-            </Box>
-          </Box>
+              {/* skills.name */}
+              <Typography
+                id={`${cstrSurgical}Name`}
+                variant="h4"
+                fontWeight="bold"
+                textAlign="center"
+              >
+                Tap Icon
+              </Typography>
+              {/* skills.contents */}
+              <Typography variant="body2"
+                id={`${cstrSurgical}Contents`}
+                sx={{
+                  overflow: "auto",
+                  overflowY: "scroll",
+                  minHeight: "60px",
+                  maxHeight: "60px",
+                  textAlign: "center",
+                }}
+                padding={2}
 
+              >
+                <br />
+              </Typography>
+              {/* アイコン著作権 */}
+              <Box
+                id={`${cstrSurgical}imgRightsLink`}
+                sx={{
+                  textAlign: "end",
+                  fontSize: "12px",
+
+                }}
+                padding={2}
+              >
+                <br />
+              </Box>
+            </Box>
+          </Grid>
+          <Grid container
+            // spacing={5}
+            justifyContent="start"
+            alignContent="start"
+
+          >
+            {props.dirSkills.directories.map((dir) => {
+              return <Grid item
+                xs={12}
+                sm={4}
+                md={2}
+              >
+                {/*<Box
+                  alignItems="center"
+                  display="flex"
+                  paddingX={3}
+                  sx={{
+                    border: `2px solid #${isDarkMode ? "FFF" : "000"}`,
+                  }}
+                  margin={0.5}
+                >
+
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      alignContent: "center",
+                      alignItems: "center",
+                      alignSelf: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+
+                  <Switch
+                    id={dir.name}
+                    defaultChecked
+                    onChange={(event) => {
+                      // BBB
+
+                      // setFlag(!flag);
+                      const isGo = event.target.checked
+                      if (isGo) {
+                        Matter.Composite.add(
+                          engine.world,
+                          createMatterSkills(dir,
+                            mapSkills, mapKinds,
+                            0)
+                        );
+                      }
+                      else {
+                        mapKinds.filter((mapKind) => {
+                          return mapKind.name === dir.name;
+                        })?.forEach((kind) => {
+                          kind.matters.forEach((matter) => {
+                            Matter.World.remove(engine.world, matter)
+                          })
+
+                        });
+
+                      }
+
+                    }}
+                  />
+
+                  <Typography
+                    textAlign="center"
+                    variant="caption"
+                  >
+                    {dir.name.toLocaleUpperCase()}
+                  </Typography>
+                  </Box>
+
+                </Box> */}
+
+                <FormControlLabel
+
+                  label={dir.name.toLocaleUpperCase()}
+                  labelPlacement="bottom"
+                  control={
+                    <Switch
+                      id={dir.name}
+                      defaultChecked
+                      onChange={(event) => {
+                        // BBB
+
+                        // setFlag(!flag);
+                        const isGo = event.target.checked
+                        if (isGo) {
+                          Matter.Composite.add(
+                            engine.world,
+                            createMatterSkills(dir,
+                              mapSkills, mapKinds,
+                              0)
+                          );
+                        }
+                        else {
+                          mapKinds.filter((mapKind) => {
+                            return mapKind.name === dir.name;
+                          })?.forEach((kind) => {
+                            kind.matters.forEach((matter) => {
+                              Matter.World.remove(engine.world, matter)
+                            })
+
+                          });
+
+                        }
+
+                      }}
+                    />
+                  }
+
+                />
+              </Grid>
+            })}
+          </Grid>
           {/* Matters */}
           <Box ref={containerRef}
             sx={{

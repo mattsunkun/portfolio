@@ -12,6 +12,15 @@ import dirSkills from "src/data/Root/Users/mattsunkun/skills";
 import LinkLine from "src/components/LinkLine";
 
 const Skills = () => {
+  let W; let H;
+  if (window.innerWidth - 200 > 0) {
+
+    W = Math.max(window.innerWidth - 200, 320);
+    H = window.innerHeight - 400;
+  } else {
+    W = 320
+    H = 3000// window.innerHeight - 400;
+  }
   return (
     <>
       <Typography>
@@ -40,24 +49,21 @@ const Skills = () => {
         - vercel
         - detaspace
 
-      </Typography>
-      {/* <Grid container alignItems="center" justifyContent="center">
-        {
-          dirSkills.directories.map(dir => (
-            <Grid>
-              <Matters dirSkills={dir}
-                W={500}
-                H={400}
-              />
-            </Grid>
-          ))
-        }
 
-      </Grid> */}
-      <Matters dirSkills={dirSkills}
-        W={500}
-        H={400}
-      />
+        ちょっと，スマホ小さいやつのswitchリスポンしぶは諦めよう．
+        後，スマホ小さいときは上を伸ばそう．
+
+      </Typography>
+      <Grid container
+        justifyContent="center"
+        alignContent="center"
+      >
+
+        <Matters dirSkills={dirSkills}
+          W={W}
+          H={H}
+        />
+      </Grid>
 
       <Box
         marginTop={3}
