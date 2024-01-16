@@ -68,10 +68,6 @@ const About = () => {
                   - mui
                   - graphql
                   - mui
-                  software:
-                  - git
-                  - shotcut
-                  - docker
                   platform:
                   - Render
 

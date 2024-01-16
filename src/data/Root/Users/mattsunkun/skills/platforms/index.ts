@@ -24,6 +24,7 @@ const dirPlatforms: directory = {
       contents: "開発する時はほぼ使ってます． 個人開発でもpushしておくことで，データの冗長性が取れるので安心できます．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/platforms/techicons-github-384.png`,
+        imgRightsLink: "https://techicons.dev/icons/github",
       }
     },
     {
