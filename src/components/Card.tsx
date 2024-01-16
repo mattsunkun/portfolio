@@ -1,16 +1,9 @@
 import React, { useContext } from "react";
-import {
-  Grid,
-  IconButton,
-  Paper,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Grid, IconButton, Paper, Typography, Box } from "@mui/material";
 
 import LinkLine from "./LinkLine";
 
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { tWork } from "../data/work";
 import { Link } from "react-router-dom";
 import { darkModeContext, tBooleanSet } from 'src/App';
 import { extention, file } from "src/data/Root";
