@@ -65,6 +65,12 @@ const Skills = () => {
           isUnderLine
           headingLine="Icons by "
         />
+        <LinkLine
+          link="https://www.flaticon.com/"
+          line="Flaticon"
+          isUnderLine
+          headingLine="Icons by "
+        />
       </Box>
     </>
   );

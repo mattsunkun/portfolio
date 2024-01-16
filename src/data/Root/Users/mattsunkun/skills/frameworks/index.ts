@@ -4,6 +4,14 @@ const dirFrameworks: directory = {
   name: "frameworks",
   files: [
     {
+      name: ".NET",
+      contents: "実務経験のあるフレームワークです(Coreだけでなく，MAUIも少しできます)． 保守を意識したコードが書けると思います．",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/icons/frameworks/icons8-dotnet-480-9.png`,
+        imgRightsLink: "https://icons8.jp/icon/1BC75jFEBED6/%E3%83%8D%E3%83%83%E3%83%88%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%AF%E3%83%BC%E3%82%AF",
+      },
+    },
+    {
       name: "Django",
       contents: "初めて使ったPythonのバックエンドフレームワークです． 実装が重たいので今ではあまり使いません．",
       meta: {
@@ -22,12 +30,12 @@ const dirFrameworks: directory = {
 
     },
     {
-      name: ".NET",
-      contents: "実務経験のあるフレームワークです(Coreだけでなく，MAUIも少しできます)． 保守を意識したコードが書けると思います．",
+      name: "Node.js",
+      contents: "JavaScript(TypeScript)をローカルで実行したい時に使っています．",
       meta: {
-        img: `${process.env.PUBLIC_URL}/images/icons/frameworks/icons8-dotnet-480-9.png`,
-        imgRightsLink: "https://icons8.jp/icon/1BC75jFEBED6/%E3%83%8D%E3%83%83%E3%83%88%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%AF%E3%83%BC%E3%82%AF",
-      },
+        img: `${process.env.PUBLIC_URL}/images/icons/frameworks/techicons-nodejs-384.png`,
+        imgRightsLink: "https://techicons.dev/icons/nodejs",
+      }
     },
     {
       name: "React",

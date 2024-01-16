@@ -101,14 +101,15 @@ const dirLanguages: directory = {
         imgRightsLink: "https://icons8.jp/icon/m4jPUWKxN9UY/sql",
       },
     },
-    {
-      name: "Perl",
-      contents: "大学のコンパイラを作る実習のときに使いました．　Perlの初見でも読みやすいコードが好きです．",
-      meta: {
-        img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-perl-480.png`,
-        imgRightsLink: "https://icons8.jp/icon/55311/perl",
-      },
-    },
+    // 使ってない．コンパイラの時の拡張子は.p
+    // {
+    //   name: "Perl",
+    //   contents: "大学のコンパイラを作る実習のときに使いました．　Perlの初見でも読みやすいコードが好きです．",
+    //   meta: {
+    //     img: `${process.env.PUBLIC_URL}/images/icons/languages/icons8-perl-480.png`,
+    //     imgRightsLink: "https://icons8.jp/icon/55311/perl",
+    //   },
+    // },
     {
       name: "PHP",
       contents: "大学1年生の頃にウェブ開発しようとしたとき(挫折しました．．)ちょろっと触りました．　今はあまり覚えていません．．",
