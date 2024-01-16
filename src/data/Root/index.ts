@@ -17,6 +17,7 @@ export type extention = {
   img?: string,
   imgRightsLink?: string,
   start?: Date,
+  end?: Date,
   period?: number,
   urls?: string[],
 }

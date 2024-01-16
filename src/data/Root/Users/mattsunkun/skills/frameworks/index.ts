@@ -4,7 +4,7 @@ const dirFrameworks: directory = {
   name: "frameworks",
   files: [
     {
-      name: ".NET",
+      name: "(ドットネット).NET",
       contents: "実務経験のあるフレームワークです(Coreだけでなく，MAUIも少しできます)． 保守を意識したコードが書けると思います．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/frameworks/icons8-dotnet-480-9.png`,

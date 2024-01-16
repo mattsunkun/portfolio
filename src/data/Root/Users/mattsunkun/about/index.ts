@@ -1,7 +1,6 @@
 import { directory } from "src/data/Root";
-import dirExperiences from "./experiences";
 import dirInfo from "./info";
-import dirQualifications from "./qualifications";
+import dirHistory from "./history";
 
 const dirAbout: directory = {
   name: "about",
@@ -9,9 +8,8 @@ const dirAbout: directory = {
 
   ],
   directories: [
-    dirExperiences,
+    dirHistory,
     dirInfo,
-    dirQualifications,
   ],
 }
 
