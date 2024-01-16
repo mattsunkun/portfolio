@@ -236,7 +236,7 @@ const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (pro
             let imgRightsLink = document.getElementById(`${cstrSurgical}imgRightsLink`)
             if (name && contents && imgRightsLink) {
               name.innerHTML = file.name;
-              contents.innerHTML = file.contents;
+              contents.innerHTML = file.contents.replace(/\s/, "<br/>")
               imgRightsLink.innerHTML = `Icon credit: <a href="${file.meta?.imgRightsLink}" target="_blank" style="text-decoration: underline; color: white;">here</a>`;
             }
 
@@ -274,17 +274,17 @@ const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (pro
 
 
         <Box >
-          {/* 説明文 */}
           <Grid container
             justifyContent="center"
             alignContent="center"
           >
+            {/* 説明文 */}
             <Box
               sx={{
                 margin: "2px",
                 border: `${outerFrameSize}px solid #${isDarkMode ? "FFF" : "000"}`,
                 borderRadius: "12px",
-                width: "320px",
+                width: `${isFiltable ? "640px" : "320px"}`,
               }}
             >
               {/* skills.name */}
@@ -305,11 +305,25 @@ const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (pro
                   minHeight: "60px",
                   maxHeight: "60px",
                   textAlign: "center",
+
+                  "::-webkit-scrollbar": {
+                    width: "12px",
+                    right: "12px",
+                    // border: "5px solid #3498db",
+                  },
+                  "::-webkit-scrollbar-thumb": {
+                    backgroundColor: `${(isFiltable ? !isDarkMode : isDarkMode) ? "white" : "black"}}`
+                  },
+                  // "::-webkit-scrollbar-track": {
+
+                  //   backgroundColor: `${isDarkMode ? "black" : "white"}`
+                  // },
                 }}
                 padding={2}
 
               >
-                <br />
+                Tap any icons displayed bellow. <br />
+                My comments will be shown.
               </Typography>
               {/* アイコン著作権 */}
               <Box
