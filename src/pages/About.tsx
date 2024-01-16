@@ -67,13 +67,11 @@ const About = () => {
                   - three.js
                   - .js系s
                   - mui
+                  - graphql
                   software:
                   - git
                   - shotcut
                   - docker
-                  hardware:
-                  - raspberry
-                  - cisco
                   platform:
                   - aws
                   - Render
