@@ -73,10 +73,7 @@ const About = () => {
                   - shotcut
                   - docker
                   platform:
-                  - aws
                   - Render
-                  - vercel
-                  - detaspace
 
 
                   ちょっと，スマホ小さいやつのswitchリスポンしぶは諦めよう．

@@ -4,7 +4,7 @@ import dirLanguages from "./languages";
 import dirLibraries from "./libraries";
 import dirSoftware from "./software";
 import dirHardware from "./hardware";
-import dirPlatform from "./platform";
+import dirPlatforms from "./platforms";
 
 const dirSkills: directory = {
   name: "skills",
@@ -14,7 +14,7 @@ const dirSkills: directory = {
     dirHardware,
     dirLanguages,
     dirLibraries,
-    dirPlatform,
+    dirPlatforms,
     dirSoftware,
   ],
 }
