@@ -10,6 +10,7 @@ const dirSchools: directory = {
         start: new Date(2009, 4, 1),
         end: new Date(2014, 4, 1),
         urls: ["https://www.edtokai.jp/ota-e/"],
+        priority: 2
       }
     },
     {
@@ -19,6 +20,7 @@ const dirSchools: directory = {
         start: new Date(2014, 4, 1),
         end: new Date(2014, 6, 1),
         urls: ["https://picadome.fcps.net/"],
+        priority: 2
       }
     },
     {
@@ -28,6 +30,7 @@ const dirSchools: directory = {
         start: new Date(2014, 4, 1),
         end: new Date(2017, 5, 1),
         urls: ["https://www.ckjs.org/Home.php"],
+        priority: 2
       }
     },
     {
@@ -37,6 +40,7 @@ const dirSchools: directory = {
         start: new Date(2014, 9, 1),
         end: new Date(2017, 5, 1),
         urls: ["https://jessieclark.fcps.net/"],
+        priority: 2
       }
     },
     {
@@ -46,6 +50,7 @@ const dirSchools: directory = {
         start: new Date(2017, 5, 1),
         end: new Date(2018, 3, 1),
         urls: ["https://www.edtokai.jp/yokosuka-j/"],
+        priority: 2
       }
     },
     {
@@ -55,6 +60,7 @@ const dirSchools: directory = {
         start: new Date(2018, 4, 1),
         end: new Date(2021, 3, 1),
         urls: ["https://highschl.educa.nagoya-u.ac.jp/"],
+        priority: 1
       }
     },
     {
@@ -64,6 +70,7 @@ const dirSchools: directory = {
         start: new Date(2021, 4, 1),
         end: new Date(2025, 3, 1),
         urls: ["https://www.nagoya-u.ac.jp/"],
+        priority: 0
       }
     },
   ],

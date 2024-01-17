@@ -20,6 +20,7 @@ export type extention = {
   end?: Date,
   period?: number,
   urls?: string[],
+  priority?: number, // 0:必須 1:should 2:needless
 }
 
 const Root: directory = {

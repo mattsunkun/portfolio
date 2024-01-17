@@ -11,6 +11,7 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent';
 
+const priority: number = 1;
 
 const EventsLine: React.FC<{ line: string }> = (props) => {
 
@@ -26,7 +27,7 @@ const EventsLine: React.FC<{ line: string }> = (props) => {
   const events: tEvent[] = filesEvent.reduce((acc: tEvent[], cur: file) => {
     // 
     const appendy: tEvent[] = [];
-    const regexEvent: RegExp = /\(.*\)$/g;
+    const regexEvent: RegExp = /\([^\(\)]*\)$/g;
     const contentsParse = {
       main: cur.contents.replace(regexEvent, ""),
       startEvent: (cur.contents.match(regexEvent) ?? ["(stERROR/edERROR)"])[0]
@@ -41,22 +42,25 @@ const EventsLine: React.FC<{ line: string }> = (props) => {
     // const c = b.replace(/^.*\//g, "")
     // const c2 = b.replace(/\/.*$/g, "")
     // console.log(c)
-    if (cur.meta?.start) {
-      appendy.push({
-        date: cur.meta?.start,
-        event: contentsParse.startEvent,
-        title: cur.name,
-        description: contentsParse.main,
-      });
+    if ((cur.meta?.priority ?? 100) <= priority) {
+      if (cur.meta?.start) {
+        appendy.push({
+          date: cur.meta?.start,
+          event: contentsParse.startEvent,
+          title: cur.name,
+          description: contentsParse.main,
+        });
+      }
+      if (cur.meta?.end) {
+        appendy.push({
+          date: cur.meta?.end,
+          event: contentsParse.endEvent,
+          title: cur.name,
+          // description: // 終わりは解説をしないためいらない．
+        });
+      }
     }
-    if (cur.meta?.end) {
-      appendy.push({
-        date: cur.meta?.end,
-        event: contentsParse.endEvent,
-        title: cur.name,
-        // description: // 終わりは解説をしないためいらない．
-      });
-    }
+
     return acc.concat(appendy)
   }, []
   )

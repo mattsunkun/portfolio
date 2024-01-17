@@ -48,12 +48,14 @@ const Event: React.FC<tEvent> = (props) => {
                 </Typography>
 
               </Grid>
-              <Grid item xs={12} md={12}>
-                <Typography variant="caption">
-                  {props.description}
-                </Typography>
+              {(props.description) ?
+                <Grid item xs={12} md={12}>
+                  <Typography variant="caption">
+                    {props.description}
+                  </Typography>
 
-              </Grid>
+                </Grid> : <></>
+              }
             </Grid>
 
           </Paper>
