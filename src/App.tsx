@@ -60,7 +60,8 @@ const App: React.FC = () => {
       //   'sans-serif',
       // ].join(','),
       //       fontFamily: "'M PLUS 1 Code', monospace"
-      fontFamily: "HackGen* NF",
+      // fontFamily: "HackGen* NF",
+      fontFamily: "'M PLUS 1 Code', monospace"
 
     },
     // breakpoints: {

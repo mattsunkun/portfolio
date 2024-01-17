@@ -11,7 +11,7 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent';
 
-const priority: number = 1;
+const priority: number = 0;
 
 const EventsLine: React.FC<{ line: string }> = (props) => {
 
@@ -66,12 +66,12 @@ const EventsLine: React.FC<{ line: string }> = (props) => {
   )
 
 
-  // 時間でソートし，逆順にする．(時間定義されていないと今の日付になる．)
+  // 時間でソートし，(時間定義されていないと今の日付になる．)
   events.sort((a, b) =>
     a.date.getTime() -
     b.date.getTime()
   )
-    .reverse();
+  //.reverse();
   return (
     <>
       <Box
