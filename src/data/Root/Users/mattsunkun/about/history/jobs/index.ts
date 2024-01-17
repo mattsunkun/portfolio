@@ -6,7 +6,7 @@ const dirJobs: directory = {
     {
       // 東海店
       name: "和食麺処サガミ",
-      contents: "ホールスタッフとして，アルバイト勤務 (入社/退社)",
+      contents: "ホールスタッフとして，アルバイト勤務をしました．お客様の笑顔がやりがいでした． (入社/退社)",
       meta: {
         start: new Date(2021, 5, 1),
         end: new Date(2023, 8, 1),
@@ -16,7 +16,7 @@ const dirJobs: directory = {
     {
       // 東海校
       name: "秀英予備校",
-      contents: "個別指導員として，アルバイト勤務 (入社/退社)",
+      contents: "個別指導員として，アルバイト勤務をしました．数学・物理・化学・英語を担当しました． (入社/退社)",
       meta: {
         start: new Date(2021, 5, 1),
         end: new Date(2022, 3, 1),
