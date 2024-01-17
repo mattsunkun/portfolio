@@ -237,7 +237,7 @@ const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (pro
             if (name && contents && imgRightsLink) {
               name.innerHTML = file.name;
               contents.innerHTML = file.contents.replace(/\s/, "<br/>")
-              imgRightsLink.innerHTML = `Icon credit: <a href="${file.meta?.imgRightsLink}" target="_blank" style="text-decoration: underline; color: white;">here</a>`;
+              imgRightsLink.innerHTML = `Icon credit: <a href="${file.meta?.imgRightsLink}" target="_blank" style="text-decoration: underline; color: ${isDarkMode ? "white" : "black"};">here</a>`;
             }
 
           }

@@ -7,6 +7,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import { Link } from "react-router-dom";
 import { darkModeContext, tBooleanSet } from 'src/App';
 import { extention, file } from "src/data/Root";
+import { dateNormalForm } from "src/functions/utils";
 
 const Card: React.FC<file> = (props) => {
   const frameRadius: number = 30;
@@ -191,12 +192,16 @@ const Card: React.FC<file> = (props) => {
                 opacity: subsOpacity,
               }}>
               {
-                `開発期間：${(pStart?.getMonth() === 0) ?
-                  pStart?.getFullYear() - 1 :
-                  pStart?.getFullYear()
-                }年${(pStart?.getMonth() === 0) ?
-                  12 :
-                  pStart?.getMonth()
+                `開発期間：${
+                // (pStart?.getMonth() === 0) ?
+                // pStart?.getFullYear() - 1 :
+                // pStart?.getFullYear()
+                dateNormalForm(pStart).year
+                }年${
+                // (pStart?.getMonth() === 0) ?
+                // 12 :
+                // pStart?.getMonth()
+                dateNormalForm(pStart).month
                 }月から約${pPeriod}ヶ月`
               }
             </Typography>

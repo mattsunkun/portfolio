@@ -5,11 +5,11 @@ const dirSchools: directory = {
   files: [
     {
       name: "小学校",
-      contents: "Picadome Elementary (入学/転校)",
+      contents: "東海市立大田小学校 (入学/転校)",
       meta: {
         start: new Date(2009, 4, 1),
         end: new Date(2014, 4, 1),
-        urls: ["https://picadome.fcps.net/"],
+        urls: ["https://www.edtokai.jp/ota-e/"],
       }
     },
     {

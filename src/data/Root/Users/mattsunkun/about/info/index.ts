@@ -1,4 +1,5 @@
 import { directory } from "src/data/Root";
+import dirImages from "./images";
 
 const dirInfo: directory = {
   name: "info",
@@ -57,6 +58,7 @@ const dirInfo: directory = {
     },
   ],
   directories: [
+    dirImages,
   ],
 }
 
