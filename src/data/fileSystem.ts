@@ -27,18 +27,21 @@ export type extention = {
 
 
 
+
+
 export type command = {
   func: (
     manager: tManager,
     opts: string[],
     args: string[],
     mutables?: Object,
-  ) => string,
+  ) => string[],
   shortOptions: string[],
   longOptions: string[],
   maxArgNums: number,
   argType: eArgType,
 }
+
 
 
 
@@ -50,7 +53,7 @@ export type tManager = {
   parentify: (dirs: directory[]) => void,
   getChild: (nowDir: directory, nextDirName: string) => directory | undefined,
   wayHome: () => directory[],
-  getDirs: (strDir: string) => directory[],
+  getDirs: (strRawDir: string) => directory[],
   getStr: (dirs: directory[], isTilde: boolean) => string,
   // parentify:() => void, 
   // getDirectories:(dirsRel:directory[]) => directory[], 
@@ -65,6 +68,7 @@ export type tManager = {
 export const manager: tManager = {
   // 最後のスラッシュは使わない．
   cstrsHome: "/Users/mattsunkun",
+
   wayRoot: () => [dirRoot],
   parentify: (dirs: directory[]) => {
     if (dirs.length === 1) {
@@ -81,7 +85,13 @@ export const manager: tManager = {
   },
 
 
-  getDirs: (strDir: string) => {
+  getDirs: (strRawDir: string) => {
+    let strDir;
+    if (strRawDir.startsWith("/") || strRawDir.startsWith("~")) {
+      strDir = strRawDir;
+    } else {
+      strDir = `./${strRawDir}`;
+    }
     const strsDir: string[] = strDir.split(/\//g);
     let agent;
     switch (strsDir[0]) {
@@ -122,9 +132,18 @@ export const manager: tManager = {
     for (const dir of dirs) {
       agent += `${dir.name}/`;
     }
+    // tilde表記の場合
     if (isTilde) {
-      agent = agent.replace(new RegExp(`^${escapeRegExp(manager.cstrsHome)}\/`), "~");
+      agent = agent.replace(new RegExp(`^${escapeRegExp(manager.cstrsHome)}`), "~");
     }
+
+
+    // ルートでなければ，最後のスラッシュは消す．
+    if (agent !== "/") {
+      agent = agent.replace(/\/$/, "");
+    }
+
+
 
     return agent;
   },
@@ -135,5 +154,90 @@ export const manager: tManager = {
   dirsCurrent: [],
 
   strsHistory: [],
+
+}
+
+export const standardErrorArg = (command: string, arg: string): string => {
+  return ``
+}
+
+export type tStandardError = {
+  commandNotFound: (strCommand: string) => string,
+  illegalOption: (strCommand: string, opt: string) => string,
+  noSuchFileOrDirectory: (strCommand: string, arg: string) => string,
+  notADirectory: (strCommand: string, arg: string) => string,
+  notAFile: (strCommand: string, arg: string) => string,
+  permissionDenied: (strCommand: string) => string,
+  notFound: (strCommand: string) => string,
+  noManualEntryFor: (arg: string) => string,
+  tooManyArguments: (strCommand: string) => string,
+
+  // original
+  argumentRequired: (strCommand: string) => string,
+
+}
+
+export const standardError: tStandardError = {
+  commandNotFound: (strCommand: string) => {
+    return `\nmatsh: command not found: ${strCommand}`;
+  },
+
+  illegalOption: (strCommand: string, opt: string) => {
+    return (
+      `\n${strCommand}: illegal option -- ${opt}` +
+      `\nuseage: ${strCommand} <-OPTIONS> <SEGMENT(S)>`
+      // `\nuseage: ${strCommand} [-${strShortOptions.join("")}] <${argType}>`
+    );
+  },
+
+  noSuchFileOrDirectory: (strCommand: string, arg: string) => {
+    return (
+      `\n${strCommand}: ${arg}: No such file or directory`
+    );
+  },
+
+  notADirectory: (strCommand: string, arg: string) => {
+    return (
+      `\n${strCommand}: not a directory: ${arg}`
+    );
+  },
+
+  notAFile: (strCommand: string, arg: string) => {
+    return (
+      `\n${strCommand}: not a file: ${arg}`
+    );
+  },
+
+  permissionDenied: (strCommand: string) => {
+    return (
+      `\nmatsh: permission denied: ${strCommand}`
+    );
+  },
+
+  notFound: (strCommand: string) => {
+    return (
+      `\n${strCommand} not found`
+    );
+  },
+
+  noManualEntryFor: (arg: string) => {
+    return (
+      `\nNo manual entry for ${arg}`
+    );
+  },
+
+  tooManyArguments: (strCommand: string) => {
+    return (
+      `\n${strCommand}: too many arguments`
+    );
+  },
+
+  argumentRequired: (strCommand: string) => {
+    return (
+      `\nArgument required` +
+      `\nuseage: ${strCommand} <-OPTIONS> <SEGMENT(S)>`
+    );
+  },
+
 
 }

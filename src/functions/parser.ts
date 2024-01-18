@@ -6,6 +6,7 @@ export enum eToken {
   longOption = "LONG_OPTION",
   arguments = "ARGUMENTS",
   separator = "SEPARATOR",
+  onGoing = "ONGOING",
 };
 
 export default class clsParser {
@@ -43,6 +44,11 @@ export default class clsParser {
           this.options.push(opt);
         }
         this.tokens.push(eToken.shortOptions);
+      } else if (strsToken[i] === "") {
+
+        // on going
+        // this.arguments.push(strsToken[i]);
+        this.tokens.push(eToken.onGoing);
       } else {
         // arguments
         this.arguments.push(strsToken[i]);
