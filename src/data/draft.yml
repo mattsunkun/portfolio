@@ -64,6 +64,7 @@ chatGPT:
   exportとかとの連携を作る．
   rmとかシンボリックリンクを作る．
   メタデータからのジャンプ
+  cursorをinsertみたいにしたいです．
   
 
 priority: 
@@ -78,3 +79,4 @@ BUGSSSSSS:
 
 
 analyticsをやりたい．
+文字フォントを整える．

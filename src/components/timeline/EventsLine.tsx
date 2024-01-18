@@ -3,7 +3,7 @@ import { Typography, Box } from '@mui/material';
 import React from 'react';
 import Event, { tEvent } from './Event';
 import dirJobs from 'src/data/Root/Users/mattsunkun/about/history/jobs';
-import { file } from 'src/data/Root';
+import { file } from 'src/data/fileSystem';
 import dirExperiences from 'src/data/Root/Users/mattsunkun/about/history/experiences';
 import dirQualifications from 'src/data/Root/Users/mattsunkun/about/history/qualifications';
 import dirSchools from 'src/data/Root/Users/mattsunkun/about/history/schools';

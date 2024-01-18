@@ -1,4 +1,6 @@
-import { directory } from "src/data/Root";
+import { directory, tManager } from "src/data/fileSystem";
+import { eArgType } from "src/data/argType";
+
 
 const dirBin: directory = {
   name: "bin",
@@ -6,6 +8,15 @@ const dirBin: directory = {
     {
       name: "pwd",
       contents: "ぱすわーど笑笑",
+      command: {
+        func: (manager: tManager, opts: string[], args: string[]) => {
+          return `\n${manager.getStr(manager.dirsCurrent, false)}`;
+        },
+        shortOptions: [""],
+        longOptions: [""],
+        maxArgNums: 0,
+        argType: eArgType.none,
+      }
     },
     {
       name: "cat", // 猫とかをエイリアスにしたい．

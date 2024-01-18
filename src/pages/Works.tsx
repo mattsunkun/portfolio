@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import Card from "../components/Card";
 import LineSection from "../components/LineSection";
 import dirJobs from "src/data/Root/Users/mattsunkun/works/jobs";
-import { directory } from "src/data/Root";
+import { directory } from "src/data/fileSystem";
 import dirHobbies from "src/data/Root/Users/mattsunkun/works/hobbies";
 
 const Expand2Cards: FC<{ dir: directory }> = (props) => {

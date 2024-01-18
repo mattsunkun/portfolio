@@ -6,7 +6,7 @@ import LinkLine from "./LinkLine";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Link } from "react-router-dom";
 import { darkModeContext, tBooleanSet } from 'src/App';
-import { extention, file } from "src/data/Root";
+import { extention, file } from "src/data/fileSystem";
 import { dateNormalForm } from "src/functions/utils";
 
 const Card: React.FC<file> = (props) => {

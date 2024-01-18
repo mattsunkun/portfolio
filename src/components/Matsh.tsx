@@ -2,26 +2,47 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, InputAdornment, Paper, TextField, Typography } from '@mui/material';
 
-import Root, { directory, file } from '../data/Root';
+import { directory, file, manager } from "src/data/fileSystem";
 import { getTail } from '../functions/utils';
 import clsMatsh from '../functions/matsh';
 import clsParse from '../functions/parse';
 import { TypeAnimation } from 'react-type-animation';
+import clsParser from 'src/functions/parser';
+import dirBin from 'src/data/Root/bin';
+import { sys } from 'typescript';
 
 
-const matsh = new clsMatsh(Root);
+// const matsh = new clsMatsh(Root);
 
 const Matsh: React.FC<{ height: string }> = (props) => {
 
   const typographyRef = useRef<HTMLDivElement | null>(null);
   const textFieldRef = useRef<HTMLInputElement | null>(null);
 
-  const [history, setHistory] = useState<string[]>([]);
   const [histRef, setHistoryRef] = useState<number>(0);
   const [outputs, setOutputs] = useState<string>("");
   const [inputCommand, setInputCommand] = useState<string>("");
   const [complements, setComplements] = useState<string>("");
 
+
+
+  // const raw = "";// " pwd -a  --hello  args ab -la ";
+  // const a = new clsParser(raw, 5);
+  // console.log(raw)
+  // console.table(a)
+
+
+  // const mutant = ["a", "b"]
+  // console.log(mutant)
+
+  // const mutables = {
+  //   mutant: mutant
+  // }
+  // const a = (mutables: Object) => {
+  //   mutant.push("c");
+  // }
+  // a(mutables)
+  // console.log(mutant)
 
   useEffect(() => {
     // outputs変更時にスクロールする．
@@ -34,8 +55,12 @@ const Matsh: React.FC<{ height: string }> = (props) => {
   let first = true;;
   useEffect(() => {
     first = true;
+    manager.dirsCurrent = manager.wayHome();
+
     // デフォルトでtextfieldにフォーカス
     textFieldRef.current?.focus();
+
+    // dirsCurrent = 
   }, []);// 第二引数が空の場合、コンポーネントがマウントされたときだけuseEffectが実行されます
 
   useEffect(() => {
@@ -69,13 +94,13 @@ const Matsh: React.FC<{ height: string }> = (props) => {
               first ?
                 <TypeAnimation
                   sequence={[
-                    "Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!!",
+                    // "Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!!",
                     0,
                     "",
                     () => {
                       first = false;
                       // setOutputs("\n");
-                      console.log("asdf")
+                      // console.log("asdf")
                     },
                   ]}
                   wrapper="span"
@@ -89,6 +114,7 @@ const Matsh: React.FC<{ height: string }> = (props) => {
             }
 
             {outputs.split('\n').map((line, index) => (
+
               <React.Fragment key={index}>
                 {line}
                 <br />
@@ -107,98 +133,80 @@ const Matsh: React.FC<{ height: string }> = (props) => {
               /// 全角空白はなんか特殊文字使いたい
 
 
-              const parse = new clsParse(inputCommand);
+              // const parse = new clsParse(inputCommand);
+              const parser = new clsParser(inputCommand, inputCommand.length);
               switch (event.key) {
                 case "Enter": {
-                  const historyWithPrompt = `${outputs}${matsh.pwd(true)}$ ${inputCommand}`;
-                  setHistory([...history, ...inputCommand ? [inputCommand] : []]);
+                  // const historyWithPrompt = `${outputs}${matsh.pwd(true)}$ ${inputCommand}`;
+                  const outIn = `${outputs}\n${manager.getStr(manager.dirsCurrent, true)}$ ${inputCommand}`;
+                  manager.strsHistory.push(inputCommand);
+                  // setHistory([...history, ...inputCommand ? [inputCommand] : []]);
                   setHistoryRef(0);
                   // 出力
-                  switch (parse.strCommand) {
-                    case "pwd":
-                      setOutputs(`${historyWithPrompt}${matsh.pwd(false)}`)
-                      break;
-                    case "cat":
-                      setOutputs(`${historyWithPrompt}${matsh.cat(parse.strsPath)}`)
-                      break;
-                    case "cd":
-
-                      setOutputs(`${historyWithPrompt}${matsh.cd(parse.strsPath)}`)
-
-                      break;
-                    case "ls":
-                      setOutputs(`${historyWithPrompt}${matsh.ls(parse.strsPath)}`)
-                      break;
-                    case "which":
-                      setOutputs(`${historyWithPrompt}${matsh.which(parse.strCommand)}`)
-                      break;
-                    case "clear":
-                      setOutputs("");
-                      break;
-                    case "":
-                      setOutputs(`${historyWithPrompt}`);
-                      break;
-                    default:
-                      setOutputs(`${historyWithPrompt}\nmatsh: command not found: ${parse.strCommand}`);
-                      break;
+                  const command = dirBin.files.find(file => file.name === parser.command)?.command;
+                  if (command) {
+                    setOutputs(`${outIn}${command.func(manager, parser.options, parser.arguments)}`)
+                  } else if (parser.command === "") {
+                    setOutputs(`${outIn}`)
+                  } else {
+                    setOutputs(`${outIn}\nmatsh: command not found: ${parser.command}`);
                   }
-
                   // コマンドをクリアする．
                   setInputCommand("");
                 }
                   break;
-                case "Tab": {
-                  event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
+                // case "Tab": {
+                //   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
 
-                  // 一つ目のトークンはコマンドを取得する．
-                  if (parse.numTokens === 1) {
-                    const strsExeComp = matsh.tabExeComplement(parse.strCommand);
-                    switch (strsExeComp.length) {
-                      case 0:
-                        setComplements("couldnt anticipate command");
-                        break;
-                      case 1:
-                        setInputCommand(`${strsExeComp[0]} `)
-                        break;
-                      default:
-                        setComplements(strsExeComp.join(' '));
-                        break;
-                    }
-                  } else {
-                    const [isIncludesFile, strsDirComp] = matsh.tabDirComplement(
-                      parse.strsPath,
-                      (/^(pwd|cd|ls|which)$/).test(parse.strCommand) === false,
-                    );
-                    switch (strsDirComp.length) {
-                      case 0:
-                        setComplements("couldnt anticipate directory or file");
-                        break;
-                      case 1:
-                        setInputCommand(`${inputCommand.replace(new RegExp(`${parse.strPathEd}$`), strsDirComp[0])}${isIncludesFile ? "" : "/"}`);
-                        break;
-                      default:
-                        setComplements(strsDirComp.join(' '));
-                        break;
+                //   // 一つ目のトークンはコマンドを取得する．
+                //   if (parse.numTokens === 1) {
+                //     const strsExeComp = matsh.tabExeComplement(parse.strCommand);
+                //     switch (strsExeComp.length) {
+                //       case 0:
+                //         setComplements("couldnt anticipate command");
+                //         break;
+                //       case 1:
+                //         setInputCommand(`${strsExeComp[0]} `)
+                //         break;
+                //       default:
+                //         setComplements(strsExeComp.join(' '));
+                //         break;
+                //     }
+                //   } else {
+                //     const [isIncludesFile, strsDirComp] = matsh.tabDirComplement(
+                //       parse.strsPath,
+                //       (/^(pwd|cd|ls|which)$/).test(parse.strCommand) === false,
+                //     );
+                //     switch (strsDirComp.length) {
+                //       case 0:
+                //         setComplements("couldnt anticipate directory or file");
+                //         break;
+                //       case 1:
+                //         setInputCommand(`${inputCommand.replace(new RegExp(`${parse.strPathEd}$`), strsDirComp[0])}${isIncludesFile ? "" : "/"}`);
+                //         break;
+                //       default:
+                //         setComplements(strsDirComp.join(' '));
+                //         break;
 
-                    }
-                  }
+                //     }
+                //   }
 
 
-                }
-                  break;
-                case "ArrowUp": {
-                  event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
-                  setHistoryRef(Math.min(histRef + 1, history.length - 1));
-                  setInputCommand(history.length ? history[history.length - histRef - 1] : "")
-                }
-                  break;
-                case "ArrowDown": {
-                  event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
-                  setHistoryRef(Math.max(histRef - 1, 0));
-                  // 履歴がない時のエラー回避
-                  setInputCommand(history.length ? history[history.length - histRef - 1] : "")
-                }
-                  break;
+                // }
+                //   break;
+                // case "ArrowUp": {
+                //   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
+                //   setHistoryRef(Math.min(histRef + 1, history.length - 1));
+                //   setInputCommand(history.length ? history[history.length - histRef - 1] : "")
+                // }
+                //   break;
+                // case "ArrowDown": {
+                //   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
+                //   setHistoryRef(Math.max(histRef - 1, 0));
+                //   // 履歴がない時のエラー回避
+                //   setInputCommand(history.length ? history[history.length - histRef - 1] : "")
+                // }
+                //   break;
                 default:
                   setComplements("");
                   break;
@@ -207,7 +215,14 @@ const Matsh: React.FC<{ height: string }> = (props) => {
             }}
             placeholder="command here"
             InputProps={{
-              startAdornment: <InputAdornment position="start">{matsh.pwd(true)}$</InputAdornment>,
+              startAdornment:
+                <InputAdornment position="start">
+                  {
+                    manager.getStr(manager.dirsCurrent, true) === "" ?
+                      "~$" :
+                      `${manager.getStr(manager.dirsCurrent, true)}$`
+                  }
+                </InputAdornment>,
               autoComplete: "off", // 候補を見せないようにする．
             }}
           />

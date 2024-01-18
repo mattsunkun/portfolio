@@ -16,6 +16,7 @@ export const konami: { complete: string[], _status: string[], push: (key: Keyboa
   _status: [],
   push: (event: KeyboardEvent) => {
 
+    // console.log(event.key, konami._status)
     // とりあえず追加する．
     konami._status.push(event.key);
 

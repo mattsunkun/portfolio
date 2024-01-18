@@ -1,29 +1,11 @@
+import { directory } from "src/data/fileSystem";
 import dirUsers from "./Users";
 import dirBin from "./bin";
 
-export type directory = {
-  name: string,
-  files: file[],
-  directories: directory[],
-}
 
-export type file = {
-  name: string,
-  contents: string,
-  meta?: extention,
-}
 
-export type extention = {
-  img?: string,
-  imgRightsLink?: string,
-  start?: Date,
-  end?: Date,
-  period?: number,
-  urls?: string[],
-  priority?: number, // 0:必須 1:should 2:needless
-}
 
-const Root: directory = {
+const dirRoot: directory = {
   name: "",
   files: [
 
@@ -45,4 +27,7 @@ const Root: directory = {
   ],
 }
 
-export default Root;
+
+
+
+export default dirRoot;

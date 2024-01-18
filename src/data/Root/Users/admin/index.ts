@@ -1,5 +1,4 @@
-// import { directory } from "@/data/Root";
-import { directory } from "src/data/Root";
+import { directory } from "src/data/fileSystem";
 
 const dirAdmin: directory = {
   name: "admin",

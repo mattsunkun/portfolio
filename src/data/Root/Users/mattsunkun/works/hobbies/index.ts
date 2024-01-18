@@ -1,4 +1,4 @@
-import { directory } from "src/data/Root";
+import { directory } from "src/data/fileSystem";
 
 const dirHobbies: directory = {
   name: "hobbies",
