@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Box, InputAdornment, Paper, TextField, Typography } from '@mui/material';
 
-import { directory, file, manager } from "src/data/fileSystem";
+import { directory, file, lineColor, manager, standardError } from "src/data/fileSystem";
 import { getTail } from '../functions/utils';
 import clsMatsh from '../functions/matsh';
 import clsParse from '../functions/parse';
@@ -10,17 +10,21 @@ import { TypeAnimation } from 'react-type-animation';
 import clsParser from 'src/functions/parser';
 import dirBin from 'src/data/Root/bin';
 import { sys } from 'typescript';
+import { darkModeContext, tBooleanSet } from 'src/App';
+import { eOutputColor } from 'src/data/enumFileSystem';
 
 
 // const matsh = new clsMatsh(Root);
 
 const Matsh: React.FC<{ height: string }> = (props) => {
 
+  const { val: isDarkMode, setVal: _ } = (useContext(darkModeContext) || {}) as tBooleanSet;
+
   const typographyRef = useRef<HTMLDivElement | null>(null);
   const textFieldRef = useRef<HTMLInputElement | null>(null);
 
   const [histRef, setHistoryRef] = useState<number>(0);
-  const [outputs, setOutputs] = useState<string>("");
+  const [outputs, setOutputs] = useState<lineColor[]>([]);
   const [inputCommand, setInputCommand] = useState<string>("");
   const [complements, setComplements] = useState<string>("");
 
@@ -113,11 +117,12 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                 <></>
             }
 
-            {outputs.split('\n').map((line, index) => (
+            {outputs.map((lineColor, index) => (
 
               <React.Fragment key={index}>
-                {line}
-                <br />
+                <Typography color={lineColor.color}>
+                  {lineColor.line}
+                </Typography>
               </React.Fragment>
             ))}
           </Typography>
@@ -138,18 +143,33 @@ const Matsh: React.FC<{ height: string }> = (props) => {
               switch (event.key) {
                 case "Enter": {
                   // const historyWithPrompt = `${outputs}${matsh.pwd(true)}$ ${inputCommand}`;
-                  const outIn = `${outputs}\n${manager.getStr(manager.dirsCurrent, true)}$ ${inputCommand}`;
+                  const pastOutputsWithCommand: lineColor[] = [
+                    ...outputs,
+                    {
+                      line: `${manager.getStr(manager.dirsCurrent, true)}$ ${inputCommand}`,
+                      color: eOutputColor.standard,
+                    }
+
+                  ];
+                  // `${ outputs }\n${manager.getStr(manager.dirsCurrent, true)}$ ${inputCommand}`;
                   manager.strsHistory.push(inputCommand);
                   // setHistory([...history, ...inputCommand ? [inputCommand] : []]);
                   setHistoryRef(0);
                   // 出力
                   const command = dirBin.files.find(file => file.name === parser.command)?.command;
                   if (command) {
-                    setOutputs(`${outIn}${command.func(manager, parser.options, parser.arguments)}`)
+                    setOutputs([
+                      ...pastOutputsWithCommand,
+                      ...command.func(manager, parser.options, parser.arguments),
+                    ]);
+                    // setOutputs(`${outIn}${command.func(manager, parser.options, parser.arguments)}`)
                   } else if (parser.command === "") {
-                    setOutputs(`${outIn}`)
+                    setOutputs([...pastOutputsWithCommand]);
                   } else {
-                    setOutputs(`${outIn}\nmatsh: command not found: ${parser.command}`);
+                    setOutputs([
+                      ...pastOutputsWithCommand,
+                      ...standardError.commandNotFound(parser.command)
+                    ]);
                   }
                   // コマンドをクリアする．
                   setInputCommand("");

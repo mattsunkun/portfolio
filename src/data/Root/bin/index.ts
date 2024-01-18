@@ -1,5 +1,5 @@
-import { command, directory, standardError, tManager } from "src/data/fileSystem";
-import { eArgType } from "src/data/argType";
+import { command, directory, lineColor, standardError, tManager } from "src/data/fileSystem";
+import { eArgType, eOutputColor } from "src/data/enumFileSystem";
 import { getTail } from "src/functions/utils";
 
 
@@ -14,7 +14,10 @@ const dirBin: directory = {
           if (opts.length !== 0) {
             return standardError.illegalOption("pwd", opts[0]);
           } else if (args.length === 0) {
-            return `\n${manager.getStr(manager.dirsCurrent, false)}`;
+            return [{
+              line: `${manager.getStr(manager.dirsCurrent, false)}`,
+              color: eOutputColor.standard,
+            }];
           } else {
             return standardError.tooManyArguments("pwd");
           }
@@ -35,7 +38,7 @@ const dirBin: directory = {
             return standardError.illegalOption("cat", opts[0]);
           }
 
-          let agent = "";
+          let agent: lineColor[] = [];
 
           // 引数ごとにcatする．
           for (const arg of args) {
@@ -64,10 +67,13 @@ const dirBin: directory = {
             content = dirTarget.files.find(file => file.name === fileTarget)?.contents;
 
             if (content) {
-              agent += `\n${content}`;
+              agent.push({
+                line: content,
+                color: eOutputColor.standard,
+              });
             } else {
               // スラッシュがなかったor該当するファイルのパスがなかった．
-              agent += standardError.notAFile("cat", arg);
+              agent.push(...standardError.notAFile("cat", arg));
             }
 
           }
@@ -93,14 +99,14 @@ const dirBin: directory = {
             return standardError.illegalOption("cd", opts[0]);
           } else if (args.length === 0) {
             manager.dirsCurrent = manager.wayHome();
-            return "";
+            return [];
           } else if (args.length === 1) {
             const ans = manager.getDirs(args[0]);
             if (ans.length === 0) {
               return standardError.notADirectory("cd", args[0]);
             }
             manager.dirsCurrent = ans;
-            return "";
+            return [];
           } else {
             return standardError.tooManyArguments("cd");
           }
@@ -114,29 +120,29 @@ const dirBin: directory = {
     {
       name: "ls",
       contents: "binary of the りすと　ざ　せぐめんつ",
-      command: {
-        func: (manager: tManager, opts: string[], args: string[]) => {
-          if (opts.length !== 0) {
-            return standardError.illegalOption("ls", opts[0]);
-          }
+      // command: {
+      //   func: (manager: tManager, opts: string[], args: string[]) => {
+      //     if (opts.length !== 0) {
+      //       return standardError.illegalOption("ls", opts[0]);
+      //     }
 
-          // 引数が無い時は現在を見る．
-          if (args.length === 0) {
-            args.push("./");
-          }
+      //     // 引数が無い時は現在を見る．
+      //     if (args.length === 0) {
+      //       args.push("./");
+      //     }
 
-          let agent: string[] = [];
-          for (const arg of args) {
+      //     let agent: string[] = [];
+      //     for (const arg of args) {
 
-          }
+      //     }
 
-          return "not yet"
-        },
-        shortOptions: [""],
-        longOptions: [""],
-        maxArgNums: -1,
-        argType: eArgType.directory,
-      }
+      //     return "not yet"
+      //   },
+      //   shortOptions: [""],
+      //   longOptions: [""],
+      //   maxArgNums: -1,
+      //   argType: eArgType.directory,
+      // }
     },
     {
       name: "which",

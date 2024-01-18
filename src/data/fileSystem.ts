@@ -1,5 +1,5 @@
 import { escapeRegExp, getTail } from "src/functions/utils";
-import { eArgType } from "src/data/argType";
+import { eArgType, eOutputColor } from "src/data/enumFileSystem";
 import dirRoot from "./Root";
 
 export type directory = {
@@ -26,7 +26,10 @@ export type extention = {
 }
 
 
-
+export type lineColor = {
+  line: string,
+  color: eOutputColor,
+}
 
 
 export type command = {
@@ -35,7 +38,7 @@ export type command = {
     opts: string[],
     args: string[],
     mutables?: Object,
-  ) => string[],
+  ) => lineColor[],
   shortOptions: string[],
   longOptions: string[],
   maxArgNums: number,
@@ -162,81 +165,99 @@ export const standardErrorArg = (command: string, arg: string): string => {
 }
 
 export type tStandardError = {
-  commandNotFound: (strCommand: string) => string,
-  illegalOption: (strCommand: string, opt: string) => string,
-  noSuchFileOrDirectory: (strCommand: string, arg: string) => string,
-  notADirectory: (strCommand: string, arg: string) => string,
-  notAFile: (strCommand: string, arg: string) => string,
-  permissionDenied: (strCommand: string) => string,
-  notFound: (strCommand: string) => string,
-  noManualEntryFor: (arg: string) => string,
-  tooManyArguments: (strCommand: string) => string,
+  commandNotFound: (strCommand: string) => lineColor[],
+  illegalOption: (strCommand: string, opt: string) => lineColor[],
+  noSuchFileOrDirectory: (strCommand: string, arg: string) => lineColor[],
+  notADirectory: (strCommand: string, arg: string) => lineColor[],
+  notAFile: (strCommand: string, arg: string) => lineColor[],
+  permissionDenied: (strCommand: string) => lineColor[],
+  notFound: (strCommand: string) => lineColor[],
+  noManualEntryFor: (arg: string) => lineColor[],
+  tooManyArguments: (strCommand: string) => lineColor[],
 
   // original
-  argumentRequired: (strCommand: string) => string,
+  argumentRequired: (strCommand: string) => lineColor[],
 
 }
 
 export const standardError: tStandardError = {
   commandNotFound: (strCommand: string) => {
-    return `\nmatsh: command not found: ${strCommand}`;
+    return [{
+      line: `matsh: command not found: ${strCommand}`,
+      color: eOutputColor.error,
+    }];
   },
 
   illegalOption: (strCommand: string, opt: string) => {
-    return (
-      `\n${strCommand}: illegal option -- ${opt}` +
-      `\nuseage: ${strCommand} <-OPTIONS> <SEGMENT(S)>`
-      // `\nuseage: ${strCommand} [-${strShortOptions.join("")}] <${argType}>`
-    );
+    return [{
+      line: `${strCommand}: illegal option -- ${opt}`,
+      color: eOutputColor.error,
+    },
+    {
+      line: `useage: ${strCommand} <-OPTIONS> <SEGMENT(S)>`,
+      color: eOutputColor.error,
+    }
+    ];
   },
 
   noSuchFileOrDirectory: (strCommand: string, arg: string) => {
-    return (
-      `\n${strCommand}: ${arg}: No such file or directory`
-    );
+    return [{
+      line: `${strCommand}: ${arg}: No such file or directory`,
+      color: eOutputColor.error,
+    }];
   },
 
   notADirectory: (strCommand: string, arg: string) => {
-    return (
-      `\n${strCommand}: not a directory: ${arg}`
-    );
+    return [{
+      line: `${strCommand}: not a directory: ${arg}`,
+      color: eOutputColor.error,
+    }];
   },
 
   notAFile: (strCommand: string, arg: string) => {
-    return (
-      `\n${strCommand}: not a file: ${arg}`
-    );
+    return [{
+      line: `${strCommand}: not a file: ${arg}`,
+      color: eOutputColor.error,
+    }];
   },
 
   permissionDenied: (strCommand: string) => {
-    return (
-      `\nmatsh: permission denied: ${strCommand}`
-    );
+    return [{
+      line: `matsh: permission denied: ${strCommand}`,
+      color: eOutputColor.error,
+    }];
   },
 
   notFound: (strCommand: string) => {
-    return (
-      `\n${strCommand} not found`
-    );
+    return [{
+      line: `${strCommand} not found`,
+      color: eOutputColor.error,
+    }];
   },
 
   noManualEntryFor: (arg: string) => {
-    return (
-      `\nNo manual entry for ${arg}`
-    );
+    return [{
+      line: `No manual entry for ${arg}`,
+      color: eOutputColor.error,
+    }];
   },
 
   tooManyArguments: (strCommand: string) => {
-    return (
-      `\n${strCommand}: too many arguments`
-    );
+    return [{
+      line: `${strCommand}: too many arguments`,
+      color: eOutputColor.error,
+    }];
   },
 
   argumentRequired: (strCommand: string) => {
-    return (
-      `\nArgument required` +
-      `\nuseage: ${strCommand} <-OPTIONS> <SEGMENT(S)>`
-    );
+    return [{
+      line: `Argument required`,
+      color: eOutputColor.error,
+    },
+    {
+      line: `useage: ${strCommand} <-OPTIONS> <SEGMENT(S)>`,
+      color: eOutputColor.error,
+    }];
   },
 
 

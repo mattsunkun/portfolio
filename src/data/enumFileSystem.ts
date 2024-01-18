@@ -7,3 +7,10 @@ export enum eArgType {
   executable = "EXECUTABLE",
   none = "NONE",
 }
+
+
+export enum eOutputColor {
+  standard = "inherit",
+  directory = "lightgreen",
+  error = "red",
+}
