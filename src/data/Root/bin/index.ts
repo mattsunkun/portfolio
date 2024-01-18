@@ -236,6 +236,22 @@ const dirBin: directory = {
     {
       name: "clear",
       contents: "binary of the そうじ",
+      command: {
+        func: (manager: tManager, opts: string[], args: string[]) => {
+          if (opts.length !== 0) {
+            return standardError.illegalOption("clear", opts[0]);
+          } else if (args.length === 0) {
+            return [];
+          } else {
+            return standardError.tooManyArguments("clear");
+          }
+        },
+        shortOptions: [""],
+        longOptions: [""],
+        maxArgNums: 0,
+        argType: eArgType.none,
+        isNeedOuterHelp: true,
+      }
     },
   ],
   directories: []

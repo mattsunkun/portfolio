@@ -168,7 +168,14 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                       ...pastOutputsWithCommand,
                       ...command.func(manager, parser.options, parser.arguments),
                     ]);
-                    // setOutputs(`${outIn}${command.func(manager, parser.options, parser.arguments)}`)
+                    if (command.isNeedOuterHelp) {
+                      switch (parser.command) {
+                        case "clear":
+                          setOutputs([]);
+                          break;
+                      }
+                    }
+
                   } else if (parser.command === "") {
                     setOutputs([...pastOutputsWithCommand]);
                   } else {

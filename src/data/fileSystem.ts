@@ -37,12 +37,13 @@ export type command = {
     manager: tManager,
     opts: string[],
     args: string[],
-    mutables?: Object,
+    mutant?: Object,
   ) => lineColor[],
   shortOptions: string[],
   longOptions: string[],
   maxArgNums: number,
   argType: eArgType,
+  isNeedOuterHelp?: boolean,
 }
 
 
