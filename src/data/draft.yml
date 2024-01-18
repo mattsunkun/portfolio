@@ -77,6 +77,7 @@ BUGSSSSSS:
   matterのテーマ変更時の触れない問題と，Creditの文字が変わらない問題．
   worksの引用元のswhiteの余白がない．
   標準入力と出力が分けられていない．
+  アスタリスクはdirの途中で認めないエラーを出したい．managerオブジェクトのstringを引数にとる全てを変更した方がいい．
 
 
 analyticsをやりたい．

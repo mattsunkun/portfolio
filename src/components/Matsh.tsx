@@ -3,15 +3,17 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Box, InputAdornment, Paper, TextField, Typography } from '@mui/material';
 
 import { directory, file, lineColor, manager, standardError } from "src/data/fileSystem";
-import { getTail } from '../functions/utils';
+import { concatDirectory, getTail } from '../functions/utils';
 import clsMatsh from '../functions/matsh';
 import clsParse from '../functions/parse';
 import { TypeAnimation } from 'react-type-animation';
-import clsParser from 'src/functions/parser';
+import clsParser, { eToken } from 'src/functions/parser';
 import dirBin from 'src/data/Root/bin';
 import { sys } from 'typescript';
 import { darkModeContext, tBooleanSet } from 'src/App';
-import { eOutputColor } from 'src/data/enumFileSystem';
+import { eArgType, eOutputColor } from 'src/data/enumFileSystem';
+import { msgAlert } from 'src/functions/dependencyInjection';
+import { parse } from 'path';
 
 
 // const matsh = new clsMatsh(Root);
@@ -139,107 +141,156 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
 
               // const parse = new clsParse(inputCommand);
-              const parser = new clsParser(inputCommand, inputCommand.length);
+              const nowCursor: number = textFieldRef.current?.selectionStart || inputCommand.length;
+              const parser = new clsParser(inputCommand, nowCursor);
               switch (event.key) {
                 case "Enter": {
-                  // const historyWithPrompt = `${outputs}${matsh.pwd(true)}$ ${inputCommand}`;
+                  // 今までの履歴と，今入力したコマンドを保持する．
                   const pastOutputsWithCommand: lineColor[] = [
                     ...outputs,
                     {
                       line: `${manager.getStr(manager.dirsCurrent, true)}$ ${inputCommand}`,
                       color: eOutputColor.standard,
                     }
-
                   ];
-                  // `${ outputs }\n${manager.getStr(manager.dirsCurrent, true)}$ ${inputCommand}`;
-                  manager.strsHistory.push(inputCommand);
-                  // setHistory([...history, ...inputCommand ? [inputCommand] : []]);
+
+                  // 空白は履歴に入れない．
+                  if (parser.command !== "") {
+                    manager.strsHistory.push(inputCommand);
+                  }
+
+                  // コマンドをクリアする．
+                  setInputCommand("");
+
+                  // 履歴参照を戻す．
                   setHistoryRef(0);
+
+                  // aliasの場合は，コマンドを変換させる．
                   for (const alias of manager.cstrsAlias) {
                     if (alias.split("=")[0] === parser.command) {
                       parser.command = alias.split("=")[1];
                       break;
                     }
                   }
-                  // 出力
-                  const command = dirBin.files.find(file => file.name === parser.command)?.command;
+
+
+                  // exportされているdirを見る．
+                  const command = getTail(manager.getDirs(manager.cstrExportPath)).files.find(file => file.name === parser.command)?.command;
+
+                  // コマンドが存在すれば
                   if (command) {
+                    // さっきの保持と合わせて出力を書く．
                     setOutputs([
                       ...pastOutputsWithCommand,
                       ...command.func(manager, parser.options, parser.arguments),
                     ]);
+
+                    // 外側での実行が必要なものについてはここに記述する．
                     if (command.isNeedOuterHelp) {
                       switch (parser.command) {
                         case "clear":
                           setOutputs([]);
                           break;
+                        default:
+                          msgAlert(`${parser.command}で外側の実行がされていません．`);
+                          break;
                       }
                     }
 
                   } else if (parser.command === "") {
+                    // 空コマンド
                     setOutputs([...pastOutputsWithCommand]);
                   } else {
+                    // コマンドが存在しないときの出力．
                     setOutputs([
                       ...pastOutputsWithCommand,
                       ...standardError.commandNotFound(parser.command)
                     ]);
                   }
-                  // コマンドをクリアする．
-                  setInputCommand("");
+
                 }
                   break;
-                // case "Tab": {
-                //   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
+                case "Tab": {
+                  event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
 
-                //   // 一つ目のトークンはコマンドを取得する．
-                //   if (parse.numTokens === 1) {
-                //     const strsExeComp = matsh.tabExeComplement(parse.strCommand);
-                //     switch (strsExeComp.length) {
-                //       case 0:
-                //         setComplements("couldnt anticipate command");
-                //         break;
-                //       case 1:
-                //         setInputCommand(`${strsExeComp[0]} `)
-                //         break;
-                //       default:
-                //         setComplements(strsExeComp.join(' '));
-                //         break;
-                //     }
-                //   } else {
-                //     const [isIncludesFile, strsDirComp] = matsh.tabDirComplement(
-                //       parse.strsPath,
-                //       (/^(pwd|cd|ls|which)$/).test(parse.strCommand) === false,
-                //     );
-                //     switch (strsDirComp.length) {
-                //       case 0:
-                //         setComplements("couldnt anticipate directory or file");
-                //         break;
-                //       case 1:
-                //         setInputCommand(`${inputCommand.replace(new RegExp(`${parse.strPathEd}$`), strsDirComp[0])}${isIncludesFile ? "" : "/"}`);
-                //         break;
-                //       default:
-                //         setComplements(strsDirComp.join(' '));
-                //         break;
+                  let candidates: string[];
+                  switch (parser.tokens[parser.cursorIndex]) {
+                    case eToken.command:
+                      candidates = manager.getCandidates(concatDirectory([manager.cstrExportPath, parser.command])).executables;
+                      break;
+                    case eToken.shortOptions:
+                      candidates = (getTail(manager.getDirs(manager.cstrExportPath)).files.find(file =>
+                        file.name === parser.command)
+                        ?.command?.shortOptions) || []
+                      break;
+                    case eToken.longOption:
+                      candidates = (getTail(manager.getDirs(manager.cstrExportPath)).files.find(file =>
+                        file.name === parser.command)
+                        ?.command?.longOptions) || []
+                      break;
+                    case eToken.onGoing:
+                    case eToken.arguments:
+                      // ここがおかしい
+                      console.log("asdf")
+                      console.log(parser.strsToken, parser.cursorIndex)
+                      console.log(parser.strsToken[parser.cursorIndex])
+                      const allCandidates = manager.getCandidates(concatDirectory([manager.getStr(manager.dirsCurrent, false), parser.strsToken[parser.cursorIndex]]));
+                      switch (getTail(manager.getDirs(manager.cstrExportPath)).files.find(file =>
+                        file.name === parser.command)
+                        ?.command?.argType) {
+                        case eArgType.directory:
+                          candidates = allCandidates.directories;
+                          break;
+                        case eArgType.executable:
+                          candidates = manager.getCandidates(concatDirectory([manager.cstrExportPath, parser.strsToken[parser.cursorIndex]])).executables;
+                          break;
+                        case eArgType.file:
+                          candidates = allCandidates.files;
+                          break;
+                        default:
+                          msgAlert(`arg type error`);
+                          candidates = [];
+                          break;
+                      }
+                      break;
+                    default:
+                      console.table(parser)
+                      msgAlert(`candidates type error${parser}`);
+                      candidates = [];
+                      break;
+                  }
+                  console.table(parser)
+                  console.log(candidates)
+                  console.log(parser.tokens[parser.cursorIndex])
 
-                //     }
-                //   }
 
+                  switch (candidates.length) {
+                    case 1:
 
-                // }
-                //   break;
-                // case "ArrowUp": {
-                //   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
-                //   setHistoryRef(Math.min(histRef + 1, history.length - 1));
-                //   setInputCommand(history.length ? history[history.length - histRef - 1] : "")
-                // }
-                //   break;
-                // case "ArrowDown": {
-                //   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
-                //   setHistoryRef(Math.max(histRef - 1, 0));
-                //   // 履歴がない時のエラー回避
-                //   setInputCommand(history.length ? history[history.length - histRef - 1] : "")
-                // }
-                //   break;
+                      const left = inputCommand.substring(0, nowCursor).replace(/\s*\S*$/, "");
+                      const right = inputCommand.substring(nowCursor + 1).replace(/^\S*\s*/, "");
+                      console.log(left, right)
+                      setInputCommand(`${left} ${candidates[0]} ${right}`);
+                      break;
+                    default:
+                      setComplements(candidates.join(" "));
+                      break;
+                  }
+                  break;
+                }
+                case "ArrowUp": {
+                  event.preventDefault(); // キーのデフォルトの動作をキャンセル
+                  setHistoryRef(Math.min(histRef + 1, manager.strsHistory.length - 1));
+                  setInputCommand(manager.strsHistory.length ? manager.strsHistory[manager.strsHistory.length - histRef - 1] : "")
+                }
+                  break;
+                case "ArrowDown": {
+                  event.preventDefault(); // キーのデフォルトの動作をキャンセル
+                  setHistoryRef(Math.max(histRef - 1, 0));
+                  // 履歴がない時のエラー回避
+                  setInputCommand(manager.strsHistory.length ? manager.strsHistory[manager.strsHistory.length - histRef - 1] : "")
+                }
+                  break;
                 default:
                   setComplements("");
                   break;

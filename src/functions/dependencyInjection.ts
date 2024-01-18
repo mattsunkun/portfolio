@@ -1,10 +1,10 @@
 
-const isDev: boolean = false;
+const isDev: boolean = true;
 
 export const msgAlert = (strMsg: string) => {
   if (isDev) {
-    alert(msgAlert)
+    console.log(strMsg)
   } else {
-    alert(msgAlert)
+    alert(strMsg)
   }
 }

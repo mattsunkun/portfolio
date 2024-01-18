@@ -46,6 +46,12 @@ export type command = {
   isNeedOuterHelp?: boolean,
 }
 
+export type tCandidates = {
+  files: string[],
+  directories: string[],
+  executables: string[],
+}
+
 
 
 
@@ -60,6 +66,7 @@ export type tManager = {
   wayHome: () => directory[],
   getDirs: (strRawDir: string) => directory[],
   getStr: (dirs: directory[], isTilde: boolean) => string,
+  getCandidates: (strRawInComplete: string) => tCandidates,
   // parentify:() => void, 
   // getDirectories:(dirsRel:directory[]) => directory[], 
   // getFiles:(dirsRel:directory[]) => file[], 
@@ -103,6 +110,13 @@ export const manager: tManager = {
       strDir = strRawDir;
     } else {
       strDir = `./${strRawDir}`;
+    }
+    if (
+      strRawDir.length >= 2 &&
+      strRawDir.charAt(0) === "~" &&
+      strRawDir.charAt(1) !== "/"
+    ) {
+      return [];
     }
     const strsDir: string[] = strDir.split(/\//g);
     let agent;
@@ -159,8 +173,61 @@ export const manager: tManager = {
 
 
 
+
     return agent;
   },
+
+  getCandidates: (strRawInComplete: string) => {
+    // 最初に必ずスラッシュが含まれる形にする．
+    let strInComplete;
+    if (strRawInComplete.startsWith("/") ||
+      // ここを~/にすると，~が感知できなくなる．
+      strRawInComplete.startsWith("~")) {
+      strInComplete = strRawInComplete;
+    } else {
+      strInComplete = `./${strRawInComplete}`;
+    }
+
+    // ~.+の形の時
+    if (
+      strRawInComplete.length >= 2 &&
+      strRawInComplete.charAt(0) === "~" &&
+      strRawInComplete.charAt(1) !== "/"
+    ) {
+      return { files: [], directories: [], executables: [] };
+    }
+
+    // 最後のスラッシュの位置を取得
+    const separator = strInComplete.lastIndexOf("/");
+    // 最後のスラッシュで文字列を分割
+    const strDir = strInComplete.substring(0, separator);
+    const strDebris = strInComplete.substring(separator + 1);
+
+    const regexDebris = new RegExp(`^${escapeRegExp(strDebris)}.*`)
+
+    // .replaceAll("\*", ".*")
+    console.log(strDir, strDebris)
+    console.log(regexDebris);
+    const dirTarget = getTail(manager.getDirs(strDir));
+    return {
+      files: dirTarget.files.filter(file =>
+        file.name.match(regexDebris)
+      )
+        .map(file => file.name),
+      directories: dirTarget.directories.filter(dir =>
+        dir.name.match(regexDebris)
+      )
+        .map(dir => dir.name),
+      executables: dirTarget.files.filter(file =>
+        file.name.match(regexDebris) &&
+        file.command
+      )
+        .map(file => file.name),
+    }
+  },
+
+
+
   wayHome: () => {
     return manager.getDirs(manager.cstrsHome);
   },
