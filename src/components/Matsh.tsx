@@ -155,6 +155,12 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                   manager.strsHistory.push(inputCommand);
                   // setHistory([...history, ...inputCommand ? [inputCommand] : []]);
                   setHistoryRef(0);
+                  for (const alias of manager.cstrsAlias) {
+                    if (alias.split("=")[0] === parser.command) {
+                      parser.command = alias.split("=")[1];
+                      break;
+                    }
+                  }
                   // 出力
                   const command = dirBin.files.find(file => file.name === parser.command)?.command;
                   if (command) {

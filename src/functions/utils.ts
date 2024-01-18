@@ -33,3 +33,34 @@ export const dateNormalForm = (date?: Date): { year: number, month: number } => 
       date.getMonth()
   }
 }
+
+export const concatDirectory = (strsDir: string[], isWantSlash?: boolean): string => {
+  if (strsDir.length < 1) {
+    return strsDir.join("");
+  } else {
+    let agent = strsDir[0];
+    for (const strDir of strsDir.slice(1)) {
+      // 今の状態の末尾のスラッシュを消す．
+      agent = agent.replace(/\/$/, "")
+
+      // 次の状態の最初のスラッシュを消す．
+      const strAppendy = strDir.replace(/^\//, "")
+
+      agent += `/${strAppendy}`;
+    }
+
+    const regexSlashEnd = /\/$/;
+    const isExistsSlash = agent.match(regexSlashEnd);
+
+    if (isExistsSlash && !isWantSlash) {
+      agent = agent.replace(regexSlashEnd, "");
+    }
+
+    if (!isExistsSlash && isWantSlash) {
+      agent += "/";
+    }
+
+    return agent;
+
+  }
+}

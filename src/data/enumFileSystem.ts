@@ -12,5 +12,6 @@ export enum eArgType {
 export enum eOutputColor {
   standard = "inherit",
   directory = "lightgreen",
+  file = "inherit",
   error = "red",
 }

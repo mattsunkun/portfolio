@@ -1,6 +1,7 @@
-import { command, directory, lineColor, standardError, tManager } from "src/data/fileSystem";
+import { command, directory, lineColor, lineField, standardError, tManager } from "src/data/fileSystem";
 import { eArgType, eOutputColor } from "src/data/enumFileSystem";
-import { getTail } from "src/functions/utils";
+import { concatDirectory, getTail, isSame } from "src/functions/utils";
+import { dir } from "console";
 
 
 const dirBin: directory = {
@@ -120,33 +121,117 @@ const dirBin: directory = {
     {
       name: "ls",
       contents: "binary of the りすと　ざ　せぐめんつ",
-      // command: {
-      //   func: (manager: tManager, opts: string[], args: string[]) => {
-      //     if (opts.length !== 0) {
-      //       return standardError.illegalOption("ls", opts[0]);
-      //     }
+      command: {
+        func: (manager: tManager, opts: string[], args: string[]) => {
+          if (opts.length !== 0) {
+            return standardError.illegalOption("ls", opts[0]);
+          }
 
-      //     // 引数が無い時は現在を見る．
-      //     if (args.length === 0) {
-      //       args.push("./");
-      //     }
+          // 引数が無い時は現在を見る．
+          if (args.length === 0) {
+            args.push("./");
+          }
 
-      //     let agent: string[] = [];
-      //     for (const arg of args) {
+          let agent: lineColor[] = [];
+          for (const arg of args) {
+            const dirTarget = getTail(manager.getDirs(arg));
+            if (dirTarget) {
+              agent.push({
+                line: `${arg}:`,
+                color: eOutputColor.standard,
+              });
+              const dirs = dirTarget.directories.map(dir => dir.name);
+              if (dirs.length !== 0) {
+                agent.push({
+                  line: dirs.join(" "),
+                  color: eOutputColor.directory,
+                })
+              }
+              const files = dirTarget.files.map(file => file.name);
+              if (files.length !== 0) {
 
-      //     }
+                agent.push({
+                  line: files.join(" "),
+                  color: eOutputColor.file,
+                })
+              }
+              agent.push(lineField());
+            } else {
+              agent.push(...standardError.notADirectory("ls", arg))
+            }
+          }
 
-      //     return "not yet"
-      //   },
-      //   shortOptions: [""],
-      //   longOptions: [""],
-      //   maxArgNums: -1,
-      //   argType: eArgType.directory,
-      // }
+          // 最後がlinefieldなら消す．
+          if (isSame([getTail(agent)], [lineField()])) {
+            agent.pop();
+          }
+
+
+          // 一つだけの時かつ，正常の時は最初を消す．
+          if (args.length === 1 && agent[0].color === eOutputColor.standard) {
+            agent.shift();
+          }
+          return agent;
+        },
+        shortOptions: [""],
+        longOptions: [""],
+        maxArgNums: -1,
+        argType: eArgType.directory,
+      }
     },
     {
       name: "which",
       contents: "binary of the まじょ",
+      command: {
+        func: (manager: tManager, opts: string[], args: string[]) => {
+          if (opts.length !== 0) {
+            return standardError.illegalOption("which", opts[0]);
+          } else if (args.length === 0) {
+            return standardError.argumentRequired("which");
+          } else {
+            let agent: lineColor[] = [];
+
+            const strsAlias: string[] = manager.cstrsAlias;
+
+            const dirsTarget: directory[] = manager.getDirs(manager.cstrExportPath);
+            for (const arg of args) {
+              const alias = strsAlias.find(ele => ele.split("=")[0] === arg)
+              if (alias) {
+                agent.push({
+                  line: `${alias.split("=")[0]}: aliased to ${alias.split("=")[1]}`,
+                  color: eOutputColor.standard,
+                })
+                // コマンドは一意なので，ここで次へ行く．
+                continue;
+              }
+
+
+              const executable = getTail(dirsTarget).files.find(file => (
+                (file.command) && // 実行可能
+                (file.name === arg) // 名前がある．
+              ))
+
+              if (executable) {
+                agent.push({
+                  // ここの実行はgetStrの最後がスラッシュ無いことが保証されているから．
+                  line: concatDirectory([manager.getStr(dirsTarget, false), arg]),
+                  color: eOutputColor.standard,
+                })
+                continue;
+              }
+
+              agent.push(...standardError.notFound(arg));
+
+            }
+            return agent;
+          }
+
+        },
+        shortOptions: [""],
+        longOptions: [""],
+        maxArgNums: 0,
+        argType: eArgType.none,
+      }
     },
     {
       name: "clear",

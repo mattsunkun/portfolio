@@ -50,7 +50,8 @@ export type command = {
 
 export type tManager = {
   cstrsHome: string,
-  // pathsExecutable:directory[][], 
+  cstrExportPath: string,
+  cstrsAlias: string[],
   wayRoot: () => directory[],
 
   parentify: (dirs: directory[]) => void,
@@ -71,6 +72,13 @@ export type tManager = {
 export const manager: tManager = {
   // 最後のスラッシュは使わない．
   cstrsHome: "/Users/mattsunkun",
+  cstrExportPath: "/bin",
+  cstrsAlias: [
+    "猫=cat",
+    "ねこ=cat",
+  ],
+
+
 
   wayRoot: () => [dirRoot],
   parentify: (dirs: directory[]) => {
@@ -130,6 +138,8 @@ export const manager: tManager = {
 
     return agent;
   },
+
+  // 末尾はスラッシュ消します．
   getStr: (dirs: directory[], isTilde: boolean) => {
     let agent: string = "";
     for (const dir of dirs) {
@@ -160,9 +170,6 @@ export const manager: tManager = {
 
 }
 
-export const standardErrorArg = (command: string, arg: string): string => {
-  return ``
-}
 
 export type tStandardError = {
   commandNotFound: (strCommand: string) => lineColor[],
@@ -260,5 +267,13 @@ export const standardError: tStandardError = {
     }];
   },
 
+
+}
+
+export const lineField = (): lineColor => {
+  return {
+    line: "　",
+    color: eOutputColor.standard
+  }
 
 }
