@@ -21,6 +21,10 @@ const dirInfo: directory = {
       contents: "名古屋大学情報学部コンピュータ科学科知能システム系",
     },
     {
+      name: "メールアドレス",
+      contents: "mattsunkun1221<<あっと>>じーめーる.こむ",
+    },
+    {
       name: "Atcoder",
       contents: "緑色",
     },

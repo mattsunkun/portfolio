@@ -214,6 +214,8 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
 
                   let candidates: string[];
+                  let token: eToken = parser.tokens[parser.cursorIndex];
+                  let argType: eArgType = eArgType.none;
                   switch (parser.tokens[parser.cursorIndex]) {
                     case eToken.command:
                       candidates = manager.getCandidates(concatDirectory([manager.cstrExportPath, parser.command])).executables;
@@ -228,16 +230,17 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                         file.name === parser.command)
                         ?.command?.longOptions) || []
                       break;
-                    case eToken.onGoing:
+                    // case eToken.onGoing:
                     case eToken.arguments:
                       // ここがおかしい
                       console.log("asdf")
                       console.log(parser.strsToken, parser.cursorIndex)
                       console.log(parser.strsToken[parser.cursorIndex])
-                      const allCandidates = manager.getCandidates(concatDirectory([manager.getStr(manager.dirsCurrent, false), parser.strsToken[parser.cursorIndex]]));
-                      switch (getTail(manager.getDirs(manager.cstrExportPath)).files.find(file =>
+                      const allCandidates = manager.getCandidates(concatDirectory([manager.getStr(manager.dirsCurrent, false), parser.strsToken[parser.cursorIndex]], parser.strsToken[parser.cursorIndex] === ""));
+                      argType = (getTail(manager.getDirs(manager.cstrExportPath)).files.find(file =>
                         file.name === parser.command)
-                        ?.command?.argType) {
+                        ?.command?.argType) || eArgType.none;
+                      switch (argType) {
                         case eArgType.directory:
                           candidates = allCandidates.directories;
                           break;
@@ -248,7 +251,6 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                           candidates = allCandidates.files;
                           break;
                         default:
-                          msgAlert(`arg type error`);
                           candidates = [];
                           break;
                       }
@@ -263,14 +265,29 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                   console.log(candidates)
                   console.log(parser.tokens[parser.cursorIndex])
 
-
                   switch (candidates.length) {
                     case 1:
 
                       const left = inputCommand.substring(0, nowCursor).replace(/\s*\S*$/, "");
                       const right = inputCommand.substring(nowCursor + 1).replace(/^\S*\s*/, "");
                       console.log(left, right)
-                      setInputCommand(`${left} ${candidates[0]} ${right}`);
+                      console.log("asdf")
+                      console.log(argType)
+                      switch (argType) {
+                        case eArgType.directory:
+                          setInputCommand(`${left} ${candidates[0]}/ ${right}`);
+                          break;
+                        case eArgType.executable:
+                          setInputCommand(`${left}${candidates[0]}${right}`);
+                          break;
+                        case eArgType.file:
+                          setInputCommand(`${left} ${candidates[0]} ${right}`);
+                          break;
+                        case eArgType.none:
+                          setInputCommand(`${left} ${candidates[0]} ${right}`);
+                          break;
+                      }
+
                       break;
                     default:
                       setComplements(candidates.join(" "));

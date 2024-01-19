@@ -5,9 +5,15 @@ export enum eToken {
   shortOptions = "SHORT_OPTIONS",
   longOption = "LONG_OPTION",
   arguments = "ARGUMENTS",
-  separator = "SEPARATOR",
-  onGoing = "ONGOING",
+  // separator = "SEPARATOR",
+  onGoingArg = "ONGOINGARG", // commandはongoingにならない．
 };
+
+
+export type tToken = {
+  str: string,
+  type: eToken,
+}
 
 export default class clsParser {
   public strsToken: string[];
@@ -19,14 +25,69 @@ export default class clsParser {
 
   // nowCursorは点滅している場所
   constructor(public strRawCommand: string, nowCursor: number) {
-    const regexStartSpace = /^\s+/g;
+
+    const regexStartSpaces = /^\s+/g;
     const regexSpace = /\s+/g;
-    const strsToken: string[] = strRawCommand
-      .replace(regexStartSpace, "") // 最初の空白を消す．
-      .split(regexSpace);
-    // console.log(ここが冗長的になっている．)
-    // command
+    const strTokens: string = ` ${strRawCommand} `;//strRawCommand.replace(regexStartSpaces, "");
+
+
+    this.strsToken = [];
+    this.tokens = [];
+    this.options = [];
+    this.arguments = [];
+
+    let indToken: number = 0;
+    let lookingToken: eToken = eToken.command;
+    let strTokenDebris: string = "";
+    let isSearchingStart: boolean = true;
+    for (let i = 0; i < strTokens.length; i++) {
+      const ele = strTokens.charAt(i);
+      switch (lookingToken) {
+        case eToken.command:
+
+          switch (ele) {
+            case " ":
+              if (isSearchingStart) {
+
+              } else {
+
+
+
+                this.strsToken.push(strTokenDebris);
+                this.tokens.push(lookingToken);
+                strTokenDebris = "";
+                indToken++;
+                if (i === nowCursor) this.cursorIndex = indToken;
+                isSearchingStart = true;
+
+                this.command = getTail(this.strsToken);
+                lookingToken = eToken.arguments;
+
+              }
+              break;
+            default:
+              isSearchingStart = false;
+              strTokenDebris += ele;
+              break;
+          }
+          break;
+        case eToken.arguments:
+        case " ":
+          if (isSearchingStart) {
+
+          } else {
+
+          }
+      }
+    }
+
+
+
+
+
     this.command = strsToken[0];
+
+    // ""の時は，ongoning
     this.tokens = [eToken.command];
     this.strsToken = [this.command];
 
@@ -35,8 +96,8 @@ export default class clsParser {
 
     // 2個目の引数から
     for (let i = 1; i < strsToken.length; i++) {
-      this.tokens.push(eToken.separator);
-      this.strsToken.push(" ");
+      // this.tokens.push(eToken.separator);
+      // this.strsToken.push(" ");
       if (strsToken[i].startsWith("--")) {
         // long option
         const option = strsToken[i].slice(2)
@@ -48,16 +109,21 @@ export default class clsParser {
         const options = strsToken[i].slice(1)
         for (const opt of options) {
           this.options.push(opt);
+          this.tokens.push(eToken.shortOptions);
+          this.strsToken.push(opt);
         }
-        this.tokens.push(eToken.shortOptions);
-        this.strsToken.push(options);
+        // this.tokens.push(eToken.shortOptions);
+        // this.strsToken.push(options);
 
       } else if (strsToken[i] === "") {
 
         // on going
         // this.arguments.push(strsToken[i]);
-        this.tokens.push(eToken.onGoing);
-        this.strsToken.push("");
+        // this.tokens.push(eToken.onGoing);
+
+        // this.argumentsに代入はしない．ongoingだから．
+        this.tokens.push(eToken.onGoingArg);
+        this.strsToken.push(strsToken[i]);
       } else {
         // arguments
         this.arguments.push(strsToken[i]);
