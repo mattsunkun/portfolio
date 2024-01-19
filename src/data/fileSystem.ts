@@ -252,6 +252,7 @@ export type tStandardError = {
 
   // original
   argumentRequired: (strCommand: string) => lineColor[],
+  parseError: () => lineColor[],
 
 }
 
@@ -333,6 +334,17 @@ export const standardError: tStandardError = {
       line: `useage: ${strCommand} <-OPTIONS> <SEGMENT(S)>`,
       color: eOutputColor.error,
     }];
+  },
+
+  parseError: () => {
+    return [{
+      line: "matsh: Parsing error around options",
+      color: eOutputColor.error,
+    },
+    {
+      line: `useage: <COMMAND> <-OPTIONS> <SEGMENT(S)>`,
+      color: eOutputColor.error,
+    }]
   },
 
 

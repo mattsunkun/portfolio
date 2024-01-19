@@ -7,7 +7,7 @@ import { concatDirectory, getTail } from '../functions/utils';
 import clsMatsh from '../functions/matsh';
 import clsParse from '../functions/parse';
 import { TypeAnimation } from 'react-type-animation';
-import clsParser, { eToken } from 'src/functions/parser';
+import clsParser, { eParseError, eToken } from 'src/functions/parser';
 import dirBin from 'src/data/Root/bin';
 import { sys } from 'typescript';
 import { darkModeContext, tBooleanSet } from 'src/App';
@@ -138,13 +138,13 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
               /// 長すぎるコマンドは解釈できない
               /// 全角空白はなんか特殊文字使いたい
-
-
               // const parse = new clsParse(inputCommand);
-              const nowCursor: number = textFieldRef.current?.selectionStart || inputCommand.length;
+              const nowCursor: number = textFieldRef.current?.selectionStart ?? -1;
+
               const parser = new clsParser(inputCommand, nowCursor);
               switch (event.key) {
                 case "Enter": {
+                  event.preventDefault();
                   // 今までの履歴と，今入力したコマンドを保持する．
                   const pastOutputsWithCommand: lineColor[] = [
                     ...outputs,
@@ -177,8 +177,15 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                   // exportされているdirを見る．
                   const command = getTail(manager.getDirs(manager.cstrExportPath)).files.find(file => file.name === parser.command)?.command;
 
-                  // コマンドが存在すれば
-                  if (command) {
+
+                  if (parser.parseError === eParseError.optionError) {
+                    // option parse error
+                    setOutputs([
+                      ...pastOutputsWithCommand,
+                      ...standardError.parseError(),
+                    ]);
+                  } else if (command) {
+                    // コマンドが存在すれば
                     // さっきの保持と合わせて出力を書く．
                     setOutputs([
                       ...pastOutputsWithCommand,
@@ -213,86 +220,145 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                 case "Tab": {
                   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
 
+
+                  // console.table(parser.tokens)
+                  // console.log(parser.command)
+                  // aliasの場合は，コマンドを変換させる．
+                  for (const alias of manager.cstrsAlias) {
+                    if (alias.split("=")[0] === parser.command) {
+                      parser.command = alias.split("=")[1];
+                      break;
+                    }
+                  }
+                  const executableTargets: file[] = getTail(manager.getDirs(manager.cstrExportPath)).files.filter(file =>
+                    file.command);
+                  const executableCandidates: string[] = executableTargets.map(file => file.name);
+                  // const commandRawCandidates =[
+                  //   ...commandExecutables, 
+                  //   ...manager.cstrsAlias.map(alias => alias.split("=")[0])
+                  // ];
+                  const myExecutable: file | undefined = executableTargets.find(file =>
+                    file.name === parser.command);
+
+                  const shortOptionsCandidates: string[] = myExecutable?.command?.shortOptions ?? [];
+
+                  const separator: number = parser.tokens[parser.cursorTokenIndex].str.lastIndexOf("/");
+                  const strDirTarget: string = parser.tokens[parser.cursorTokenIndex].str.substring(0, separator + 1);
+                  const strDebris: string = parser.tokens[parser.cursorTokenIndex].str.substring(separator + 1)
+                  const dirTarget: directory = getTail(manager.getDirs(strDirTarget));
+                  const fileCandidates: file[] = dirTarget?.files || [];
+                  const directoryCandidates: directory[] = dirTarget?.directories || [];
+
+                  console.log("ppppp")
+                  console.log(inputCommand.slice(nowCursor + 1))
+                  const spaceInd = inputCommand.slice(nowCursor + 1).search(/\s/)
+                  let hipCursor;
+                  if (spaceInd !== -1) {
+
+                    hipCursor = nowCursor + 1 + spaceInd;
+                  } else {
+                    console.log("space is")
+                    hipCursor = inputCommand.length;
+                  }
+                  const rawLeft = inputCommand.substring(0, hipCursor);
+                  const rawRight = inputCommand.substring(hipCursor + 1);
+                  const left = rawLeft.replace(/[^\/\s]*?$/, "");
+                  const right = rawRight.replace(/^\s*/, "");
+
+
+                  // console.log(parser.tokenNow.type)
+                  // console.log(myExecutable?.command?.argType)
+                  console.log("woeiruweior");
+                  // console.log(rawLeft, rawRight)
+                  console.log(left, right)
+                  console.log("above left right")
                   let candidates: string[];
-                  let token: eToken = parser.tokens[parser.cursorIndex];
-                  let argType: eArgType = eArgType.none;
-                  switch (parser.tokens[parser.cursorIndex]) {
+                  switch (parser.tokenNow.type) {
                     case eToken.command:
-                      candidates = manager.getCandidates(concatDirectory([manager.cstrExportPath, parser.command])).executables;
+                      candidates = executableCandidates.filter(candidate =>
+                        candidate.startsWith(parser.tokenNow.str))
+                        .filter(str => str.startsWith(strDebris));
+
+                      switch (candidates.length) {
+                        case 1:
+                          setInputCommand(`${candidates[0]} ${right}`);
+                          break;
+                        default:
+                          setComplements(candidates.join(" "));
+                          break;
+                      }
                       break;
                     case eToken.shortOptions:
-                      candidates = (getTail(manager.getDirs(manager.cstrExportPath)).files.find(file =>
-                        file.name === parser.command)
-                        ?.command?.shortOptions) || []
-                      break;
-                    case eToken.longOption:
-                      candidates = (getTail(manager.getDirs(manager.cstrExportPath)).files.find(file =>
-                        file.name === parser.command)
-                        ?.command?.longOptions) || []
-                      break;
-                    // case eToken.onGoing:
-                    case eToken.arguments:
-                      // ここがおかしい
-                      console.log("asdf")
-                      console.log(parser.strsToken, parser.cursorIndex)
-                      console.log(parser.strsToken[parser.cursorIndex])
-                      const allCandidates = manager.getCandidates(concatDirectory([manager.getStr(manager.dirsCurrent, false), parser.strsToken[parser.cursorIndex]], parser.strsToken[parser.cursorIndex] === ""));
-                      argType = (getTail(manager.getDirs(manager.cstrExportPath)).files.find(file =>
-                        file.name === parser.command)
-                        ?.command?.argType) || eArgType.none;
-                      switch (argType) {
-                        case eArgType.directory:
-                          candidates = allCandidates.directories;
+                      candidates = shortOptionsCandidates.filter(candidate =>
+                        candidate.startsWith(parser.tokenNow.str))
+                        .filter(str => str.startsWith(strDebris));
+                      switch (candidates.length) {
+                        case 1:
+                          setInputCommand(`${left} -${candidates[0]} ${right}`);
                           break;
-                        case eArgType.executable:
-                          candidates = manager.getCandidates(concatDirectory([manager.cstrExportPath, parser.strsToken[parser.cursorIndex]])).executables;
+                        default:
+                          setComplements(candidates.join(" "));
+                          break;
+                      }
+                      break;
+                    case eToken.arguments:
+                      switch (myExecutable?.command?.argType) {
+                        case eArgType.directory:
+                          candidates = directoryCandidates.map(dir => dir.name)
+                            .filter(str => str.startsWith(strDebris));
+                          console.log("helooAAA")
+
+                          switch (candidates.length) {
+                            case 1:
+                              setInputCommand(`${left}${candidates[0]}/${right === "" ? "" : ` ${right}`}`);
+                              break;
+                            default:
+                              setComplements(candidates.join(" "));
+                              break;
+                          }
                           break;
                         case eArgType.file:
-                          candidates = allCandidates.files;
+                          candidates = [
+                            ...directoryCandidates.map(dir => dir.name),
+                            ...fileCandidates.map(file => file.name),
+                          ]
+                            .filter(str => str.startsWith(strDebris));
+                          switch (candidates.length) {
+                            case 1:
+                              if (directoryCandidates.length === 1) {
+                                setInputCommand(`${left} ${candidates[0]}/${right === "" ? "" : ` ${right}`}`);
+                              } else {
+                                setInputCommand(`${left} ${candidates[0]} ${right}`);
+                              }
+
+                              break;
+                            default:
+                              setComplements(candidates.join(" "));
+                              break;
+                          }
+                          break;
+                        case eArgType.executable:
+                          candidates = executableCandidates
+                            .filter(str => str.startsWith(strDebris));
+                          switch (candidates.length) {
+                            case 1:
+                              setInputCommand(`${left} ${candidates[0]} ${right}`);
+                              break;
+                            default:
+                              setComplements(candidates.join(" "));
+                              break;
+                          }
                           break;
                         default:
                           candidates = [];
                           break;
                       }
-                      break;
-                    default:
-                      console.table(parser)
-                      msgAlert(`candidates type error${parser}`);
-                      candidates = [];
-                      break;
                   }
-                  console.table(parser)
+                  console.log("erjwfj")
+                  console.log(parser.tokenNow)
                   console.log(candidates)
-                  console.log(parser.tokens[parser.cursorIndex])
+                  console.log(parser.tokens)
 
-                  switch (candidates.length) {
-                    case 1:
-
-                      const left = inputCommand.substring(0, nowCursor).replace(/\s*\S*$/, "");
-                      const right = inputCommand.substring(nowCursor + 1).replace(/^\S*\s*/, "");
-                      console.log(left, right)
-                      console.log("asdf")
-                      console.log(argType)
-                      switch (argType) {
-                        case eArgType.directory:
-                          setInputCommand(`${left} ${candidates[0]}/ ${right}`);
-                          break;
-                        case eArgType.executable:
-                          setInputCommand(`${left}${candidates[0]}${right}`);
-                          break;
-                        case eArgType.file:
-                          setInputCommand(`${left} ${candidates[0]} ${right}`);
-                          break;
-                        case eArgType.none:
-                          setInputCommand(`${left} ${candidates[0]} ${right}`);
-                          break;
-                      }
-
-                      break;
-                    default:
-                      setComplements(candidates.join(" "));
-                      break;
-                  }
                   break;
                 }
                 case "ArrowUp": {
