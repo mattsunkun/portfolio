@@ -205,9 +205,6 @@ export const manager: tManager = {
 
     const regexDebris = new RegExp(`^${escapeRegExp(strDebris)}.*`)
 
-    // .replaceAll("\*", ".*")
-    console.log(strDir, strDebris)
-    console.log(regexDebris);
     const dirTarget = getTail(manager.getDirs(strDir));
     return {
       files: dirTarget.files.filter(file =>
@@ -253,6 +250,9 @@ export type tStandardError = {
   // original
   argumentRequired: (strCommand: string) => lineColor[],
   parseError: () => lineColor[],
+  cnumsMaxChar: number,
+  commandTooLong: () => lineColor[],
+
 
 }
 
@@ -345,6 +345,17 @@ export const standardError: tStandardError = {
       line: `useage: <COMMAND> <-OPTIONS> <SEGMENT(S)>`,
       color: eOutputColor.error,
     }]
+  },
+
+  cnumsMaxChar: 100,
+
+  commandTooLong: () => {
+    return [
+      {
+        line: "matsh: Command Too Looooooong!!",
+        color: eOutputColor.error,
+      }
+    ]
   },
 
 

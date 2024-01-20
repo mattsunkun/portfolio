@@ -122,7 +122,7 @@ const Matsh: React.FC<{ height: string }> = (props) => {
             {outputs.map((lineColor, index) => (
 
               <React.Fragment key={index}>
-                <Typography color={lineColor.color}>
+                <Typography color={lineColor.color} variant="h5">
                   {lineColor.line}
                 </Typography>
               </React.Fragment>
@@ -131,14 +131,21 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
           {/* 入力 */}
           <TextField fullWidth label="" id="fullWidth"
+
             inputRef={textFieldRef}
             value={inputCommand}
             onChange={(event) => setInputCommand(event.target.value)}
             onKeyDown={(event) => {
 
-              /// 長すぎるコマンドは解釈できない
-              /// 全角空白はなんか特殊文字使いたい
-              // const parse = new clsParse(inputCommand);
+              // 長すぎるコマンドは解釈できない
+              if (inputCommand.length >= standardError.cnumsMaxChar) {
+                setOutputs([
+                  ...outputs,
+                  ...standardError.commandTooLong(),
+                ])
+                setInputCommand("")
+              }
+
               const nowCursor: number = textFieldRef.current?.selectionStart ?? -1;
 
               const parser = new clsParser(inputCommand, nowCursor);
@@ -220,144 +227,148 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                 case "Tab": {
                   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
 
-
-                  // console.table(parser.tokens)
-                  // console.log(parser.command)
-                  // aliasの場合は，コマンドを変換させる．
-                  for (const alias of manager.cstrsAlias) {
-                    if (alias.split("=")[0] === parser.command) {
-                      parser.command = alias.split("=")[1];
-                      break;
-                    }
-                  }
-                  const executableTargets: file[] = getTail(manager.getDirs(manager.cstrExportPath)).files.filter(file =>
-                    file.command);
-                  const executableCandidates: string[] = executableTargets.map(file => file.name);
-                  // const commandRawCandidates =[
-                  //   ...commandExecutables, 
-                  //   ...manager.cstrsAlias.map(alias => alias.split("=")[0])
-                  // ];
-                  const myExecutable: file | undefined = executableTargets.find(file =>
-                    file.name === parser.command);
-
-                  const shortOptionsCandidates: string[] = myExecutable?.command?.shortOptions ?? [];
-
-                  const separator: number = parser.tokens[parser.cursorTokenIndex].str.lastIndexOf("/");
-                  const strDirTarget: string = parser.tokens[parser.cursorTokenIndex].str.substring(0, separator + 1);
-                  const strDebris: string = parser.tokens[parser.cursorTokenIndex].str.substring(separator + 1)
-                  const dirTarget: directory = getTail(manager.getDirs(strDirTarget));
-                  const fileCandidates: file[] = dirTarget?.files || [];
-                  const directoryCandidates: directory[] = dirTarget?.directories || [];
-
-                  console.log("ppppp")
-                  console.log(inputCommand.slice(nowCursor + 1))
-                  const spaceInd = inputCommand.slice(nowCursor + 1).search(/\s/)
-                  let hipCursor;
-                  if (spaceInd !== -1) {
-
-                    hipCursor = nowCursor + 1 + spaceInd;
-                  } else {
-                    console.log("space is")
-                    hipCursor = inputCommand.length;
-                  }
-                  const rawLeft = inputCommand.substring(0, hipCursor);
-                  const rawRight = inputCommand.substring(hipCursor + 1);
-                  const left = rawLeft.replace(/[^\/\s]*?$/, "");
-                  const right = rawRight.replace(/^\s*/, "");
-
-
-                  // console.log(parser.tokenNow.type)
-                  // console.log(myExecutable?.command?.argType)
-                  console.log("woeiruweior");
-                  // console.log(rawLeft, rawRight)
-                  console.log(left, right)
-                  console.log("above left right")
-                  let candidates: string[];
-                  switch (parser.tokenNow.type) {
-                    case eToken.command:
-                      candidates = executableCandidates.filter(candidate =>
-                        candidate.startsWith(parser.tokenNow.str))
-                        .filter(str => str.startsWith(strDebris));
-
-                      switch (candidates.length) {
-                        case 1:
-                          setInputCommand(`${candidates[0]} ${right}`);
-                          break;
-                        default:
-                          setComplements(candidates.join(" "));
-                          break;
-                      }
-                      break;
-                    case eToken.shortOptions:
-                      candidates = shortOptionsCandidates.filter(candidate =>
-                        candidate.startsWith(parser.tokenNow.str))
-                        .filter(str => str.startsWith(strDebris));
-                      switch (candidates.length) {
-                        case 1:
-                          setInputCommand(`${left} -${candidates[0]} ${right}`);
-                          break;
-                        default:
-                          setComplements(candidates.join(" "));
-                          break;
-                      }
-                      break;
-                    case eToken.arguments:
-                      switch (myExecutable?.command?.argType) {
-                        case eArgType.directory:
-                          candidates = directoryCandidates.map(dir => dir.name)
-                            .filter(str => str.startsWith(strDebris));
-                          console.log("helooAAA")
-
-                          switch (candidates.length) {
-                            case 1:
-                              setInputCommand(`${left}${candidates[0]}/${right === "" ? "" : ` ${right}`}`);
-                              break;
-                            default:
-                              setComplements(candidates.join(" "));
-                              break;
-                          }
-                          break;
-                        case eArgType.file:
-                          candidates = [
-                            ...directoryCandidates.map(dir => dir.name),
-                            ...fileCandidates.map(file => file.name),
-                          ]
-                            .filter(str => str.startsWith(strDebris));
-                          switch (candidates.length) {
-                            case 1:
-                              if (directoryCandidates.length === 1) {
-                                setInputCommand(`${left} ${candidates[0]}/${right === "" ? "" : ` ${right}`}`);
-                              } else {
-                                setInputCommand(`${left} ${candidates[0]} ${right}`);
-                              }
-
-                              break;
-                            default:
-                              setComplements(candidates.join(" "));
-                              break;
-                          }
-                          break;
-                        case eArgType.executable:
-                          candidates = executableCandidates
-                            .filter(str => str.startsWith(strDebris));
-                          switch (candidates.length) {
-                            case 1:
-                              setInputCommand(`${left} ${candidates[0]} ${right}`);
-                              break;
-                            default:
-                              setComplements(candidates.join(" "));
-                              break;
-                          }
-                          break;
-                        default:
-                          candidates = [];
-                          break;
-                      }
-                  }
-                  console.log("erjwfj")
+                  console.log(inputCommand);
+                  console.table(parser.compliment)
+                  console.table(parser.tokens);
                   console.log(parser.tokenNow)
-                  console.log(candidates)
-                  console.log(parser.tokens)
+
+                  // for (const alias of manager.cstrsAlias) {
+                  //   if (alias.split("=")[0] === parser.command) {
+                  //     parser.command = alias.split("=")[1];
+                  //     break;
+                  //   }
+                  // }
+                  // const executableTargets: file[] = getTail(manager.getDirs(manager.cstrExportPath)).files.filter(file =>
+                  //   file.command);
+                  // const commandCandidates: string[] = [
+                  //   ...manager.cstrsAlias.map(alias => alias.split("=")[0]),
+                  //   ...executableTargets.map(file => file.name),
+                  // ]
+                  // // const commandRawCandidates =[
+                  // //   ...commandExecutables, 
+                  // //   ...manager.cstrsAlias.map(alias => alias.split("=")[0])
+                  // // ];
+                  // const myExecutable: file | undefined = executableTargets.find(file =>
+                  //   file.name === parser.command);
+
+                  // const shortOptionsCandidates: string[] = myExecutable?.command?.shortOptions ?? [];
+
+                  // const separator: number = parser.tokens[parser.cursorTokenIndex].str.lastIndexOf("/");
+                  // const strDirTarget: string = parser.tokens[parser.cursorTokenIndex].str.substring(0, separator + 1);
+                  // const strDebris: string = parser.tokens[parser.cursorTokenIndex].str.substring(separator + 1)
+                  // const dirTarget: directory = getTail(manager.getDirs(strDirTarget));
+                  // const fileCandidates: file[] = dirTarget?.files || [];
+                  // const directoryCandidates: directory[] = dirTarget?.directories || [];
+
+                  // console.log("ppppp")
+                  // console.log(inputCommand.slice(nowCursor + 1))
+                  // const spaceInd = inputCommand.slice(nowCursor + 1).search(/\s/)
+                  // let hipCursor;
+                  // if (spaceInd !== -1) {
+
+                  //   hipCursor = nowCursor + 1 + spaceInd;
+                  // } else {
+                  //   console.log("space is")
+                  //   hipCursor = inputCommand.length;
+                  // }
+                  // const rawLeft = inputCommand.substring(0, hipCursor);
+                  // const rawRight = inputCommand.substring(hipCursor + 1);
+                  // const left = rawLeft.replace(/[^\/\s]*?$/, "");
+                  // const right = rawRight.replace(/^\s*/, "");
+
+
+                  // // console.log(parser.tokenNow.type)
+                  // // console.log(myExecutable?.command?.argType)
+                  // console.log("woeiruweior");
+                  // // console.log(rawLeft, rawRight)
+                  // console.log(left, right)
+                  // console.log("above left right")
+                  // let candidates: string[];
+                  // switch (parser.tokenNow.type) {
+                  //   case eToken.command:
+                  //     candidates = commandCandidates.filter(candidate =>
+                  //       candidate.startsWith(parser.tokenNow.str))
+                  //       .filter(str => str.startsWith(strDebris));
+
+                  //     switch (candidates.length) {
+                  //       case 1:
+                  //         setInputCommand(`${candidates[0]} ${right}`);
+                  //         break;
+                  //       default:
+                  //         setComplements(candidates.join(" "));
+                  //         break;
+                  //     }
+                  //     break;
+                  //   case eToken.shortOptions:
+                  //     candidates = shortOptionsCandidates.filter(candidate =>
+                  //       candidate.startsWith(parser.tokenNow.str))
+                  //       .filter(str => str.startsWith(strDebris));
+                  //     switch (candidates.length) {
+                  //       case 1:
+                  //         setInputCommand(`${left} -${candidates[0]} ${right}`);
+                  //         break;
+                  //       default:
+                  //         setComplements(candidates.join(" "));
+                  //         break;
+                  //     }
+                  //     break;
+                  //   case eToken.arguments:
+                  //     switch (myExecutable?.command?.argType) {
+                  //       case eArgType.directory:
+                  //         candidates = directoryCandidates.map(dir => dir.name)
+                  //           .filter(str => str.startsWith(strDebris));
+                  //         console.log("helooAAA")
+
+                  //         switch (candidates.length) {
+                  //           case 1:
+                  //             setInputCommand(`${left}${candidates[0]}/${right === "" ? "" : ` ${right}`}`);
+                  //             break;
+                  //           default:
+                  //             setComplements(candidates.join(" "));
+                  //             break;
+                  //         }
+                  //         break;
+                  //       case eArgType.file:
+                  //         candidates = [
+                  //           ...directoryCandidates.map(dir => dir.name),
+                  //           ...fileCandidates.map(file => file.name),
+                  //         ]
+                  //           .filter(str => str.startsWith(strDebris));
+                  //         switch (candidates.length) {
+                  //           case 1:
+                  //             if (directoryCandidates.length === 1) {
+                  //               setInputCommand(`${left} ${candidates[0]}/${right === "" ? "" : ` ${right}`}`);
+                  //             } else {
+                  //               setInputCommand(`${left} ${candidates[0]} ${right}`);
+                  //             }
+
+                  //             break;
+                  //           default:
+                  //             setComplements(candidates.join(" "));
+                  //             break;
+                  //         }
+                  //         break;
+                  //       case eArgType.executable:
+                  //         candidates = commandCandidates
+                  //           .filter(str => str.startsWith(strDebris));
+                  //         switch (candidates.length) {
+                  //           case 1:
+                  //             setInputCommand(`${left} ${candidates[0]} ${right}`);
+                  //             break;
+                  //           default:
+                  //             setComplements(candidates.join(" "));
+                  //             break;
+                  //         }
+                  //         break;
+                  //       default:
+                  //         candidates = [];
+                  //         break;
+                  //     }
+                  // }
+                  // console.log("erjwfj")
+                  // console.log(parser.tokenNow)
+                  // console.log(candidates)
+                  // console.log(parser.tokens)
 
                   break;
                 }
@@ -393,6 +404,9 @@ const Matsh: React.FC<{ height: string }> = (props) => {
               autoComplete: "off", // 候補を見せないようにする．
             }}
           />
+
+
+
           {/* 補完 */}
           <Typography
             variant="h5"

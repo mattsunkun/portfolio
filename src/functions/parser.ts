@@ -3,10 +3,7 @@ import { getTail } from "./utils";
 export enum eToken {
   command = "COMMAND",
   shortOptions = "SHORT_OPTIONS",
-  // longOption = "LONG_OPTION",
   arguments = "ARGUMENTS",
-  // separator = "SEPARATOR",
-  // onGoingArg = "ONGOINGARG", // commandはongoingにならない．
 };
 
 
@@ -19,20 +16,34 @@ export enum eParseError {
   optionError = "OPTIONERROR",
 }
 
-// ここでTokenは空白を指さない．
+export type tCompliment = {
+  left: string,
+  middle: string,
+  right: string,
+  isNoCompliment: boolean,
+}
+
+// ここでTokenは空白を指さないとする．
 export default class clsParser {
   public tokens: tToken[];
   public cursorTokenIndex: number;
   public parseError?: eParseError;
+  public compliment: tCompliment;
 
   // nowCursorは点滅している場所
   constructor(strRawTarget: string, nowCursor: number) {
 
     nowCursor++;
-    const strTarget: string = ` ${strRawTarget} `;
+    const strTarget: string = ` ${strRawTarget}  `;
 
     this.tokens = [];
     this.cursorTokenIndex = -1;
+    this.compliment = {
+      left: "",
+      middle: "",
+      right: "",
+      isNoCompliment: false,
+    };
 
     let indToken: number = 0;
     let lookingToken: eToken = eToken.command;
@@ -40,7 +51,33 @@ export default class clsParser {
     let isTokening: boolean = false;
     for (let i = 0; i < strTarget.length; i++) {
       const ele = strTarget.charAt(i);
-      if (i === nowCursor) this.cursorTokenIndex = indToken;
+
+      if (
+        i !== 0 && i !== strTarget.length - 1
+        /// true
+      ) {
+
+        if (i < nowCursor) {
+          this.compliment.left += ele;
+        } else if (i === nowCursor) {
+          if (ele === " " &&
+            (this.compliment.left.charAt(i - 1) !== " ")
+          ) {
+
+            this.cursorTokenIndex = indToken;
+
+            // this.compliment.left = this.compliment.left.replace(/\s*$/, "");
+
+            this.compliment.middle = this.compliment.left.replace(/^.*[\s\/$]/, "");
+
+            this.compliment.left = this.compliment.left.replace(/[\s\/][^\s\/]*$/, "");
+          } else {
+            this.compliment.isNoCompliment = true;
+          }
+        } else {
+          this.compliment.right += ele;
+        }
+      }
 
       switch (ele) {
         case " ":
@@ -88,33 +125,26 @@ export default class clsParser {
           break;
       }
     }
-
-
-    // console.log("wer")
-    // console.log(strRawTarget)
-    // console.log(strRawTarget.charAt(-1) === "", strRawTarget.charAt(nowCursor - 1) === " ")
-    // console.log("asdf")
-    if (
-      (
-        strRawTarget.charAt(nowCursor - 1) === " " ||
-        strRawTarget.charAt(nowCursor - 1) === ""
-      )
-      &&
-      (
-        strRawTarget.charAt(nowCursor) === " " ||
-        strRawTarget.charAt(nowCursor) === ""
-      )
-    ) {
-      console.log("asfd")
-      this.tokens = [
-        ...this.tokens.slice(0, this.cursorTokenIndex),
-        {
-          str: "",
-          type: eToken.arguments,
-        },
-        ...this.tokens.slice(this.cursorTokenIndex),
-      ];
-    }
+    // if (
+    //   (
+    //     strRawTarget.charAt(nowCursor - 1) === " " ||
+    //     strRawTarget.charAt(nowCursor - 1) === ""
+    //   )
+    //   &&
+    //   (
+    //     strRawTarget.charAt(nowCursor) === " " ||
+    //     strRawTarget.charAt(nowCursor) === ""
+    //   )
+    // ) {
+    //   this.tokens = [
+    //     ...this.tokens.slice(0, this.cursorTokenIndex),
+    //     {
+    //       str: "",
+    //       type: eToken.arguments,
+    //     },
+    //     ...this.tokens.slice(this.cursorTokenIndex),
+    //   ];
+    // }
 
   }
 
@@ -145,7 +175,7 @@ export default class clsParser {
   public get arguments(): string[] {
     return (this.tokens.filter(token =>
       (token.type === eToken.arguments) &&
-      (token.str !== "") // tabのからもじは判定しない．
+      (token.str !== "") // tabの空文字は判定しない．
     )
       .map(token => token.str));
   }
