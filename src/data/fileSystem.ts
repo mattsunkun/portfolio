@@ -259,7 +259,7 @@ export type tStandardError = {
 export const standardError: tStandardError = {
   commandNotFound: (strCommand: string) => {
     return [{
-      line: `matsh: command not found: ${strCommand}`,
+      line: `matsh: Command not found: ${strCommand}`,
       color: eOutputColor.error,
     }];
   },
@@ -299,7 +299,7 @@ export const standardError: tStandardError = {
 
   permissionDenied: (strCommand: string) => {
     return [{
-      line: `matsh: permission denied: ${strCommand}`,
+      line: `matsh: Permission denied: ${strCommand}`,
       color: eOutputColor.error,
     }];
   },
@@ -352,7 +352,7 @@ export const standardError: tStandardError = {
   commandTooLong: () => {
     return [
       {
-        line: "matsh: Command Too Looooooong!!",
+        line: "matsh: Command 2 looooooong!!",
         color: eOutputColor.error,
       }
     ]
