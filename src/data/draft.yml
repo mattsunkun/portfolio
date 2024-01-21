@@ -80,6 +80,7 @@ BUGSSSSSS:
   アスタリスクはdirの途中で認めないエラーを出したい．managerオブジェクトのstringを引数にとる全てを変更した方がいい．
   コマンドを打った後に，行頭でタブを押すと，argumentsの保管になる．
   innerHTMLを使ってる．
+  dirとfileが同じ名前で存在した場合のcompの対処方法．candidatesが1とそれ以上でそれぞれ異なる．
 
 
 analyticsをやりたい．

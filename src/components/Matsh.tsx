@@ -7,7 +7,7 @@ import { concatDirectory, getTail } from '../functions/utils';
 import clsMatsh from '../functions/matsh';
 import clsParse from '../functions/parse';
 import { TypeAnimation } from 'react-type-animation';
-import clsParser, { eParseError, eToken } from 'src/functions/parser';
+import clsParser, { eParseError, eToken, tToken } from 'src/functions/parser';
 import dirBin from 'src/data/Root/bin';
 import { sys } from 'typescript';
 import { darkModeContext, tBooleanSet } from 'src/App';
@@ -29,6 +29,8 @@ const Matsh: React.FC<{ height: string }> = (props) => {
   const [outputs, setOutputs] = useState<lineColor[]>([]);
   const [inputCommand, setInputCommand] = useState<string>("");
   const [complements, setComplements] = useState<lineColor>();
+
+  const [isInputting, setIsInputting] = useState<boolean>(false);
 
 
 
@@ -135,7 +137,11 @@ const Matsh: React.FC<{ height: string }> = (props) => {
             inputRef={textFieldRef}
             value={inputCommand}
             onChange={(event) => setInputCommand(event.target.value)}
+
+            onCompositionStart={() => setIsInputting(true)}
+            onCompositionEnd={() => setIsInputting(false)}
             onKeyDown={(event) => {
+
 
               // 長すぎるコマンドは解釈できない
               if (inputCommand.length >= standardError.cnumsMaxChar) {
@@ -148,9 +154,10 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
               const nowCursor: number = textFieldRef.current?.selectionStart ?? -1;
 
-              const parser = new clsParser(inputCommand, nowCursor);
+              const parser = new clsParser(inputCommand);
               switch (event.key) {
                 case "Enter": {
+                  if (isInputting) return;
                   event.preventDefault();
                   // 今までの履歴と，今入力したコマンドを保持する．
                   const pastOutputsWithCommand: lineColor[] = [
@@ -227,160 +234,246 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                 case "Tab": {
                   event.preventDefault(); // Tabキーのデフォルトの動作をキャンセル
 
-                  console.log(inputCommand);
-                  console.table(parser.compliment)
-                  console.table(parser.tokens);
-                  console.log(parser.tokenNow)
-
-                  if (parser.compliment.isNoCompliment) {
+                  // 末端でのみTabはサポート
+                  if (nowCursor !== inputCommand.length) {
                     setComplements({
-                      line: "No Compliment Found",
+                      line: "Compliment Only For Tail",
                       color: eOutputColor.error,
                     });
                     return;
                   }
 
-                  if (parser.compliment.left === "" ||
-                    parser.compliment.left === ""
-                  ) {
 
-                    const executableTargets: file[] = getTail(manager.getDirs(manager.cstrExportPath)).files.filter(file =>
-                      file.command);
-                    const commandCandidates: string[] = [
-                      ...manager.cstrsAlias.map(alias => alias.split("=")[0]),
-                      ...executableTargets.map(file => file.name),
-                    ]
-                    setComplements({
-                      line: commandCandidates.join(" "),
-                      color: eOutputColor.standard,
-                    })
-                    return;
-
-
-
-                  }
-
+                  // EEE 
+                  const executableTargets: file[] = getTail(manager.getDirs(manager.cstrExportPath)).files.filter(file =>
+                    file.command);
+                  let myExe = parser.command;
                   for (const alias of manager.cstrsAlias) {
                     if (alias.split("=")[0] === parser.command) {
-                      parser.command = alias.split("=")[1];
+                      myExe = alias.split("=")[1];
                       break;
                     }
                   }
-                  const executableTargets: file[] = getTail(manager.getDirs(manager.cstrExportPath)).files.filter(file =>
-                    file.command);
-                  const commandCandidates: string[] = [
-                    ...manager.cstrsAlias.map(alias => alias.split("=")[0]),
-                    ...executableTargets.map(file => file.name),
-                  ]
+                  // コマンドのパス指定はまだできていないからここでやる．
+                  // そのためには，パスが一緒かどうか判断するmanagaerを作る必要がある．
+                  // 変更点としては，ここと引数としてexecのところ
+                  // 後，executabletargetも？
+                  // EEE 
+                  // for (const exec of executableTargets){
+                  //   if(exec.name)
+                  // }
+
+
                   const myExecutable: file | undefined = executableTargets.find(file =>
-                    file.name === parser.command);
+                    file.name === myExe);
 
-                  const shortOptionsCandidates: string[] = myExecutable?.command?.shortOptions ?? [];
 
-                  const dirTarget: directory = getTail(manager.getDirs(parser.compliment.leftEdge));
-                  const fileCandidates: file[] = dirTarget?.files || [];
-                  const directoryCandidates: directory[] = dirTarget?.directories || [];
+                  // コマンドが無い時
+                  let candidates: string[] = [];
+                  let left = "";
+                  let strDirTarget = "";
+                  let compType: eArgType | undefined = undefined; // nullで無い時は，最後を削って表示する．
 
-                  const left: string = parser.compliment.left;
-                  const right: string = parser.compliment.right;
-                  let candidates: string[];
 
-                  console.log("asf")
-                  console.table(parser)
-                  console.table(parser.tokens)
-                  console.log(parser.cursorTokenIndex)
-                  switch (parser.tokenNow.type) {
-                    case eToken.command:
-                      candidates = commandCandidates.filter(candidate =>
-                        candidate.startsWith(parser.tokenNow.str))
-                        .filter(str => str.startsWith(parser.compliment.middle));
+                  if (parser.command === "") {
+                    candidates = [
+                      ...manager.cstrsAlias.map(alias => alias.split("=")[0]),
+                      ...executableTargets.map(file => file.name),
+                    ]
+                  } else {
 
-                      switch (candidates.length) {
-                        case 1:
-                          setInputCommand(`${candidates[0]} ${parser.compliment.right}`);
-                          break;
-                        default:
-                          setComplements({ line: candidates.join(" "), color: eOutputColor.standard });
-                          break;
+                    // コマンドのtokenを見つけたとき
+
+                    // tab補完はargumentとして判断した．
+                    if (inputCommand.charAt(nowCursor - 1) === " ") {
+
+                      if (myExecutable?.command) {
+                        left = inputCommand.split(/\s+/).join(" ");
+                        const dirTarget: directory = getTail(manager.dirsCurrent);
+
+                        switch (myExecutable.command.argType) {
+                          case eArgType.directory:
+                            candidates = [
+                              ...dirTarget.directories.map(dir => dir.name),
+                            ]
+                            break;
+                          case eArgType.file:
+                            candidates = [
+                              ...dirTarget.directories.map(dir => dir.name),
+                              ...dirTarget.files.map(file => file.name),
+                            ]
+                            break;
+                          case eArgType.executable:
+                            // EEE 
+                            // ここに現在の相対位置に存在していれば出さなきゃいけない．
+                            candidates = [
+                              ...executableTargets.map(file => file.name)
+                            ]
+                            break;
+                          case eArgType.none:
+                            candidates = [];
+                            break;
+                        }
+
                       }
-                      break;
-                    case eToken.shortOptions:
-                      candidates = shortOptionsCandidates.filter(candidate =>
-                        candidate.startsWith(parser.tokenNow.str))
-                        .filter(str => str.startsWith(parser.compliment.middle));
-                      switch (candidates.length) {
-                        case 1:
-                          setInputCommand(`${parser.compliment.left} -${candidates[0]} ${parser.compliment.right}`);
-                          break;
-                        default:
-                          setComplements({ line: candidates.join(" "), color: eOutputColor.standard });
-                          break;
-                      }
-                      break;
-                    case eToken.arguments:
-                      switch (myExecutable?.command?.argType) {
-                        case eArgType.directory:
-                          candidates = directoryCandidates.map(dir => dir.name)
-                            .filter(str => str.startsWith(parser.compliment.middle));
-                          console.log("helooAAA")
-                          //                           console.log(parser.raw)
-                          console.table(parser.compliment)
-                          console.log(left, right)
 
-                          switch (candidates.length) {
-                            case 1:
-                              const conn = parser.isSla ? "" : " "
-                              setInputCommand(`${left}${conn}${candidates[0]}/${right === "" ? "" : ` ${right}`}`);
-                              break;
-                            default:
-                              setComplements({ line: candidates.join(" "), color: eOutputColor.standard });
-                              break;
-                          }
-                          break;
-                        case eArgType.file:
-                          candidates = [
-                            ...directoryCandidates.map(dir => dir.name),
-                            ...fileCandidates.map(file => file.name),
-                          ]
-                            .filter(str => str.startsWith(parser.compliment.middle));
-                          switch (candidates.length) {
-                            case 1:
-                              if (directoryCandidates.length === 1) {
-                                setInputCommand(`${left} ${candidates[0]}/${right === "" ? "" : ` ${right}`}`);
-                              } else {
-                                setInputCommand(`${left} ${candidates[0]} ${right}`);
-                              }
+                    } else {
+                      // 入力中の時
 
-                              break;
-                            default:
-                              setComplements({ line: candidates.join(" "), color: eOutputColor.standard });
-                              break;
+                      // トークンが一個しかなかったら
+                      if (parser.tokens.length === 1) {
+
+                        // commandを入力しているということだ．
+                        // いつかパス指定もしたい．
+                        // EEE 
+                        left = "";
+                        candidates = [
+                          ...manager.cstrsAlias.map(alias => alias.split("=")[0]),
+                          ...executableTargets.map(file => file.name),
+                        ].filter(seg => seg.startsWith(parser.command));
+
+                      } else {
+                        // トークンが複数あれば，
+
+                        // コマンドが存在していれば
+                        // EEE
+
+                        if (myExecutable?.command) {
+
+                          // 先頭を見てargかoptionかみる．
+                          const nonTarget: string = inputCommand.split(/\s+/).slice(0, -1).join(" ");
+                          let target: string = getTail(inputCommand.split(/\s+/));
+
+                          // console.log("|" + nonTarget + "|" + target)
+                          // オプション
+                          if (target.charAt(0) == "-") {
+                            left = inputCommand
+                            candidates = myExecutable.command.shortOptions
+                              .filter(opt => target.includes(opt) === false);
+
+                          } else {
+                            // 引数
+
+
+                            left = inputCommand.split(/\s+/).join(" ");
+                            // let strDirTarget: string;
+                            let strDebris: string;
+
+
+                            switch (target.charAt(0)) {
+                              case "~":
+                                if (target.charAt(1) !== "/") {
+                                  target = target.slice(0, 1) + "/" + target.slice(1);
+                                }
+                                strDirTarget = target.split("/").slice(0, -1).join("/");
+                                // left = `${left} ${strDirTarget}`;
+                                strDebris = getTail(target.split("/"));
+                                break;
+                              case "/":
+                                strDirTarget = "/" + target.split("/").slice(0, -1).join("/");
+                                // left = `${left} ${strDirTarget}`;
+                                strDebris = getTail(target.split("/"));
+                                break;
+                              default:
+                                if (!target.startsWith("./")) {
+                                  target = `./${target}`;
+                                }
+
+
+                                strDirTarget = target.split("/").slice(0, -1).join("/");
+                                // left = `${left} ${strDirTarget}`;
+                                strDebris = getTail(target.split("/"));
+                                break;
+                            }
+
+                            const dirTarget = getTail(manager.getDirs(strDirTarget));
+
+                            compType = eArgType.none;
+                            switch (myExecutable.command.argType) {
+                              case eArgType.directory:
+                                candidates = [
+                                  ...dirTarget.directories.map(dir => dir.name),
+                                ].filter(seg => seg.startsWith(strDebris))
+                                compType = eArgType.directory;
+
+                                break;
+                              case eArgType.file:
+                                candidates = [
+                                  ...dirTarget.directories.map(dir => dir.name),
+                                  ...dirTarget.files.map(file => file.name),
+                                ].filter(seg => seg.startsWith(strDebris))
+                                if (candidates.length === 1) {
+                                  // 同一名のfileとdirがあった時どうしよう．
+
+                                  if (dirTarget.directories.filter(seg => seg.name.startsWith(strDebris)).length === 1) {
+                                    compType = eArgType.directory;
+                                  }
+                                  if (dirTarget.files.filter(seg => seg.name.startsWith(strDebris)).length === 1) {
+                                    compType = eArgType.file;
+                                  }
+                                }
+
+                                break;
+                              case eArgType.executable:
+                                // EEE 
+                                // ここに現在の相対位置に存在していれば出さなきゃいけない．
+                                candidates = [
+                                  ...executableTargets.map(file => file.name)
+                                ].filter(seg => seg.startsWith(strDebris))
+                                break;
+                              case eArgType.none:
+                                candidates = [];
+                                break;
+                            }
                           }
-                          break;
-                        case eArgType.executable:
-                          candidates = commandCandidates
-                            .filter(str => str.startsWith(parser.compliment.middle));
-                          switch (candidates.length) {
-                            case 1:
-                              setInputCommand(`${left} ${candidates[0]} ${right}`);
-                              break;
-                            default:
-                              setComplements({ line: candidates.join(" "), color: eOutputColor.standard });
-                              break;
-                          }
-                          break;
-                        default:
-                          candidates = [];
-                          break;
+                        }
                       }
+                    }
                   }
-                  console.log("erjwfj")
-                  console.log(parser.tokenNow)
-                  console.log(candidates)
-                  console.log(parser.tokens)
 
-                  break;
+
+                  // 候補の数依存
+                  switch (candidates.length) {
+                    case 0:
+                      setComplements({
+                        line: "No Candidates Found",
+                        color: eOutputColor.error,
+                      })
+                      break;
+                    case 1:
+                      console.log("asdf")
+                      if (compType === undefined) {
+                        setInputCommand(`${left}${candidates[0]} `)
+                      } else {
+                        // console.log(left, strDirTarget, candidates[0])
+                        const isDir: boolean = compType === eArgType.directory;
+                        console.log(compType)
+                        setInputCommand(
+                          left.split(/\s+/).slice(0, -1).join(" ") +
+                          " " +
+                          concatDirectory([strDirTarget, candidates[0]], isDir) +
+                          `${isDir ? "" : " "}`
+                        )
+                      }
+
+
+                      // これは前回のcompliment not foundなどを消すときなどに必要．
+                      setComplements({
+                        line: "",
+                        color: eOutputColor.standard,
+                      })
+                      break;
+                    default:
+                      setComplements({
+                        line: candidates.join(" "),
+                        color: eOutputColor.standard,
+                      })
+                      break;
+                  }
+
+
                 }
+                  break;
                 case "ArrowUp": {
                   event.preventDefault(); // キーのデフォルトの動作をキャンセル
                   setHistoryRef(Math.min(histRef + 1, manager.strsHistory.length - 1));

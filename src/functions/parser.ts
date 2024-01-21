@@ -2,6 +2,7 @@ import { getTail } from "./utils";
 
 export enum eToken {
   command = "COMMAND",
+  startShort = "START_SHORT",
   shortOptions = "SHORT_OPTIONS",
   arguments = "ARGUMENTS",
 };
@@ -16,38 +17,16 @@ export enum eParseError {
   optionError = "OPTIONERROR",
 }
 
-export type tCompliment = {
-  left: string,
-  leftEdge: string,
-  middle: string,
-  right: string,
-  isNoCompliment: boolean,
-}
-
 // ここでTokenは空白を指さないとする．
 export default class clsParser {
   public tokens: tToken[];
-  public cursorTokenIndex: number;
   public parseError?: eParseError;
-  public compliment: tCompliment;
 
-  public isSla?: boolean;
+  constructor(strRawTarget: string) {
 
-  // nowCursorは点滅している場所
-  constructor(strRawTarget: string, nowCursor: number) {
-
-    nowCursor++;
     const strTarget: string = ` ${strRawTarget}  `;
 
     this.tokens = [];
-    this.cursorTokenIndex = -1;
-    this.compliment = {
-      left: "",
-      leftEdge: "",
-      middle: "",
-      right: "",
-      isNoCompliment: false,
-    };
 
     let indToken: number = 0;
     let lookingToken: eToken = eToken.command;
@@ -55,45 +34,6 @@ export default class clsParser {
     let isTokening: boolean = false;
     for (let i = 0; i < strTarget.length; i++) {
       const ele = strTarget.charAt(i);
-
-      if (
-        i !== 0
-        && i !== strTarget.length - 1
-        /// true
-      ) {
-
-        if (i < nowCursor) {
-          this.compliment.left += ele;
-        } else if (i === nowCursor) {
-          if (ele === " " &&
-            (this.compliment.left.charAt(i - 1) !== " ")
-          ) {
-
-            this.cursorTokenIndex = indToken;
-
-            // this.compliment.left = this.compliment.left.replace(/\s*$/, "");
-            // console.log("parsing")
-            // console.table(this.compliment)
-            if (getTail(this.compliment.left.split(" ")).includes("/")) {
-              this.isSla = true;
-              this.compliment.leftEdge = getTail(this.compliment.left.split(" ")).split("/").slice(0, -1).join("/") + "";
-            }
-
-            this.compliment.middle = this.compliment.left.replace(/^.*[\s\/$]/, "");
-
-            this.compliment.left = this.compliment.left.replace(/[\s\/][^\s\/]*$/, "");
-            if (this.isSla) {
-
-              this.compliment.left += "/";
-            }
-          } else {
-            this.compliment.isNoCompliment = true;
-          }
-        } else {
-          this.compliment.right += ele;
-        }
-      }
-
       switch (ele) {
         case " ":
           if (isTokening) {
@@ -120,6 +60,11 @@ export default class clsParser {
           } else {
             isTokening = true;
             lookingToken = eToken.shortOptions;
+
+            this.tokens.push({
+              str: ele,
+              type: lookingToken,
+            });
           }
           break;
 
@@ -140,35 +85,7 @@ export default class clsParser {
           break;
       }
     }
-    if (
-      (
-        strRawTarget.charAt(nowCursor - 1) === " " ||
-        strRawTarget.charAt(nowCursor - 1) === ""
-      )
-      &&
-      (
-        strRawTarget.charAt(nowCursor) === " " ||
-        strRawTarget.charAt(nowCursor) === ""
-      )
-    ) {
 
-      this.cursorTokenIndex = -1;
-      // this.tokens = [
-      //   ...this.tokens.slice(0, this.cursorTokenIndex),
-      //   {
-      //     str: "",
-      //     type: eToken.arguments,
-      //   },
-      //   ...this.tokens.slice(this.cursorTokenIndex),
-      // ];
-    }
-
-  }
-
-  public get tokenNow(): tToken {
-    return (this.cursorTokenIndex === -1) ?
-      { str: "", type: eToken.arguments } :
-      this.tokens[this.cursorTokenIndex];
   }
 
   public get command(): string {
