@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import Record from "../components/Record";
 import EventsLine from "../components/timeline/EventsLine";
@@ -5,9 +6,11 @@ import dirImages from "src/data/Root/Users/mattsunkun/about/info/images";
 import { useCallback, useEffect, useState } from "react";
 import { keyboardKey } from "@testing-library/user-event";
 import konami from "src/functions/konami";
+import { darkModeContext, tBooleanSet } from 'src/App';
 
 
 const About = () => {
+  const { val: isDarkMode, setVal: _ } = (useContext(darkModeContext) || {}) as tBooleanSet;
   // キーダウンイベント
   const handleKeyDown = (event: KeyboardEvent) => {
 
@@ -29,8 +32,13 @@ const About = () => {
 
   return (
     <>
-      <Box paddingTop={3}
+      <Box
+        marginTop="100px"
+        padding={3}
         component="div"
+        sx={{
+          border: `2px solid #${isDarkMode ? "FFF" : "000"}`,
+        }}
       >
         <Grid container spacing={1}>
 

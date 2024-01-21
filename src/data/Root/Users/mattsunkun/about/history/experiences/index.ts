@@ -48,7 +48,7 @@ const dirExperiences: directory = {
       name: "アプリ開発団体jack",
       contents: "大学入学と同時に入ったサークルです．ハッカソン，アイディアソン，LT会などが定期的に催されているサークルです．(参加/)",
       meta: {
-        start: new Date(2021, 4, 1),
+        start: new Date(2021, 4, 15),
         //        end: 
         urls: ["https://github.com/jack-app"],
         priority: 0,
