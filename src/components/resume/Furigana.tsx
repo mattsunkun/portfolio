@@ -10,7 +10,7 @@ const Furigana: React.FC<{
 
   return (
     <>
-      <Grid container direction="column" spacing={0}
+      <Grid item xs={12} container direction="column" spacing={0}
         style={{
           border: props.borderLine,
         }}

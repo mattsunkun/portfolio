@@ -9,6 +9,7 @@ import konami from "src/functions/konami";
 import { darkModeContext, tBooleanSet } from 'src/App';
 import dirInfo from "src/data/Root/Users/mattsunkun/about/info";
 import Furigana from "src/components/resume/Furigana";
+import SpeechBubble from "src/components/SpeechBubble";
 
 
 const About = () => {
@@ -33,6 +34,9 @@ const About = () => {
   const [rotateProfile, setRotateProfile] = useState<number>(0);
 
   const borderLine = (num: number) => `${num}px solid #${isDarkMode ? "FFF" : "000"}`;
+
+  const speech: string = "こんにちは！私はChatGPTと呼ばれるAIアシスタントで、OpenAIによって開発された言語モデルの一部です。私はGPT-3.5アーキテクチャに基づいており、自然言語処理や理解に関する様々なタスクに対応しています。" +
+    "私は質問に答え、文を生成し、様々なトピックについての情報を提供することができます。ただし、私はプログラムを実行したり、個別のユーザー情報にアクセスすることはできません。会話の中でお手伝いできることがあれば、お気軽に質問してください！";
   return (
     <>
       <Box
@@ -43,130 +47,50 @@ const About = () => {
       //   border: borderLine(1),
       // }}
       >
-        <Grid container spacing={1}
-        // sx={{
-        //   border: borderLine(1),
-        // }}
+        {/* konami is here */}
+        <Grid container>
+          <Grid item xs={12}>
+
+          </Grid>
+        </Grid>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <SpeechBubble
+            speech={"speech\nfrom\nChatGPT\na\na\na\na"}
+            squareLength={window.innerHeight - 300}
+          />
+        </Box>
+
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
         >
 
-          {/* profile */}
-          <Grid item xs={12}>
-            <Grid container spacing={0}>
-              {/* (title & date) & (name & birthday & age & sex) */}
-              <Grid item xs={10}>
-                <Grid container direction="column" spacing={0}
+          <Box
 
-                >
+            component="img"
+            src={dirImages.files.find((file) => {
+              return file.name === "profile"
+            })
+              ?.meta?.img}
+            sx={{
+              width: "100px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              display: "block", // 横方向に中央揃えするために必要
+              transform: `rotate(${rotateProfile}deg)`, // 回転の度数をステートに基づいて動的に変更
+              transition: "transform 1.5s",
+            }}
+            style={{
+              // padding={ 1}
+            }}
+          />
+        </Box>
 
-                  {/* 題名 今日 */}
-                  <Grid item xs={12}
-                  // style={{
-                  //   border: borderLine(0.5),
-                  // }} 
-                  >
-                    <Typography variant="caption"
-                      padding={1}
-                      paddingLeft={2}
-                    >
-                      About _2023/1/21 現在
-                    </Typography>
-
-                  </Grid>
-                  <Furigana
-                    furigana="_まつもと まさあき"
-                    main="_松本 昌亮"
-                    metaMain="氏名"
-                    borderLine={borderLine(0.5)}
-                  />
-                  {/* name & birthday & age & sex */}
-                  {/* 誕生日 年齢 性別 */}
-
-                  <Grid item xs={12}
-                    style={{
-                      border: borderLine(1),
-                    }}
-                  >
-                    <Typography variant="caption"
-                      padding={1}
-                      paddingLeft={2}
-                    >
-                      _2002年12月21日生 (満 21 歳) 性 男
-                    </Typography>
-
-
-                  </Grid>
-
-                </Grid>
-              </Grid>
-
-              {/* my face */}
-              <Grid item xs={2}>
-                {/* konami is here */}
-                <Box
-
-                  component="img"
-                  src={dirImages.files.find((file) => {
-                    return file.name === "profile"
-                  })
-                    ?.meta?.img}
-                  sx={{
-                    width: "100px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    display: "block", // 横方向に中央揃えするために必要
-                    transform: `rotate(${rotateProfile}deg)`, // 回転の度数をステートに基づいて動的に変更
-                    transition: "transform 1.5s",
-                  }}
-                  style={{
-                    // padding={ 1}
-                  }}
-                />
-              </Grid>
-
-            </Grid>
-
-          </Grid>
-
-          {/* introduction */}
-          <Grid item xs={12}>
-            <Grid container direction="column"
-            // sx={{
-            //   border: borderLine(0.5),
-            // }}
-            >
-              <Grid item xs={2}
-              // sx={{
-              //   border: borderLine(0.5),
-              // }}
-              >
-                自己紹介
-              </Grid>
-              <Grid item xs={10}
-                sx={{
-                  border: borderLine(1),
-                }}
-              >
-                <Typography variant="h4">
-                  ChatGPTによる自己紹介<br />
-                  ChatGPTによる自己紹介<br />
-                  ChatGPTによる自己紹介<br />
-                </Typography>
-              </Grid>
-
-            </Grid>
-
-          </Grid>
-
-          {/* qualifications */}
-          <Grid item xs={12}>
-
-          </Grid>
-
-          {/* history */}
-          <Grid item xs={12}>
-            <EventsLine line="" />
-          </Grid>
-        </Grid >
       </Box >
 
     </>
