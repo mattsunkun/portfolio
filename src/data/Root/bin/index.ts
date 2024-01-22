@@ -23,10 +23,8 @@ const dirBin: directory = {
             return standardError.tooManyArguments("pwd");
           }
         },
-        shortOptions: ["n"
-          , "m"
-        ],
-        longOptions: ["none", "never"],
+        shortOptions: [],
+        longOptions: [],
         maxArgNums: 0,
         argType: eArgType.none,
       }

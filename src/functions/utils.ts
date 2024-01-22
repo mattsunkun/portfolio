@@ -64,3 +64,20 @@ export const concatDirectory = (strsDir: string[], isWantSlash?: boolean): strin
 
   }
 }
+
+export const extractDirDebris = (strDir: string): string[] => {
+  let agentDir = strDir;
+  let agentDebris = "";
+  const le = strDir.length;
+  for (let i = 0; i < le; i++) {
+    const ele = strDir[le - i - 1]
+    if (ele === "/") {
+      break;
+    } else {
+      agentDir = agentDir.slice(0, -1);
+      agentDebris = ele + agentDebris;
+    }
+
+  }
+  return [agentDir, agentDebris];
+}

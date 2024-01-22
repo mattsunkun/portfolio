@@ -1,6 +1,7 @@
 import { escapeRegExp, getTail } from "src/functions/utils";
 import { eArgType, eOutputColor } from "src/data/enumFileSystem";
 import dirRoot from "./Root";
+import dirMattsunkun from "./Root/Users/mattsunkun";
 
 export type directory = {
   name: string,
@@ -56,6 +57,7 @@ export type tCandidates = {
 
 
 export type tManager = {
+  // _cstrMatshrc: () => string,
   cstrsHome: string,
   cstrExportPath: string,
   cstrsAlias: string[],
@@ -67,6 +69,7 @@ export type tManager = {
   getDirs: (strRawDir: string) => directory[],
   getStr: (dirs: directory[], isTilde: boolean) => string,
   getCandidates: (strRawInComplete: string) => tCandidates,
+  isSameDir: (strDir1: string, strDir2: string) => boolean,
   // parentify:() => void, 
   // getDirectories:(dirsRel:directory[]) => directory[], 
   // getFiles:(dirsRel:directory[]) => file[], 
@@ -77,14 +80,18 @@ export type tManager = {
 
 }
 
+const _cstrMatshrc: string = dirMattsunkun.files.find(file => file.name === ".matshrc")?.contents || "-1";
+
 export const manager: tManager = {
   // 最後のスラッシュは使わない．
   cstrsHome: "/Users/mattsunkun",
-  cstrExportPath: "/bin",
-  cstrsAlias: [
-    "猫=cat",
-    "ねこ=cat",
-  ],
+  cstrExportPath: getTail(_cstrMatshrc.split(" ").find(phrase => phrase.startsWith("_export_"))?.split("=") ?? ["-1"]),
+  // "/bin",
+  cstrsAlias: _cstrMatshrc.split(" ").filter(phrase => phrase.startsWith("_alias_")).map(phrase => getTail(phrase.split("_alias_"))),
+  // [
+  //   "猫=cat",
+  //   "ねこ=cat",
+  // ],
 
 
 
@@ -223,6 +230,11 @@ export const manager: tManager = {
     }
   },
 
+  isSameDir: (strDir1: string, strDir2: string) => {
+    return (manager.getStr(manager.getDirs(strDir1), false) ===
+      manager.getStr(manager.getDirs(strDir2), false))
+  },
+
 
 
   wayHome: () => {
@@ -232,6 +244,7 @@ export const manager: tManager = {
   dirsCurrent: [],
 
   strsHistory: [],
+
 
 }
 

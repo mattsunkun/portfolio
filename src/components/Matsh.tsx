@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Box, Button, InputAdornment, Paper, TextField, Typography } from '@mui/material';
 
-import { directory, file, lineColor, manager, standardError } from "src/data/fileSystem";
-import { concatDirectory, getTail } from '../functions/utils';
+import { command, directory, file, lineColor, manager, standardError } from "src/data/fileSystem";
+import { concatDirectory, extractDirDebris, getTail } from '../functions/utils';
 import clsMatsh from '../functions/matsh';
 import clsParse from '../functions/parse';
 import { TypeAnimation } from 'react-type-animation';
@@ -15,6 +15,7 @@ import { eArgType, eOutputColor } from 'src/data/enumFileSystem';
 import { msgAlert } from 'src/functions/dependencyInjection';
 import { parse } from 'path';
 import DynamicLine from './DynamicLine';
+import dirMattsunkun from 'src/data/Root/Users/mattsunkun';
 
 
 // const matsh = new clsMatsh(Root);
@@ -81,13 +82,14 @@ const Matsh: React.FC<{ height: string }> = (props) => {
   }, [histRef])
 
 
-  const strsIntro: string[] = [
-    "Hello World!!",
-    "Welcome to mattsunkun's portfolio!!",
-    "Here is the CLI(Matsh) for this portfolio.",
-    "Matsh provides the most basic shell commands.",
-    'Try with "tree ." command line to navigate File System',
-  ]
+  const strsIntro: string[] = dirMattsunkun.files.find(file => file.name === ".mlogin")?.contents.split("\n").slice(1) || [];
+  //  [
+  //   "Hello World!!",
+  //   "Welcome to mattsunkun's portfolio!!",
+  //   "Here is the CLI(Matsh) for this portfolio.",
+  //   "Matsh provides the most basic shell commands.",
+  //   'Try with "tree ." command line to navigate File System.',
+  // ]
   return (
     <>
       <Paper
@@ -200,7 +202,19 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
 
                   // exportされているdirを見る．
-                  const command = getTail(manager.getDirs(manager.cstrExportPath)).files.find(file => file.name === parser.command)?.command;
+                  const execs: file[] = getTail(manager.getDirs(manager.cstrExportPath)).files.filter(file => file.command) ?? [];
+
+                  // export pathでいく．
+                  let myExec: command | undefined = execs.find((exec) => { return (exec.name === parser.command); })?.command;
+
+                  // export pathになかった時，path指定で行く．
+                  if (myExec === undefined) {
+                    const [strDir, strDebris] = extractDirDebris(parser.command);
+                    if (manager.isSameDir(strDir, manager.cstrExportPath)) {
+                      myExec = execs.find((exec) => { return (exec.name === strDebris); })?.command;
+                    }
+                  }
+
 
 
                   if (parser.parseError === eParseError.optionError) {
@@ -209,16 +223,16 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                       ...pastOutputsWithCommand,
                       ...standardError.parseError(),
                     ]);
-                  } else if (command) {
+                  } else if (myExec) {
                     // コマンドが存在すれば
                     // さっきの保持と合わせて出力を書く．
                     setOutputs([
                       ...pastOutputsWithCommand,
-                      ...command.func(manager, parser.options, parser.arguments),
+                      ...myExec.func(manager, parser.options, parser.arguments),
                     ]);
 
                     // 外側での実行が必要なものについてはここに記述する．
-                    if (command.isNeedOuterHelp) {
+                    if (myExec.isNeedOuterHelp) {
                       switch (parser.command) {
                         case "clear":
                           setOutputs([]);
