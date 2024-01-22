@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Box, InputAdornment, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, InputAdornment, Paper, TextField, Typography } from '@mui/material';
 
 import { directory, file, lineColor, manager, standardError } from "src/data/fileSystem";
 import { concatDirectory, getTail } from '../functions/utils';
@@ -14,6 +14,7 @@ import { darkModeContext, tBooleanSet } from 'src/App';
 import { eArgType, eOutputColor } from 'src/data/enumFileSystem';
 import { msgAlert } from 'src/functions/dependencyInjection';
 import { parse } from 'path';
+import DynamicLine from './DynamicLine';
 
 
 // const matsh = new clsMatsh(Root);
@@ -31,6 +32,9 @@ const Matsh: React.FC<{ height: string }> = (props) => {
   const [complements, setComplements] = useState<lineColor>();
 
   const [isInputting, setIsInputting] = useState<boolean>(false);
+
+
+  const [isIntro, setIsIntro] = useState<boolean>(true);
 
 
 
@@ -60,9 +64,7 @@ const Matsh: React.FC<{ height: string }> = (props) => {
     }
   }, [outputs]);
 
-  let first = true;;
   useEffect(() => {
-    first = true;
     manager.dirsCurrent = manager.wayHome();
 
     // デフォルトでtextfieldにフォーカス
@@ -77,6 +79,15 @@ const Matsh: React.FC<{ height: string }> = (props) => {
       textFieldRef.current.setSelectionRange(length, length);
     }
   }, [histRef])
+
+
+  const strsIntro: string[] = [
+    "Hello World!!",
+    "Welcome to mattsunkun's portfolio!!",
+    "Here is the CLI(Matsh) for this portfolio.",
+    "Matsh provides the most basic shell commands.",
+    'Try with "tree ." command line to navigate File System',
+  ]
   return (
     <>
       <Paper
@@ -99,26 +110,26 @@ const Matsh: React.FC<{ height: string }> = (props) => {
             ref={typographyRef}
           >
             {
-              first ?
-                <TypeAnimation
-                  sequence={[
-                    // "Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!! Hello World!!\nWelcome to mattsunkun's portfolio!!",
-                    0,
-                    "",
-                    () => {
-                      first = false;
-                      // setOutputs("\n");
-                      // console.log("asdf")
-                    },
-                  ]}
-                  wrapper="span"
-                  cursor={false}
-                  repeat={0}
-                  speed={99}
-                  omitDeletionAnimation={true}
-                // sstyle={{ fontSize: '2em', display: 'inline-block' }}
-                /> :
-                <></>
+              isIntro ?
+                <>
+                  {
+                    strsIntro.map((intro, ind) => {
+                      return <>
+                        <DynamicLine
+                          line={intro}
+                          wait={ind * 500}
+                        />
+                        <br />
+                      </>
+                    })
+                  }
+                </>
+                :
+                <>
+                  <Button onClick={() => setIsIntro(true)}>
+                    Regenerate Matsh's Introduction
+                  </Button>
+                </>
             }
 
             {outputs.map((lineColor, index) => (
@@ -211,6 +222,7 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                       switch (parser.command) {
                         case "clear":
                           setOutputs([]);
+                          setIsIntro(false);
                           break;
                         default:
                           msgAlert(`${parser.command}で外側の実行がされていません．`);
