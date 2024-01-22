@@ -1,6 +1,6 @@
 import { Timeline } from '@mui/lab';
-import { Typography, Box } from '@mui/material';
-import React from 'react';
+import { Typography, Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import React, { useState } from 'react';
 import Event, { tEvent } from './Event';
 import dirJobs from 'src/data/Root/Users/mattsunkun/about/history/jobs';
 import { file } from 'src/data/fileSystem';
@@ -11,11 +11,11 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent';
 import { dateNormalForm } from 'src/functions/utils';
+import LineSection from '../LineSection';
 
-const priority: number = 0;
+const EventsLine: React.FC<{}> = (props) => {
 
-const EventsLine: React.FC<{ line: string }> = (props) => {
-
+  const [priority, setPriority] = useState<number>(0);
 
 
   const filesEvent: file[] = [
@@ -78,6 +78,32 @@ const EventsLine: React.FC<{ line: string }> = (props) => {
       <Box
 
       >
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          margin={3}
+          marginBottom={6}
+        >
+
+          <ToggleButtonGroup
+            color="primary"
+            value={priority}
+            exclusive
+            onChange={(
+              event: React.MouseEvent<HTMLElement>,
+              newPriotiry: number,
+            ) => {
+              setPriority(newPriotiry)
+            }}
+            aria-label="Platform"
+          >
+            <ToggleButton value={0}>重要度高</ToggleButton>
+            <ToggleButton value={1}>重要度中</ToggleButton>
+            <ToggleButton value={2}>重要度低</ToggleButton>
+          </ToggleButtonGroup>
+        </Box>
+
         <Timeline
           //       position="alternate"
           sx={{

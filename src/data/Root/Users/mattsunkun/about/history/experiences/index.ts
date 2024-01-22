@@ -4,6 +4,16 @@ const dirExperiences: directory = {
   name: "experiences",
   files: [
     {
+      name: "某",
+      contents: "この世に生を享けた．(爆誕/)",
+      meta: {
+        start: new Date(2002, 12, 21),
+        // end: 
+        urls: [],
+        priority: 2,
+      }
+    },
+    {
       name: "中津川プロジェクト",
       contents: "中津川市にて，高大連携で2泊3日で大学の授業などを体験した．(参加/)",
       meta: {

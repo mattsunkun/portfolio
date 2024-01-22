@@ -8,10 +8,10 @@ const dirInfo: directory = {
       name: "名前",
       contents: "松本昌亮(まつもと まさあき)",
     },
-    {
-      name: "活動名",
-      contents: "mattsunkun",
-    },
+    // {
+    //   name: "活動名",
+    //   contents: "mattsunkun",
+    // },
     {
       name: "誕生日",
       contents: "2002年12月21日",

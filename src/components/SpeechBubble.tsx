@@ -1,5 +1,9 @@
 import React, { useContext } from 'react';
 import { darkModeContext, tBooleanSet } from 'src/App';
+
+import SaveButton from './svg/SaveButton';
+
+
 const SpeechBubble: React.FC<{
   speech: string,
   squareLength: number,
@@ -7,7 +11,7 @@ const SpeechBubble: React.FC<{
   const { val: isDarkMode, setVal: _ } = (useContext(darkModeContext) || {}) as tBooleanSet;
 
   const LENGTH: number = props.squareLength ?? -1;
-  const linePad: number = 0.3;
+  const linePad: number = 0.5;
 
   const fontSize: number = 5;
   const numLine: number = (props.speech.match(/\n/g)?.length ?? 0) + 1;
@@ -72,10 +76,10 @@ const SpeechBubble: React.FC<{
         <text
           x={0}//{frame.l / 2}
           y={frame.l / 2 - numLine * (1 + linePad) * fontSize / 2}
-          font-size={`${fontSize}px`}
+          fontSize={`${fontSize}px`}
           fill={isDarkMode ? "#EEE" : "#222"}
-          text-anchor="start"
-          alignment-baseline="middle"
+          textAnchor="start"
+          alignmentBaseline="middle"
         >
           {
             props.speech.split('\n').map((line, index) => (
@@ -89,6 +93,7 @@ const SpeechBubble: React.FC<{
         </text>
       </svg>
 
+      {/* <SaveButton svgContent="" /> */}
     </>
   );
 }
