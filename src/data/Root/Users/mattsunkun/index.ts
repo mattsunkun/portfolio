@@ -19,13 +19,14 @@ const dirMattsunkun: directory = {
         "Welcome to mattsunkun's portfolio!!",
         "Here is the CLI(Matsh) for this portfolio.",
         "Matsh provides the most basic shell commands.",
+        // 最後の行が長くないと，消える時おかしくなる．DynamicLineの秒数を落とすと言ってることがわかるよ．
         'Try with "tree ." command line to navigate File System.',
-        "should done: innerHTML, tree, help, man, (_export, _intro, _alias), ref .matshrc, echo, date, path,"
+        "should done: innerHTML, tree,open tabCompExeARgs"
       ].join("\n"),
     },
     {
       name: ".mlogout",
-      contents: 'echo "Bye. Matsh is no longer available. Try reloading this page to get new process.',
+      contents: "echo Bye. Matsh is no longer available. Try reloading this page to get new process.",
     },
   ],
   directories: [

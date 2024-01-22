@@ -1,8 +1,8 @@
 
 import { TypeAnimation } from "react-type-animation";
 
-const DynamicLine: React.FC<{ line: string, wait: number }> = (props) => {
-  const remain: number = 1000 * 1000// Math.pow(10, 1000)
+const DynamicLine: React.FC<{ line: string, wait: number, setIntro?: React.Dispatch<React.SetStateAction<boolean>> }> = (props) => {
+  const remain: number = 60 * 60 * 1000
   return (
     <>
       <TypeAnimation
@@ -13,7 +13,9 @@ const DynamicLine: React.FC<{ line: string, wait: number }> = (props) => {
           remain,
           "",
           () => {
-            // first = false;
+            if (props.setIntro) {
+              props.setIntro(false);
+            }
           },
         ]}
         wrapper="span"

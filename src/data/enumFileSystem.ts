@@ -14,4 +14,5 @@ export enum eOutputColor {
   directory = "lightgreen",
   file = "inherit",
   error = "red",
+  curios = "blue",
 }

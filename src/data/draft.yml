@@ -82,7 +82,7 @@ BUGSSSSSS:
   innerHTMLを使ってる．
   dirとfileが同じ名前で存在した場合のcompの対処方法．candidatesが1とそれ以上でそれぞれ異なる．
 
-
+helpコマンドを実装したい．
 analyticsをやりたい．
 文字フォントを整える．
 

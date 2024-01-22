@@ -45,6 +45,7 @@ export type command = {
   maxArgNums: number,
   argType: eArgType,
   isNeedOuterHelp?: boolean,
+  man: string,
 }
 
 export type tCandidates = {
@@ -59,6 +60,7 @@ export type tCandidates = {
 export type tManager = {
   // _cstrMatshrc: () => string,
   cstrsHome: string,
+  cstrEnvPATH: string,
   cstrExportPath: string,
   cstrsAlias: string[],
   wayRoot: () => directory[],
@@ -85,6 +87,7 @@ const _cstrMatshrc: string = dirMattsunkun.files.find(file => file.name === ".ma
 export const manager: tManager = {
   // 最後のスラッシュは使わない．
   cstrsHome: "/Users/mattsunkun",
+  cstrEnvPATH: "$PATH",
   cstrExportPath: getTail(_cstrMatshrc.split(" ").find(phrase => phrase.startsWith("_export_"))?.split("=") ?? ["-1"]),
   // "/bin",
   cstrsAlias: _cstrMatshrc.split(" ").filter(phrase => phrase.startsWith("_alias_")).map(phrase => getTail(phrase.split("_alias_"))),
@@ -266,6 +269,8 @@ export type tStandardError = {
   cnumsMaxChar: number,
   commandTooLong: () => lineColor[],
 
+  youAreCurios: (strPhrase: string) => lineColor[],
+
 
 }
 
@@ -368,6 +373,23 @@ export const standardError: tStandardError = {
         line: "matsh: Command 2 looooooong!!",
         color: eOutputColor.error,
       }
+    ]
+  },
+
+  youAreCurios: (strPhrase: string) => {
+    return [
+      {
+        line: "You Are Soooo Curios!",
+        color: eOutputColor.curios,
+      },
+      {
+        line: `"${strPhrase}" is Not Implemented!!`,
+        color: eOutputColor.curios,
+      },
+      {
+        line: "Stay Tuned!!!",
+        color: eOutputColor.curios,
+      },
     ]
   },
 

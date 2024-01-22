@@ -5,7 +5,7 @@ const dirAdmin: directory = {
   files: [
     {
       name: "secret",
-      contents: "ひみつ", // 隠しコマンド
+      contents: 'Try KONAMI command at "About" page.', // 隠しコマンド
     },
   ],
   directories: [],

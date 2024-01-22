@@ -120,6 +120,9 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                         <DynamicLine
                           line={intro}
                           wait={ind * 500}
+                          setIntro={
+                            ind === strsIntro.length - 1 ? setIsIntro : undefined
+                          }
                         />
                         <br />
                       </>
@@ -186,6 +189,8 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                     manager.strsHistory.push(inputCommand);
                   }
 
+                  // Enterで確定する時は環境変数を変更する．
+
                   // コマンドをクリアする．
                   setInputCommand("");
 
@@ -247,12 +252,27 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                   } else if (parser.command === "") {
                     // 空コマンド
                     setOutputs([...pastOutputsWithCommand]);
+                  } else if (parser.command === manager.cstrEnvPATH) {
+
                   } else {
                     // コマンドが存在しないときの出力．
+                    let lineColors: lineColor[];
+                    switch (parser.command) {
+                      case manager.cstrEnvPATH:
+                      case "export":
+                      case "alias":
+                      case "intro":
+                        lineColors = standardError.youAreCurios(parser.command);
+                        break;
+                      default:
+                        lineColors = standardError.commandNotFound(parser.command);
+                        break;
+                    }
+
                     setOutputs([
                       ...pastOutputsWithCommand,
-                      ...standardError.commandNotFound(parser.command)
-                    ]);
+                      ...lineColors,
+                    ])
                   }
 
                 }
