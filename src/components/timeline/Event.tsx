@@ -16,6 +16,7 @@ export type tEvent = {
   event: string,
   title: string,
   description?: string,
+  isHideYear?: boolean,
 };
 
 const Event: React.FC<tEvent> = (props) => {
@@ -28,7 +29,12 @@ const Event: React.FC<tEvent> = (props) => {
 
         {/* Left */}
         <TimelineOppositeContent>
-          {`${dateNormalForm(props.date).year}.${dateNormalForm(props.date).month} ${props.event}`}
+          {
+            props.isHideYear ?
+              `${dateNormalForm(props.date).month}月` :
+              `${dateNormalForm(props.date).year}年${dateNormalForm(props.date).month}月`
+          }
+
         </TimelineOppositeContent>
 
         {/* Separator */}
@@ -44,7 +50,7 @@ const Event: React.FC<tEvent> = (props) => {
             >
               <Grid item xs={12} md={12}>
                 <Typography variant={props.description ? "body1" : "caption"}>
-                  {props.title}
+                  {`${props.title} ${props.event}`}
                 </Typography>
 
               </Grid>

@@ -6,7 +6,7 @@ const dirInfo: directory = {
   files: [
     {
       name: "名前",
-      contents: "松本昌亮(まさあき)",
+      contents: "松本昌亮(まつもと まさあき)",
     },
     {
       name: "活動名",

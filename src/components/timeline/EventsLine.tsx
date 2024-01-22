@@ -10,6 +10,7 @@ import dirSchools from 'src/data/Root/Users/mattsunkun/about/history/schools';
 import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent';
+import { dateNormalForm } from 'src/functions/utils';
 
 const priority: number = 0;
 
@@ -86,9 +87,17 @@ const EventsLine: React.FC<{ line: string }> = (props) => {
           }}
         >
           {
-            events.map((event, ind) => {
+            events.map((event, ind, arr) => {
               return <Event key={ind}
-                {...event} />
+                {...event}
+                isHideYear={
+                  ind !== 0 &&
+                  (
+                    dateNormalForm(arr[Math.max(ind - 1, 0)].date).year ===
+                    dateNormalForm(arr[ind].date).year
+                  )
+                }
+              />
             })
           }
         </Timeline>
