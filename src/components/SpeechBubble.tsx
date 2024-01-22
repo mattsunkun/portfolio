@@ -7,11 +7,12 @@ const SpeechBubble: React.FC<{
   const { val: isDarkMode, setVal: _ } = (useContext(darkModeContext) || {}) as tBooleanSet;
 
   const LENGTH: number = props.squareLength ?? -1;
-  const linePad: number = 0.2;
+  const linePad: number = 0.3;
 
-  const fontSize: number = 10;
+  const fontSize: number = 5;
   const numLine: number = (props.speech.match(/\n/g)?.length ?? 0) + 1;
 
+  const startPad: number = 3;
   const pad: number = 0.1
   const frame = {
     l: 100,
@@ -69,16 +70,17 @@ const SpeechBubble: React.FC<{
           `Z
   `} />
         <text
-          x={frame.l / 2}
+          x={0}//{frame.l / 2}
           y={frame.l / 2 - numLine * (1 + linePad) * fontSize / 2}
           font-size={`${fontSize}px`}
           fill={isDarkMode ? "#EEE" : "#222"}
-          text-anchor="middle" alignment-baseline="middle"
+          text-anchor="start"
+          alignment-baseline="middle"
         >
           {
             props.speech.split('\n').map((line, index) => (
               <tspan
-                x={frame.l / 2}
+                x={startPad}//{frame.l / 2}
                 dy={`${1 + linePad}em`}
                 key={index}>{line}</tspan>
             ))

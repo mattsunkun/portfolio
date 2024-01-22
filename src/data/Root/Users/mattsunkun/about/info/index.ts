@@ -17,12 +17,16 @@ const dirInfo: directory = {
       contents: "2002年12月21日",
     },
     {
-      name: "所属",
-      contents: "名古屋大学情報学部コンピュータ科学科知能システム系",
+      name: "大学",
+      contents: "名古屋大学情報学部",
     },
     {
-      name: "メールアドレス",
-      contents: "mattsunkun1221<<あっと>>じーめーる.こむ",
+      name: "専攻",
+      contents: "コンピュータ科学科知能システム系",
+    },
+    {
+      name: "ジーメールアドレス",
+      contents: "mattsunkun1221",
     },
     {
       name: "Atcoder",
@@ -41,16 +45,8 @@ const dirInfo: directory = {
       contents: "ジム",
     },
     {
-      name: "好きなゲーム0",
-      contents: "風来のシレン",
-    },
-    {
-      name: "好きなゲーム1",
-      contents: "ピクミン",
-    },
-    {
       name: "好きなゲーム",
-      contents: "スマブラ",
+      contents: "シレン,ピクミン,スマブラ",
     },
     {
       name: "意外な特技",
@@ -58,7 +54,7 @@ const dirInfo: directory = {
     },
     {
       name: "ひとこと",
-      contents: "お友達とおしゃべりするのが大好きです！！仲良くなりましょ！！"
+      contents: "Hello World!!", // "お友達とおしゃべりするのが大好きです\n仲良くなりましょ！！"
     },
   ],
   directories: [

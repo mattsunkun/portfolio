@@ -35,8 +35,9 @@ const About = () => {
 
   const borderLine = (num: number) => `${num}px solid #${isDarkMode ? "FFF" : "000"}`;
 
-  const speech: string = "こんにちは！私はChatGPTと呼ばれるAIアシスタントで、OpenAIによって開発された言語モデルの一部です。私はGPT-3.5アーキテクチャに基づいており、自然言語処理や理解に関する様々なタスクに対応しています。" +
-    "私は質問に答え、文を生成し、様々なトピックについての情報を提供することができます。ただし、私はプログラムを実行したり、個別のユーザー情報にアクセスすることはできません。会話の中でお手伝いできることがあれば、お気軽に質問してください！";
+  const speech: string[] = dirInfo.files.map(file => {
+    return `${file.name}→${file.contents}`
+  });
   return (
     <>
       <Box
@@ -59,7 +60,7 @@ const About = () => {
           justifyContent="center"
         >
           <SpeechBubble
-            speech={"speech\nfrom\nChatGPT\na\na\na\na"}
+            speech={speech.join("\n")}
             squareLength={window.innerHeight - 300}
           />
         </Box>
