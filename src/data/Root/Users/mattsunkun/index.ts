@@ -21,12 +21,12 @@ const dirMattsunkun: directory = {
         "Matsh provides the most basic shell commands.",
         // 最後の行が長くないと，消える時おかしくなる．DynamicLineの秒数を落とすと言ってることがわかるよ．
         'Try with "tree ." command line to navigate File System.',
-        "should done: innerHTML, tree,open tabCompExeARgs"
+        "should done: innerHTML, tree, tabCompExeARgs, exit",
       ].join("\n"),
     },
     {
       name: ".mlogout",
-      contents: "echo Bye. Matsh is no longer available. Try reloading this page to get new process.",
+      contents: "echo Bye. Matsh is no longer available. Try reloading this page to get a new process.",
     },
   ],
   directories: [

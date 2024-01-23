@@ -37,6 +37,8 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
   const [isIntro, setIsIntro] = useState<boolean>(true);
 
+  const [isExited, setIsExited] = useState<boolean>(false);
+
 
 
   // const raw = "";// " pwd -a  --hello  args ab -la ";
@@ -56,6 +58,7 @@ const Matsh: React.FC<{ height: string }> = (props) => {
   // }
   // a(mutables)
   // console.log(mutant)
+
 
   useEffect(() => {
     // outputs変更時にスクロールする．
@@ -116,8 +119,11 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                 <>
                   {
                     strsIntro.map((intro, ind) => {
-                      return <>
+                      return <Box
+                        key={ind}
+                      >
                         <DynamicLine
+                          // key={ind}
                           line={intro}
                           wait={ind * 500}
                           setIntro={
@@ -125,13 +131,15 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                           }
                         />
                         <br />
-                      </>
+                      </Box>
                     })
                   }
                 </>
                 :
                 <>
-                  <Button onClick={() => setIsIntro(true)}>
+                  <Button onClick={() => setIsIntro(true)}
+                    disabled={isExited}
+                  >
                     Regenerate Matsh's Introduction
                   </Button>
                 </>
@@ -140,7 +148,7 @@ const Matsh: React.FC<{ height: string }> = (props) => {
             {outputs.map((lineColor, index) => (
 
               <React.Fragment key={index}>
-                <Typography color={lineColor.color} variant="h5">
+                <Typography key={index} color={lineColor.color} variant="h5">
                   {lineColor.line}
                 </Typography>
               </React.Fragment>
@@ -149,7 +157,7 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
           {/* 入力 */}
           <TextField fullWidth label="" id="fullWidth"
-
+            disabled={isExited}
             inputRef={textFieldRef}
             value={inputCommand}
             onChange={(event) => setInputCommand(event.target.value)}
@@ -242,6 +250,22 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                         case "clear":
                           setOutputs([]);
                           setIsIntro(false);
+                          break;
+                        case "exit":
+                          const mlogout = getTail(manager.getDirs(manager.cstrsHome)).files.find(file => file.name === ".mlogout")?.contents;
+                          const logoutParse = new clsParser(mlogout ?? "-1");
+                          // 単純にcommandである必要がある．
+                          setOutputs([
+                            ...pastOutputsWithCommand,
+                            ...getTail(
+                              manager.getDirs(manager.cstrExportPath)).files.
+                              find(file =>
+                                file.name === logoutParse.command)?.command
+                              ?.func(manager, logoutParse.options, logoutParse.arguments)
+                            ?? [],
+                          ]);
+                          setIsExited(true);
+
                           break;
                         default:
                           msgAlert(`${parser.command}で外側の実行がされていません．`);
@@ -540,7 +564,7 @@ const Matsh: React.FC<{ height: string }> = (props) => {
               }
 
             }}
-            placeholder="command here"
+            placeholder={isExited ? "Be of Good Cheer!" : "input here"}
             InputProps={{
               startAdornment:
                 <InputAdornment position="start">

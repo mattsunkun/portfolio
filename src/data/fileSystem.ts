@@ -270,6 +270,7 @@ export type tStandardError = {
   commandTooLong: () => lineColor[],
 
   youAreCurios: (strPhrase: string) => lineColor[],
+  thereAreNoLink: (strCommand: string, arg: string) => lineColor[];
 
 
 }
@@ -392,6 +393,15 @@ export const standardError: tStandardError = {
       },
     ]
   },
+
+  thereAreNoLink: (strCommand: string, arg: string) => {
+    return [
+      {
+        line: `${strCommand}: There are no link at ${arg} `,
+        color: eOutputColor.error,
+      },
+    ]
+  }
 
 
 }

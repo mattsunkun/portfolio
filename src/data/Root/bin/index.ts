@@ -15,7 +15,7 @@ const dirBin: directory = {
         func: (manager: tManager, opts: string[], args: string[]) => {
 
           if (opts.length !== 0) {
-            return standardError.illegalOption("cat", opts[0]);
+            return standardError.illegalOption("cat", opts[Math.min(opts.length - 1, 1)]);
           }
 
           let agent: lineColor[] = [];
@@ -79,7 +79,7 @@ const dirBin: directory = {
       command: {
         func: (manager: tManager, opts: string[], args: string[]) => {
           if (opts.length !== 0) {
-            return standardError.illegalOption("cd", opts[0]);
+            return standardError.illegalOption("cd", opts[Math.min(opts.length - 1, 1)]);
           } else if (args.length === 0) {
             manager.dirsCurrent = manager.wayHome();
             return [];
@@ -109,7 +109,7 @@ const dirBin: directory = {
       command: {
         func: (manager: tManager, opts: string[], args: string[]) => {
           if (opts.length !== 0) {
-            return standardError.illegalOption("clear", opts[0]);
+            return standardError.illegalOption("clear", opts[Math.min(opts.length - 1, 1)]);
           } else if (args.length === 0) {
             return [];
           } else {
@@ -132,7 +132,7 @@ const dirBin: directory = {
       command: {
         func: (manager: tManager, opts: string[], args: string[]) => {
           if (opts.length !== 0) {
-            return standardError.illegalOption("date", opts[0]);
+            return standardError.illegalOption("date", opts[Math.min(opts.length - 1, 1)]);
           } else if (args.length === 0) {
             const now: Date = new Date();// new Date(2023, 12, 31, 23, 59, 59);
             return [{
@@ -158,7 +158,7 @@ const dirBin: directory = {
       command: {
         func: (manager: tManager, opts: string[], args: string[]) => {
           if (opts.length !== 0) {
-            return standardError.illegalOption("echo", opts[0]);
+            return standardError.illegalOption("echo", opts[Math.min(opts.length - 1, 1)]);
           } else if (args.length === 0) {
             return [lineField()];
           } else {
@@ -172,9 +172,36 @@ const dirBin: directory = {
         },
         shortOptions: [],
         longOptions: [],
-        maxArgNums: 0,
+        maxArgNums: -1,
         argType: eArgType.none,
         man: "Echo Args.\nArguments are allowed.\nNo Options are allowed.",
+      }
+    },
+
+    // exit
+    {
+      name: "exit",
+      contents: "binary of the 非常口",
+      command: {
+        func: (manager: tManager, opts: string[], args: string[]) => {
+          if (opts.length !== 0) {
+            return standardError.illegalOption("exit", opts[Math.min(opts.length - 1, 1)]);
+          } else if (args.length === 0) {
+            return [];
+            // [{
+            //   line: getTail(manager.getDirs(manager.cstrsHome)).files.find(file => file.name === ".mlogout")
+            //   color: eOutputColor.standard,
+            // }];
+          } else {
+            return standardError.tooManyArguments("exit");
+          }
+        },
+        shortOptions: [],
+        longOptions: [],
+        maxArgNums: 0,
+        argType: eArgType.none,
+        isNeedOuterHelp: true,
+        man: "Exits from Matsh.\nNo Arguments are allowed.\nNo Options are allowed.",
       }
     },
 
@@ -210,7 +237,12 @@ const dirBin: directory = {
                 line: `${arg}:`,
                 color: eOutputColor.standard,
               });
-              const dirs = dirTarget.directories.filter(dir => (!dir.name.startsWith(".")) || !isNoHidden).map(dir => dir.name);
+
+              let dirs = dirTarget.directories.filter(dir => (!dir.name.startsWith(".")) || !isNoHidden).map(dir => dir.name);
+              // . .. も含める．
+              if (!isNoHidden) {
+                dirs = [".", "..", ...dirs];
+              }
               if (dirs.length !== 0) {
                 agent.push({
                   line: dirs.join(" "),
@@ -243,11 +275,11 @@ const dirBin: directory = {
           }
           return agent;
         },
-        shortOptions: [""],
+        shortOptions: ["a"],
         longOptions: [""],
         maxArgNums: -1,
         argType: eArgType.directory,
-        man: "List Segments.\nArguments are allowed.\nOnly -a Option is allowed.",
+        man: "List Segments.\nArguments are allowed.\nOptions:\n-a: Show hidden segments.",
       }
     },
 
@@ -258,7 +290,7 @@ const dirBin: directory = {
       command: {
         func: (manager: tManager, opts: string[], args: string[]) => {
           if (opts.length !== 0) {
-            return standardError.illegalOption("man", opts[0]);
+            return standardError.illegalOption("man", opts[Math.min(opts.length - 1, 1)]);
           } else if (args.length === 0) {
             return standardError.argumentRequired("man");
           } else {
@@ -302,9 +334,108 @@ const dirBin: directory = {
         },
         shortOptions: [],
         longOptions: [],
-        maxArgNums: 0,
-        argType: eArgType.none,
+        maxArgNums: -1,
+        argType: eArgType.executable,
         man: "Manual for the Command.\nArguments are required.\nNo Options are allowed.",
+      }
+    },
+
+    // open
+    {
+      name: "open",
+      contents: "binary of the おぺん",
+      command: {
+        func: (manager: tManager, opts: string[], args: string[]) => {
+          // if (opts.length !== 0) {
+          //   return standardError.illegalOption("open", opts[Math.min(opts.length-1, 1)]);
+          // } else if (args.length === 0) {
+          //   return standardError.argumentRequired("open")
+          // } else {
+          if (args.length === 0) {
+            return standardError.argumentRequired("open");
+          }
+          if (args.length > 1) {
+            return standardError.tooManyArguments("open");
+          }
+
+          let agent: lineColor[] = [];
+          // デフォルトではind=0を開くとする．
+          let ind: number = 0;
+          if (opts.length >= 2) {
+            if (opts[1] === "l") {
+              ind = -1;
+            } else {
+              ind = parseInt(opts[1]);
+              if (isNaN(ind)) {
+                return standardError.illegalOption("open", opts[Math.min(opts.length - 1, 1)]);
+              }
+            }
+          }
+          for (const arg of args) {
+
+            const [strDir, strDebris] = extractDirDebris(arg);
+
+            const dirTarget: directory | undefined = getTail(manager.getDirs(strDir));
+
+            const fileTarget = dirTarget?.files.find(file => file.name === strDebris);
+
+            // ファイルがあれば
+            if (fileTarget) {
+
+              // リンク検索
+              const links = fileTarget.meta?.urls;
+
+              // openしたいとき
+              if (ind !== -1) {
+                // リンクがあれば
+                if (links) {
+                  // lengthを限度としてやる．
+                  const link: string = links[Math.min(ind, links.length - 1)];
+                  window.open(link, "_blank");
+                  agent = [...agent, {
+                    line: `Opened the link(${link}) with other tab.`,
+                    color: eOutputColor.standard,
+                  }]
+                } else {
+                  // リンクがなければ
+                  agent = [...agent, ...standardError.thereAreNoLink("open", arg)];
+                }
+              } else {
+                // linkの数を検索するとき
+                // リンクがあれば
+                if (links) {
+                  agent = [...agent, {
+                    line: `You can open related link to the file(${arg}) with the option of..`,
+                    color: eOutputColor.standard,
+                  }]
+                  for (let i = 0; i < links.length; i++) {
+                    const ele = links[i];
+                    agent = [...agent, {
+                      line: `-${i}: ${ele}`,
+                      color: eOutputColor.standard,
+                    }]
+                  }
+                } else {
+                  agent = [...agent, {
+                    line: `The file(${arg}) had no related link... `,
+                    color: eOutputColor.standard,
+                  }]
+                }
+              }
+
+            } else {
+              // ファイルがない
+              agent = [...agent, ...standardError.notAFile("open", arg)];
+            }
+          }
+          return agent;
+          //           }
+        },
+        shortOptions: ["l"],
+        longOptions: [],
+        maxArgNums: 1,
+        argType: eArgType.file,
+        man: "Open Related Link to the File.\nArgument is required.\nOptions: uses only first option\n-l: Shows which number stands for the link.\n-<NUMBER>: Open a link with the index of <NUMBER>",
       }
     },
 
@@ -315,7 +446,7 @@ const dirBin: directory = {
       command: {
         func: (manager: tManager, opts: string[], args: string[]) => {
           if (opts.length !== 0) {
-            return standardError.illegalOption("pwd", opts[0]);
+            return standardError.illegalOption("pwd", opts[Math.min(opts.length - 1, 1)]);
           } else if (args.length === 0) {
             return [{
               line: `${manager.getStr(manager.dirsCurrent, false)}`,
@@ -340,7 +471,7 @@ const dirBin: directory = {
       command: {
         func: (manager: tManager, opts: string[], args: string[]) => {
           if (opts.length !== 0) {
-            return standardError.illegalOption("which", opts[0]);
+            return standardError.illegalOption("which", opts[Math.min(opts.length - 1, 1)]);
           } else if (args.length === 0) {
             return standardError.argumentRequired("which");
           } else {
