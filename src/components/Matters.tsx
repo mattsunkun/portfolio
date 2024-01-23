@@ -15,6 +15,27 @@ const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (pro
   // 現在のテーマ
   const { val: isDarkMode, setVal: _ } = (useContext(darkModeContext) ?? {}) as tBooleanSet;
 
+  // let defaultDark: boolean;
+  // // const [defaultDark, setDefauldDark] = useState<boolean>();
+  // const [flagReload, setFlagReload] = useState<number>(0);
+  // useEffect(() => {
+  //   console.log(defaultDark, isDarkMode)
+  //   if (defaultDark === undefined) {
+  //     defaultDark = isDarkMode
+  //   } else {
+  //     if (defaultDark !== isDarkMode) {
+  //       // setFlagReload(flagReload + 1)
+  //       // if (flagReload >= 1) {
+  //       //   window.location.reload()
+  //       // }
+  //       // console.log(flagReload)
+
+  //       // window.location.reload()
+  //     }
+  //   }
+
+  // }, [isDarkMode])
+
   // フィルターを見せるかどうかのフラグ
   const isFiltable: boolean =
     (window.innerWidth >= 900) &&
@@ -120,6 +141,8 @@ const Matters: React.FC<{ dirSkills: directory, W?: number, H?: number }> = (pro
   useEffect(() => {
     if (!ignore) {
 
+      // defaultDark = isDarkMode;
+      // setDefauldDark(isDarkMode)
 
       // dirとのハッシュテーブルの初期化を行う．
       props.dirSkills.directories.forEach((dir) => {

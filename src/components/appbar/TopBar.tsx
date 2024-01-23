@@ -56,7 +56,11 @@ const TopBar = () => {
 
             {/* Theme */}
             <Typography >
-              <IconButton color="inherit" onClick={() => setIsDarkMode(!isDarkMode)}>
+              <IconButton disabled={location.pathname.includes(ePage.skills.toLowerCase())}
+                color="inherit" onClick={() => {
+                  // console.log(location.pathname, ePage.skills)
+                  setIsDarkMode(!isDarkMode)
+                }}>
                 {isDarkMode ?
                   <DarkModeIcon /> :
                   <LightModeIcon />

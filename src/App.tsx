@@ -1,6 +1,6 @@
 // base
 import React, { useState, useEffect, createContext } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, Link, useLocation } from "react-router-dom";
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 // mui
@@ -35,6 +35,16 @@ export type tBooleanSet = {
 // { isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>> }
 
 export const darkModeContext = createContext<tBooleanSet | undefined>(undefined);
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return (<></>)
+};
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
@@ -74,11 +84,13 @@ const App: React.FC = () => {
     //   },
     // },
   });
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
+          <ScrollToTop />
           <darkModeContext.Provider value={darkMode}>
 
             <TopBar />

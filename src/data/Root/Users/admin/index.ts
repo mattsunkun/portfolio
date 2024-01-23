@@ -10,8 +10,10 @@ const dirAdmin: directory = {
     {
       name: ".debug",
       contents: [
-        "ToDo: タブ補完がパス指定のコマンドが無いし，隠しファイルまで存在してしまう．",
+        "タブ補完がパス指定のコマンドが無いし，隠しファイルまで存在してしまう．",
+        "useStateが使えず，innerHTMLでskillsをやってて，skillsではthemeを切り替えるとダメになっちゃうね．",
         "いろいろやってないね.....",
+
       ].join(" "),
     }
   ],

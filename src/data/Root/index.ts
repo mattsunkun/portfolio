@@ -12,17 +12,17 @@ const dirRoot: directory = {
   ],
   directories: [
     dirBin,
-    {
-      name: ".test",
-      files: [],
-      directories: [
-        {
-          name: "error",
-          files: [],
-          directories: [],
-        }
-      ],
-    },
+    // {
+    //   name: ".test",
+    //   files: [],
+    //   directories: [
+    //     {
+    //       name: "error",
+    //       files: [],
+    //       directories: [],
+    //     }
+    //   ],
+    // },
     dirUsers,
   ],
 }

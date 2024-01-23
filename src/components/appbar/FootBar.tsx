@@ -37,10 +37,11 @@ const FootBar = () => {
                 marginY={1}
                 marginX={1}
               >
-                <LinkLine link={ePage.home} line={ePage.home2} isSameTab />
-                <LinkLine link={ePage.about} line={ePage.about} isSameTab />
-                <LinkLine link={ePage.skills} line={ePage.skills} isSameTab />
-                <LinkLine link={ePage.works} line={ePage.works} isSameTab />
+                {/* 外科処置 ePage.home */}
+                <LinkLine link={"/"} line={ePage.home2} isSameTab />
+                <LinkLine link={"/" + ePage.about.toLowerCase()} line={ePage.about} isSameTab />
+                <LinkLine link={"/" + ePage.skills.toLowerCase()} line={ePage.skills} isSameTab />
+                <LinkLine link={"/" + ePage.works.toLowerCase()} line={ePage.works} isSameTab />
 
                 {/* <LinkButton link={ePage.home} line={ePage.home2} icon={<TerminalIcon />} />
                 <LinkButton link={ePage.about} line={ePage.about} icon={<PersonIcon />} />

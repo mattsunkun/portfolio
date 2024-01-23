@@ -90,11 +90,12 @@ const Card: React.FC<file> = (props) => {
             pImgRightsLink !== "" ?
 
               <Box
+                margin="3px"
                 sx={{
                   position: 'absolute',
                   bottom: 0,
                   right: 0,
-                  backgroundColor: "rgba(255, 255, 255, 1.0)",
+                  backgroundColor: "rgba(255, 255, 255, 1.0)", // `${isDarkMode ? "rgba(255, 255, 255, 1.0)" : "rgba(255, 255, 255, 1.0)"}`,
                   borderRadius: "12px", // 適切な値に調整
                   fontSize: '12px',
                   // color: "rgba(0, 0, 0, 1.3)",
@@ -105,7 +106,7 @@ const Card: React.FC<file> = (props) => {
                   target="_blank"
                   style={{
                     textDecoration: "none",
-                    color: "rgba(0, 0, 0, 0.5)",
+                    color: "rgba(0, 0, 0, 1.0)",
                   }}
                 >
                   {"　引用元　"}
