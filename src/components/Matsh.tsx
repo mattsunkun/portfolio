@@ -157,11 +157,16 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
             {outputs.map((lineColor, index) => (
 
-              <React.Fragment key={index}>
-                <Typography key={index} color={lineColor.color} variant="h5">
+              // <React.Fragment key={index}>
+              //   <Typography key={index} color={lineColor.color} variant="h5">
+              //     {lineColor.line}
+              //   </Typography>
+              // </React.Fragment>
+              <Box key={index} >
+                <Typography color={lineColor.color} variant="h5">
                   {lineColor.line}
                 </Typography>
-              </React.Fragment>
+              </Box>
             ))}
           </Typography>
 
@@ -359,8 +364,8 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
                   if (parser.command === "") {
                     candidates = [
-                      ...manager.cstrsAlias.map(alias => alias.split("=")[0]),
                       ...executableTargets.map(file => file.name),
+                      ...manager.cstrsAlias.map(alias => alias.split("=")[0]),
                     ]
                   } else {
 

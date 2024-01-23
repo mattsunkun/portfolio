@@ -19,6 +19,7 @@ const Card: React.FC<file> = (props) => {
   // 大きさ制御
   const windowWidth: number = window.innerWidth;
   const cardFixedWidth: number = 360;
+  const padRight: number = 30;
   const cardFixedHeight: number = cardFixedWidth * 3 / 4;
   const {
     name: pTitle,
@@ -40,7 +41,7 @@ const Card: React.FC<file> = (props) => {
   //   console.log(windowWidth)
   return (
     <Grid item
-      xs={12}
+      xs={13}
       sm={7}
       md={5}
       lg={4}
