@@ -464,6 +464,131 @@ const dirBin: directory = {
       }
     },
 
+    // tree
+    {
+      name: "tree",
+      contents: "binary of the 🌲",
+      command: {
+        func: (manager: tManager, opts: string[], args: string[]) => {
+
+          // if (opts.length !== 0) {
+          //   return standardError.illegalOption("tree", opts[Math.min(opts.length - 1, 1)]);
+          // }
+
+
+          let isNoHidden: boolean = true;
+          let isNoFile: boolean = false;
+          for (let i = 0; i < opts.length; i++) {
+            const ele = opts[i]
+            switch (ele) {
+              case "-":
+                continue
+                break;
+              case "a":
+                isNoHidden = false;
+                break;
+              case "F":
+                isNoFile = true;
+                break;
+              default:
+                return standardError.illegalOption("tree", ele);
+            }
+          }
+
+
+          // 引数が無い時は現在を見る．
+          if (args.length === 0) {
+            args.push("./");
+          }
+
+          let agent: lineColor[] = [];
+
+
+          const cstrBranches = {
+            foot: "│   ",
+            noFoot: "　 ",
+            joint: "├── ",
+            tail: "└── ",
+          };
+
+          type tCnt = {
+            file: number,
+            dir: number,
+          };
+          const rec = (nowDir: directory, agent: lineColor[], cnt: tCnt, trace: string, isDirTail: boolean, isRoot: boolean,): void => {
+
+            const dirs: directory[] = nowDir.directories.filter(dir => !dir.name.startsWith(".") || !isNoHidden);
+            const files: file[] = nowDir.files.filter(file => (!file.name.startsWith(".") || !isNoHidden) && !isNoFile);
+
+            const strDirBranch = isRoot ?
+              "" : // rootのとき
+              (
+                isDirTail ?
+                  (trace + cstrBranches.tail) : // ファイルが同一階層に存在しない．
+                  (trace + cstrBranches.joint)
+              );
+
+            // rootからのtreeもそんなに深くないので，ここで計算量がO(N^2)になってもそんなに問題ではない．
+            trace += isDirTail ?
+              cstrBranches.noFoot :
+              cstrBranches.foot;
+
+            agent.push({
+              line: strDirBranch + nowDir.name,
+              color: eOutputColor.directory,
+            });
+
+            cnt.dir += dirs.length;
+            cnt.file += files.length;
+
+            for (let i = 0; i < dirs.length; i++) {
+              rec(dirs[i], agent, cnt, trace, (files.length === 0) && (i === dirs.length - 1), false);
+
+            }
+
+            agent.push(...files.map((file, ind) => {
+              return {
+                line: trace + (ind === files.length - 1 ? cstrBranches.tail : cstrBranches.joint) + file.name,
+                color: eOutputColor.file,
+              }
+            }));
+
+
+          };
+
+
+          // それぞれの引数に対して実行．
+          for (const arg of args) {
+
+            const dirTarget = getTail(manager.getDirs(arg));
+            if (dirTarget) {
+              const cnt: tCnt = {
+                file: 0,
+                dir: 0,
+              };
+              rec(dirTarget, agent, cnt, "", true, true);
+
+              agent.push(lineField());
+              agent.push({
+                line: `${cnt.dir} directories, ${cnt.file} files`,
+                color: eOutputColor.standard,
+              })
+              agent.push(lineField());
+            } else {
+              agent.push(...standardError.notADirectory("tree", arg));
+            }
+          }
+
+          return agent;
+        },
+        shortOptions: ["a", "F"],
+        longOptions: [""],
+        maxArgNums: -1,
+        argType: eArgType.directory,
+        man: "Show a Tree Structure.\nArguments are allowed.\nOptions:\n-a: Show hidden segments.\n-F: Hide files.",
+      }
+    },
+
     // which
     {
       name: "which",

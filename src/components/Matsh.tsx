@@ -50,11 +50,21 @@ const Matsh: React.FC<{ height: string }> = (props) => {
   // const mutant = ["a", "b"]
   // console.log(mutant)
 
-  // const mutables = {
+  // const b = (mutables: string[]) => {
+  //   mutables.push("c")
+  // }
+  // b(mutant);
+
+  // console.log(mutant)
+
+  // type tM = {
+  //   mutant: string[]
+  // }
+  // const mutables: tM = {
   //   mutant: mutant
   // }
-  // const a = (mutables: Object) => {
-  //   mutant.push("c");
+  // const a = (mutables: tM) => {
+  //   mutables.mutant.push("c");
   // }
   // a(mutables)
   // console.log(mutant)
@@ -166,7 +176,6 @@ const Matsh: React.FC<{ height: string }> = (props) => {
             onCompositionEnd={() => setIsInputting(false)}
             onKeyDown={(event) => {
 
-
               // 長すぎるコマンドは解釈できない
               if (inputCommand.length >= standardError.cnumsMaxChar) {
                 setOutputs([
@@ -191,6 +200,9 @@ const Matsh: React.FC<{ height: string }> = (props) => {
                       color: eOutputColor.standard,
                     }
                   ];
+
+                  // compは消す．
+                  setComplements({ line: "", color: eOutputColor.standard });
 
                   // 空白は履歴に入れない．
                   if (parser.command !== "") {
