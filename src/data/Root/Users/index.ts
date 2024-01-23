@@ -7,7 +7,7 @@ const dirUsers: directory = {
   files: [
     {
       name: ".maron",
-      contents: 'A friend during University.\nYou can jump to his Portfolio with a "open" command.',
+      contents: 'A friend during University.\nYou can jump to his Portfolio with a "open" command!',
       meta: {
         urls: ["https://kisako-riku-portfolio.vercel.app",],
       },
