@@ -7,12 +7,12 @@ const dirHobbies: directory = {
       name: "ポートフォリオ",
       contents: "このウェブサイトです．自分の情報をディレクトリ構造でまとめる工夫をしました．",
       meta: {
-        img: "",
+        img: `${process.env.PUBLIC_URL}/images/works/hobbies/portfolio.png`,
         imgRightsLink: "",
         start: new Date(2023, 12, 1),
         period: 2,
         urls: [
-          "http://localhost:3000",
+          "/", //"http://localhost:3000",
           "https://github.com/mattsunkun/portfolio",
         ]
       }

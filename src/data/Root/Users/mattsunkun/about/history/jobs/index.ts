@@ -24,14 +24,14 @@ const dirJobs: directory = {
       }
     },
     {
-      name: "開発バイト その1",
+      name: "開発バイト_その1",
       contents: "NDAより詳細は掲載不可 (開始/)",
       meta: {
         start: new Date(2021, 9, 1),
       }
     },
     {
-      name: "開発バイト その2",
+      name: "開発バイト_その2",
       contents: "NDAより詳細は掲載不可 (入社/退社)",
       meta: {
         start: new Date(2022, 12, 1),

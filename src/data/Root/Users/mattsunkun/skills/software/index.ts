@@ -36,7 +36,7 @@ const dirSoftware: directory = {
       }
     },
     {
-      name: "OBS Studio",
+      name: "OBS_Studio",
       contents: "YouTube上でライブ配信をする上で利用しました．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/software/icon-icons-obs-384.png`,
@@ -60,7 +60,7 @@ const dirSoftware: directory = {
       }
     },
     {
-      name: "Visual Studio",
+      name: "Visual_Studio",
       contents: "開発バイトでしばしば利用するエディタです． 基本的な操作方法はわかります．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/software/techicons-visualstudio-384.png`,
@@ -68,7 +68,7 @@ const dirSoftware: directory = {
       }
     },
     {
-      name: "Visual Studio Code",
+      name: "Visual_Studio_Code",
       contents: "個人開発でよく利用するエディタです． 拡張機能が乱雑に入っているので，いつか整理したいです．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/software/techicons-vscode-384.png`,

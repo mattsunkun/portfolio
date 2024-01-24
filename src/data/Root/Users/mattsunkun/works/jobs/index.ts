@@ -4,7 +4,7 @@ const dirJobs: directory = {
   name: "jobs",
   files: [
     {
-      name: "Windowsアプリ開発 その2",
+      name: "Windowsアプリ開発_その2",
       contents: ".Netフレームワークを用いて，C#で記述したWindowsアプリ共同開発です．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/works/jobs/tech-icons-cs.png`,
@@ -32,7 +32,7 @@ const dirJobs: directory = {
       }
     },
     {
-      name: "Windowsアプリ開発 その1",
+      name: "Windowsアプリ開発_その1",
       contents: ".Netフレームワークを用いて，C#で記述したWindowsアプリ共同開発です．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/works/jobs/tech-icons-cs.png`,
@@ -46,7 +46,7 @@ const dirJobs: directory = {
       }
     },
     {
-      name: "ウェブ開発 その3",
+      name: "ウェブ開発_その3",
       contents: "AWSをプラットフォームとした，ウェブサービスの開発をしました．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/works/jobs/tech-icons-aws.png`,
@@ -74,7 +74,7 @@ const dirJobs: directory = {
       }
     },
     {
-      name: "ウェブ開発 その2",
+      name: "ウェブ開発_その2",
       contents: "ウェブサイトを部分的に作成する開発をしました．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/works/jobs/tech-icons-react.png`,
@@ -102,7 +102,7 @@ const dirJobs: directory = {
       }
     },
     {
-      name: "ウェブ開発 その1",
+      name: "ウェブ開発_その1",
       contents: "ベクトル演算を用いた，空間座標を計算するプログラムを開発しました．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/works/jobs/tech-icons-threejs.png`,

@@ -4,7 +4,7 @@ const dirHardware: directory = {
   name: "hardware",
   files: [
     {
-      name: "Raspberry Pi",
+      name: "Raspberry_Pi",
       contents: "LANのお勉強などに役立てています． ファンを持っていないので，手持ち扇風機を当てて作業しています．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/hardware/techicons-raspberrypi-384.png`,

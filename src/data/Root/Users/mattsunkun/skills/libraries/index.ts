@@ -4,7 +4,7 @@ const dirLibraries: directory = {
   name: "libraries",
   files: [
     {
-      name: "Beautiful Soup 4",
+      name: "Beautiful_Soup_4",
       contents: "モジュールをインポートすることで， 様々なmarkup languageを解析できる点が大好きです． ",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/libraries/third-bs4-408.png`,
@@ -28,7 +28,7 @@ const dirLibraries: directory = {
       }
     },
     {
-      name: "Material UI",
+      name: "Material_UI",
       contents: "このサイトで使っています． いい感じにカッコよく作れるので好きです！！",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/libraries/techicons-materialui-384.png`,

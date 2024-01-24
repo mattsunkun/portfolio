@@ -45,7 +45,7 @@ const dirLanguages: directory = {
       },
     },
     {
-      name: "Google Apps Script",
+      name: "Google_Apps_Script",
       contents: "簿記アプリを作成する上で利用しました．　良い開発環境の整え方が見つからない言語の一つだと思います．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/languages/flaticon-gas-480.png`,
