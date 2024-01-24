@@ -82,7 +82,12 @@ const Matsh: React.FC<{ height: string }> = (props) => {
     manager.dirsCurrent = manager.wayHome();
 
     // デフォルトでtextfieldにフォーカス
-    textFieldRef.current?.focus();
+
+    // スマホとかはカーソル合わせなくて良い．
+    if (window.innerWidth > 500) {
+      textFieldRef.current?.focus();
+
+    }
 
     // dirsCurrent = 
   }, []);// 第二引数が空の場合、コンポーネントがマウントされたときだけuseEffectが実行されます
