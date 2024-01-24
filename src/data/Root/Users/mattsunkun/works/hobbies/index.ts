@@ -33,13 +33,27 @@ const dirHobbies: directory = {
     },
 
     {
+      name: "簿記管理アプリ",
+      contents: "グーグルフォームで取引を記述し，スプシに自動で仕訳をするアプリを作成しました．",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/works/hobbies/boki.png`,
+        imgRightsLink: "",
+        start: new Date(2023, 9, 1),
+        period: 2,
+        urls: [
+          "",
+          "https://github.com/mattsunkun/bookkeeping",
+        ],
+      }
+    },
+    {
       name: "うにばーす",
       contents: "サークルのハッカソンで作成しました．初めてメンターを務めたウェブ開発です．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/works/hobbies/unibirth.png`,
         imgRightsLink: "",
-        start: new Date(2023, 9, 1),
-        period: 2,
+        start: new Date(2023, 5, 1),
+        period: 1,
         urls: [
           "https://unibirth-mattsunkun.vercel.app/",
           "https://github.com/mattsunkun/unibirth",
@@ -52,7 +66,7 @@ const dirHobbies: directory = {
       meta: {
         img: `${process.env.PUBLIC_URL}/images/works/hobbies/kyotei-ai.png`,
         imgRightsLink: "https://ja.wikipedia.org/wiki/%E7%AB%B6%E8%89%87#/media/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:Amagasaki-kyotei-11.jpg",
-        start: new Date(),
+        start: new Date(2022, 8, 1),
         period: 3,
         urls: [
           "",
