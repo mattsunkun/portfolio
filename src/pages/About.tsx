@@ -38,7 +38,7 @@ const About = () => {
     document.addEventListener("keydown", handleKeyDown, false);
     return () => {
       // イベント消去
-      document.removeEventListener("keydown", (e) => handleKeyDown(e));
+      document.removeEventListener("keydown", handleKeyDown);
     };
 
   }, []);
