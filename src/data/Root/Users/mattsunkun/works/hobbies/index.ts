@@ -10,7 +10,7 @@ const dirHobbies: directory = {
         img: `${process.env.PUBLIC_URL}/images/works/hobbies/portfolio.png`,
         imgRightsLink: "",
         start: new Date(2023, 12, 1),
-        period: 2,
+        period: 1,
         urls: [
           "/", //"http://localhost:3000",
           "https://github.com/mattsunkun/portfolio",
