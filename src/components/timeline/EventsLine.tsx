@@ -24,6 +24,8 @@ const EventsLine: React.FC<{}> = (props) => {
     ...dirQualifications.files,
     ...dirSchools.files,
   ];
+  // console.log(dirJobs.name);
+  // console.log(dirExperiences.name);
 
   const events: tEvent[] = filesEvent.reduce((acc: tEvent[], cur: file) => {
     // 

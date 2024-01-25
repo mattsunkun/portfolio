@@ -40,15 +40,6 @@ const dirQualifications: directory = {
       }
     },
     {
-      name: "応用情報技術者",
-      contents: "学部3年生の夏に勉強して取得しました．合格証書がまだ届いていないので，日付は受験したときになっています．(合格/)",
-      meta: {
-        start: new Date(2023, 10, 8),
-        urls: ["https://www.ipa.go.jp/shiken/kubun/ap.html",],
-        priority: 0,
-      }
-    },
-    {
       name: "Atcoder入茶",
       contents: "基本的なアルゴリズム(累積和・いもす法・Union-Find・二分探索・DFS・BFS・DP・ダイクストラ法・ワーシャルフロイド法・クラスカル法など)を学び，コンテストに挑み続けました．(/)",
       meta: {
@@ -63,6 +54,15 @@ const dirQualifications: directory = {
       meta: {
         start: new Date(2023, 12, 10),
         urls: ["https://www.iibc-global.org/toeic.html",],
+        priority: 0,
+      }
+    },
+    {
+      name: "応用情報技術者",
+      contents: "学部3年生の夏に勉強して取得しました．合格証書の日付と僕の誕生日が一緒でした！！(合格/)",
+      meta: {
+        start: new Date(2023, 12, 21),
+        urls: ["https://www.ipa.go.jp/shiken/kubun/ap.html",],
         priority: 0,
       }
     },

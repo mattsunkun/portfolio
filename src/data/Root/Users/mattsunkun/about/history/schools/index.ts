@@ -14,7 +14,7 @@ const dirSchools: directory = {
       }
     },
     {
-      name: "Picadome_Elementary",
+      name: "Picadome　Elementary",
       contents: "父の仕事の都合で，アメリカに住み始めてすぐに入学しました．当時，英語は「Hello」すら読めませんでした．(転入/卒業)",
       meta: {
         start: new Date(2014, 4, 1),
@@ -24,7 +24,7 @@ const dirSchools: directory = {
       }
     },
     {
-      name: "Central_Kentucky_Japanese_School",
+      name: "Central　Kentucky　Japanese　School",
       contents: "平日は現地校に通い，毎週土曜日はこの日本人補習校に通っていました． (転入/卒業)",
       meta: {
         start: new Date(2014, 4, 1),
@@ -34,7 +34,7 @@ const dirSchools: directory = {
       }
     },
     {
-      name: "Jessie_Clark_Middle_School",
+      name: "Jessie　Clark　Middle　School",
       contents: "この中学校を卒業する頃には，それなりに英語が喋れるようになってました．(入学/卒業)",
       meta: {
         start: new Date(2014, 9, 1),

@@ -11,6 +11,7 @@ const dirJobs: directory = {
         start: new Date(2021, 5, 1),
         end: new Date(2023, 8, 1),
         urls: ["https://www.sagami.co.jp/"],
+        priority: 2,
       }
     },
     {
@@ -21,6 +22,7 @@ const dirJobs: directory = {
         start: new Date(2021, 5, 1),
         end: new Date(2022, 3, 1),
         urls: ["https://www.shuei-yobiko.co.jp/"],
+        priority: 2,
       }
     },
     {
@@ -28,6 +30,8 @@ const dirJobs: directory = {
       contents: "NDAより詳細は掲載不可 (開始/)",
       meta: {
         start: new Date(2021, 9, 1),
+
+        priority: 1,
       }
     },
     {
@@ -36,6 +40,8 @@ const dirJobs: directory = {
       meta: {
         start: new Date(2022, 12, 1),
         end: new Date(2023, 8, 1),
+
+        priority: 1,
 
       }
     }

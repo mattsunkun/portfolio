@@ -68,7 +68,7 @@ const dirLibraries: directory = {
       }
     },
     {
-      name: "Scikit_learn",
+      name: "Scikitーlearn",
       contents: "機械学習の基本的な学習や， データセットをインポートするのに使っています．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/libraries/techicons-scikitLearn-384.png`,
