@@ -69,6 +69,8 @@ const Matsh: React.FC<{ height: string }> = (props) => {
   // a(mutables)
   // console.log(mutant)
 
+  const isPC: boolean = window.innerWidth > 500;
+
 
   useEffect(() => {
     // outputs変更時にスクロールする．
@@ -84,7 +86,7 @@ const Matsh: React.FC<{ height: string }> = (props) => {
     // デフォルトでtextfieldにフォーカス
 
     // スマホとかはカーソル合わせなくて良い．
-    if (window.innerWidth > 500) {
+    if (isPC) {
       textFieldRef.current?.focus();
 
     }
@@ -101,6 +103,14 @@ const Matsh: React.FC<{ height: string }> = (props) => {
 
 
   const strsIntro: string[] = dirMattsunkun.files.find(file => file.name === ".mlogin")?.contents.split("\n").slice(1) || [];
+  if (!isPC) {
+    strsIntro.pop();
+    strsIntro.push("");
+    strsIntro.push("It seems like you are watching me with your smartphone📱 or something...");
+    strsIntro.push("Huh...🧐");
+    strsIntro.push("I would like you to watch me with some PC💻.")
+
+  }
   //  [
   //   "Hello World!!",
   //   "Welcome to mattsunkun's portfolio!!",
