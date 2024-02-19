@@ -28,6 +28,8 @@ import { ePage } from './pages';
 
 import "./fonts/font.css";
 
+inject();
+
 // keybase,qiita, zenn
 // ページの型列挙
 export type tBooleanSet = {
@@ -38,7 +40,7 @@ export type tBooleanSet = {
 
 export const darkModeContext = createContext<tBooleanSet | undefined>(undefined);
 
-inject();
+
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();

@@ -21,7 +21,7 @@ const dirAdmin: directory = {
         "いろいろやってないね.....",
         "スマホレスポンシブの時のコードもどきを.mloginに書いてないね．．",
         "AnalyticsをいずれFrontに書きたいね",
-        "Debugメモ：App.tsxに書いたよ．",
+        "Debugメモ：App.tsx直下",
         "いつかやる🦆",
 
       ].join(" "),
