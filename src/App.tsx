@@ -1,5 +1,5 @@
 // base
-import { Analytics } from '@vercel/analytics/react';
+// import { Analytics } from '@vercel/analytics/react';
 import React, { useState, useEffect, createContext } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, Link, useLocation } from "react-router-dom";
 import CssBaseline from '@mui/material/CssBaseline'
@@ -112,7 +112,7 @@ const App: React.FC = () => {
 
         </BrowserRouter>
       </ThemeProvider>
-      <Analytics />
+      {/* <Analytics /> */}
     </>
   )
 };
