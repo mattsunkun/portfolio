@@ -1,5 +1,6 @@
 // base
-import { Analytics } from '@vercel/analytics/react';
+// import { Analytics } from '@vercel/analytics/react';
+import { inject } from '@vercel/analytics';
 import React, { useState, useEffect, createContext } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, Link, useLocation } from "react-router-dom";
 import CssBaseline from '@mui/material/CssBaseline'
@@ -36,6 +37,8 @@ export type tBooleanSet = {
 // { isDarkMode: boolean, setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>> }
 
 export const darkModeContext = createContext<tBooleanSet | undefined>(undefined);
+
+inject();
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -112,7 +115,7 @@ const App: React.FC = () => {
 
         </BrowserRouter>
       </ThemeProvider>
-      <Analytics />
+      {/* <Analytics /> */}
     </>
   )
 };
