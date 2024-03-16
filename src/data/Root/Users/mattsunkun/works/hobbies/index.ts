@@ -4,6 +4,22 @@ const dirHobbies: directory = {
   name: "hobbies",
   files: [
     {
+      name: "けいさんゲーム",
+      contents: "初めて作ったネイティブアプリです．広告付与するのも大変だなぁ．．",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/works/hobbies/mathing.png`,
+        imgRightsLink: "",
+        start: new Date(2024, 2, 1),
+        period: 2,
+        urls: [
+          // いつか/works/mathing/ページを作る
+          // "/", //"http://localhost:3000",
+
+          "https://github.com/mattsunkun/mathing",
+        ]
+      }
+    },
+    {
       name: "ポートフォリオ",
       contents: "このウェブサイトです．自分の情報をディレクトリ構造でまとめる工夫をしました．",
       meta: {
