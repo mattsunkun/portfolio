@@ -4,8 +4,8 @@ const dirHobbies: directory = {
   name: "hobbies",
   files: [
     {
-      name: "けいさんゲーム",
-      contents: "初めて作ったネイティブアプリです．広告付与するのも大変だなぁ．．",
+      name: "けいさんゲーム(Android)",
+      contents: "「再プレーできない致命的なエラーを含む」初めて作ったネイティブアプリです．", //広告付与するのも大変だなぁ．．",
       meta: {
         img: `${process.env.PUBLIC_URL}/images/works/hobbies/mathing.png`,
         imgRightsLink: "",
@@ -14,7 +14,7 @@ const dirHobbies: directory = {
         urls: [
           // いつか/works/mathing/ページを作る
           // "/", //"http://localhost:3000",
-
+          "https://play.google.com/store/apps/details?id=com.mygame.android.mathing",
           "https://github.com/mattsunkun/mathing",
         ]
       }
