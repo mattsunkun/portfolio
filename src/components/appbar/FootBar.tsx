@@ -57,7 +57,7 @@ const FootBar = () => {
                 <LinkButton link="https://github.com/mattsunkun" line="GitHub" icon={<GitHubIcon />} />
                 <LinkButton link="https://twitter.com/mattsunkun1221" line="X(Twitter)" icon={<TwitterIcon />} />
                 <LinkButton link="https://www.instagram.com/mattsunkun/" line="Instagram" icon={<InstagramIcon />} />
-                <LinkButton link="https://www.youtube.com/channel/UCaamzbGKGG3YovpUmutQVag" line="YouTube" icon={<YouTubeIcon />} />
+                <LinkButton link="https://www.youtube.com/@mattsunkun" line="YouTube" icon={<YouTubeIcon />} />
                 <LinkButton link="https://qiita.com/mattsunkun" line="Qiita" icon={<AddLinkIcon />} />
                 <LinkButton link="https://zenn.dev/mattsunkun" line="Zenn" icon={<AddLinkIcon />} />
               </Grid>
