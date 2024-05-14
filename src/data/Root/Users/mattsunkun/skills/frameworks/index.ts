@@ -30,6 +30,14 @@ const dirFrameworks: directory = {
 
     },
     {
+      name: "Flutter",
+      contents: "友人とBLEを使ったアプリを作成するときに，初めて利用しました．",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/icons/frameworks/techicons-flutter-384.png`,
+        imgRightsLink: "https://techicons.dev/icons/flutter",
+      }
+    },
+    {
       name: "Node.js",
       contents: "JavaScript(TypeScript)をローカルで実行したい時に使っています．",
       meta: {

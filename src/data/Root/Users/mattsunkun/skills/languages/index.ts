@@ -45,6 +45,14 @@ const dirLanguages: directory = {
       },
     },
     {
+      name: "Dart",
+      contents: "Flutterを使うときのみに利用してます． あまり詳しいところは分かってません．．",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/icons/languages/techicons-dart-384.png`,
+        imgRightsLink: "https://techicons.dev/icons/dart",
+      }
+    },
+    {
       name: "Google_Apps_Script",
       contents: "簿記アプリを作成する上で利用しました．　良い開発環境の整え方が見つからない言語の一つだと思います．",
       meta: {
