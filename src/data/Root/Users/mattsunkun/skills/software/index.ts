@@ -28,6 +28,14 @@ const dirSoftware: directory = {
       }
     },
     {
+      name: "Godot",
+      contents: "ゲームを作る上で最低限の機能のみが揃ってて使いやすいです． ただ，ページ遷移はうまく行えませんでした．",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/icons/software/techicons-godot-384.png`,
+        imgRightsLink: "https://techicons.dev/icons/godot",
+      }
+    },
+    {
       name: "MySQL",
       contents: "友人と作成したウェブアプリのバックエンドで利用しました． 環境構築にDockerを使いました．",
       meta: {
@@ -57,6 +65,22 @@ const dirSoftware: directory = {
       meta: {
         img: `${process.env.PUBLIC_URL}/images/icons/software/techicons-subversion-384.png`,
         imgRightsLink: "https://techicons.dev/icons/subversion",
+      }
+    },
+    {
+      name: "Unity",
+      contents: "ゲームを作ってみたく，初めて触ったゲームエンジンです． 機能の多さに戸惑い，挫折しました．．",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/icons/software/techicons-unity-384.png`,
+        imgRightsLink: "https://techicons.dev/icons/unity",
+      }
+    },
+    {
+      name: "Unreal_Engine",
+      contents: "先輩に勧められて，触ってみたゲームエンジンです． Unityと同じく，挫折しました．．",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/icons/software/techicons-unrealengine-384.png`,
+        imgRightsLink: "https://techicons.dev/icons/unrealengine",
       }
     },
     {

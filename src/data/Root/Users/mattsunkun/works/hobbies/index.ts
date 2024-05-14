@@ -4,6 +4,20 @@ const dirHobbies: directory = {
   name: "hobbies",
   files: [
     {
+      name: "ADKILLER",
+      contents: "サークルのハッカソン(4日)で作りました．ウザい広告を避けゲーに導入したゲームです．",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/works/hobbies/adkiller.png`,
+        imgRightsLink: "",
+        start: new Date(2024, 5, 1),
+        period: 0,
+        urls: [
+          "https://adkiller.vercel.app/",
+          "https://github.com/mattsunkun/jackHack2024_F",
+        ]
+      }
+    },
+    {
       name: "けいさんゲーム(Android)",
       contents: "「再プレーできない致命的なエラーを含む」初めて作ったネイティブアプリです．", //広告付与するのも大変だなぁ．．",
       meta: {
