@@ -75,6 +75,15 @@ const dirQualifications: directory = {
         priority: 0,
       }
     },
+    {
+      name: "日商簿記検定試験3級",
+      contents: "お金の流れを理解したくて，勉強し，受験しました．(合格/)",
+      meta: {
+        start: new Date(2024, 6, 2),
+        urls: ["https://www.kentei.ne.jp/bookkeeping/class3"],
+        priority: 1,
+      }
+    },
   ],
   directories: [
 
