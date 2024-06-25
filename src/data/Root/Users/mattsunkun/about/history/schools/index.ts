@@ -47,7 +47,7 @@ const dirSchools: directory = {
       name: "東海市立横須賀中学校",
       contents: "父の仕事の関係で日本に帰国して入学した地元の中学です．(転入/卒業)",
       meta: {
-        start: new Date(2017, 5, 1),
+        start: new Date(2017, 6, 1),
         end: new Date(2018, 3, 1),
         urls: ["https://www.edtokai.jp/yokosuka-j/"],
         priority: 2
