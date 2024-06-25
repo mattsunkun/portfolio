@@ -55,6 +55,17 @@ const dirExperiences: directory = {
       }
     },
     {
+      name: "SSH重点枠",
+      contents: "日常に存在する問題を，数学的アプローチから解決するもの．最終ステージにまで残ることができた．そこでは，アメリカのNAでポスター発表する予定があったが，コロナで中止となった．(参加/)",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/about/ssh.jpeg`,
+        start: new Date(2019, 8, 2),
+        //         end: 
+        urls: ["https://highschl.educa.nagoya-u.ac.jp/wp-content/uploads/2023/12/R1-SSH%E9%87%8D%E7%82%B9%E6%9E%A0.pdf"],
+        priority: 1,
+      }
+    },
+    {
       name: "アプリ開発団体jack",
       contents: "大学入学と同時に入ったサークルです．ハッカソン，アイディアソン，LT会などが定期的に催されているサークルです．(参加/)",
       meta: {
