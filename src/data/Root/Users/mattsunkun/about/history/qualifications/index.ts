@@ -31,8 +31,8 @@ const dirQualifications: directory = {
       }
     },
     {
-      name: "Atcoder入灰",
-      contents: "Atcoderに初めて参加しました．計算量を意識する重要性を再確認させられました．(/)",
+      name: "AtCoder入灰",
+      contents: "AtCoderに初めて参加しました．計算量を意識する重要性を再確認させられました．(/)",
       meta: {
         start: new Date(2023, 9, 23),
         urls: ["https://atcoder.jp/users/mattsunkun/history/share/abc327",],
@@ -40,7 +40,7 @@ const dirQualifications: directory = {
       }
     },
     {
-      name: "Atcoder入茶",
+      name: "AtCoder入茶",
       contents: "基本的なアルゴリズム(累積和・いもす法・Union-Find・二分探索・DFS・BFS・DP・ダイクストラ法・ワーシャルフロイド法・クラスカル法など)を学び，コンテストに挑み続けました．(/)",
       meta: {
         start: new Date(2023, 11, 4),
@@ -67,7 +67,7 @@ const dirQualifications: directory = {
       }
     },
     {
-      name: "Atcoder入緑",
+      name: "AtCoder入緑",
       contents: "毎週のABCをE,Fあたりまで復習し続けました．(/)",
       meta: {
         start: new Date(2024, 1, 6),
