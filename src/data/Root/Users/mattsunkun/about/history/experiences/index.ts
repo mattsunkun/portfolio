@@ -138,6 +138,17 @@ const dirExperiences: directory = {
       }
     },
     {
+      name: "PBL",
+      contents: "大学の講義で「レゴランドを盛り上げるにはどうすれば良いか」に関するコンペティションがありました．(優秀賞/)",
+      meta: {
+        img: `${process.env.PUBLIC_URL}/images/about/pbl.png`,
+        start: new Date(2023, 6, 6),
+        // end: new Date(2023, 7, 28),
+        urls: ["https://www.legoland.jp/"],
+        priority: 1,
+      }
+    },
+    {
       name: "NTTデータ東海_1dayインターンシップ",
       contents: "エンジニアとして働く上で，相手に物事を伝える方法について学びました．(参加/)",
       meta: {
