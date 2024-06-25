@@ -14,7 +14,7 @@ const dirSchools: directory = {
       }
     },
     {
-      name: "Picadome　Elementary",
+      name: "Picadome　Elementary School",
       contents: "父の仕事の都合で，アメリカに住み始めてすぐに入学しました．当時，英語は「Hello」すら読めませんでした．(転入/卒業)",
       meta: {
         start: new Date(2014, 4, 1),
