@@ -20,10 +20,24 @@ const dirUsers: directory = {
       },
     },
     {
-      name: ".na",
+      name: ".nahco3",
       contents: 'A friend since University.\nYou can jump to her Portfolio with a "open" command!',
       meta: {
         urls: ["https://nac-39.com/",],
+      },
+    },
+    {
+      name: ".powell",
+      contents: 'A friend since University.\nYou can jump to his Portfolio with a "open" command!',
+      meta: {
+        urls: ["http://portfolio.pwll.dev/",],
+      },
+    },
+    {
+      name: ".kawachan",
+      contents: 'A friend since University.\nYou can jump to his Portfolio with a "open" command!',
+      meta: {
+        urls: ["https://kawachann.com/",],
       },
     },
   ],
