@@ -13,6 +13,13 @@ const dirUsers: directory = {
       },
     },
     {
+      name: ".kawachan",
+      contents: 'A friend since University.\nYou can jump to his Portfolio with a "open" command!',
+      meta: {
+        urls: ["https://kawachann.com/",],
+      },
+    },
+    {
       name: ".maron",
       contents: 'A friend since University.\nYou can jump to his Portfolio with a "open" command!',
       meta: {
@@ -32,14 +39,7 @@ const dirUsers: directory = {
       meta: {
         urls: ["http://portfolio.pwll.dev/",],
       },
-    },
-    {
-      name: ".kawachan",
-      contents: 'A friend since University.\nYou can jump to his Portfolio with a "open" command!',
-      meta: {
-        urls: ["https://kawachann.com/",],
-      },
-    },
+    }, // 文字がソートされるように登録する．
   ],
   directories: [
     dirAdmin,
