@@ -39,6 +39,13 @@ const dirUsers: directory = {
       meta: {
         urls: ["http://portfolio.pwll.dev/",],
       },
+    },
+    {
+      name: ".yutteee",
+      contents: 'A friend since University.\nYou can jump to his Portfolio with an "open" command!',
+      meta: {
+        urls: ["https://yutteee.pages.dev/",],
+      },
     }, // 文字がソートされるように登録する．
   ],
   directories: [
