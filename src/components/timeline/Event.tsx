@@ -32,6 +32,9 @@ const Event: React.FC<tEvent> = (props) => {
     case "緑":
       color = "green";
       break;
+    case "水":
+      color = "aqua";
+      break;
     default:
       break;
   }

@@ -84,6 +84,15 @@ const dirQualifications: directory = {
         priority: 1,
       }
     },
+    {
+      name: "AtCoder入水", // timeline/event.tsx に色を追加する．
+      contents: "ABCに毎回参加し続けました．また，復習記事も必ず投稿し続けました．(/)",
+      meta: {
+        start: new Date(2024, 8, 4),
+        urls: ["https://atcoder.jp/users/mattsunkun/history/share/arc181"],
+        priority: 0,
+      }
+    },
   ],
   directories: [
 
