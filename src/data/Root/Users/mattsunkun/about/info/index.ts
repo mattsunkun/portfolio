@@ -30,7 +30,7 @@ const dirInfo: directory = {
     },
     {
       name: "Atcoder",
-      contents: "緑色",
+      contents: "水色💧",
     },
     {
       name: "好きな食べ物",
