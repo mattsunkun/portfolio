@@ -113,7 +113,7 @@ const dirHobbies: directory = {
         start: new Date(2022, 8, 1),
         period: 1,
         urls: [
-          "https://twitter.com/NigiriBot",
+          // "https://twitter.com/NigiriBot",
           "https://github.com/mattsunkun/nigiri",
 
         ]
